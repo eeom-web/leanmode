@@ -6,13 +6,10 @@
  * function or a Cloudflare Worker:
  *
  *   import { handleSubscribe } from './subscribe';
- *   import { createSystemeIoProvider } from './providers/systeme-io';
+ *   import { consoleProvider } from './providers/console';
  *
- *   const provider = createSystemeIoProvider({
- *     apiKey: process.env.SYSTEME_IO_API_KEY,
- *     tagId: process.env.SYSTEME_IO_TAG_ID,
- *   });
- *   export const POST = ({ request }) => handleSubscribe(request, { provider });
+ *   // Swap consoleProvider for the email provider (Brevo) once it is connected.
+ *   export const POST = ({ request }) => handleSubscribe(request, { provider: consoleProvider });
  *
  * Contract: POST { email, source } (JSON or form-encoded)
  *   → 200 { ok: true } | 400 { ok: false, error: "invalid_email" } | 502 { ok: false, error: "provider_error" }

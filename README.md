@@ -1,6 +1,7 @@
 # Lean Mode Pro: Landingpage
 
-Landingpage für **leanmodepro.com**. Sie stellt das kostenlose E-Book
+Landingpage für **leanmodepro.com**. Die WordPress/Elementor-Version liegt in
+[`wordpress/elementor/`](wordpress/elementor/README.md). Sie stellt das kostenlose E-Book
 **„30 Günlük Kilo Verme Planı"** vor und sammelt E-Mail-Adressen. Die Seite ist komplett auf Türkisch.
 
 > Das E-Book selbst ist **nicht** Teil dieses Projekts. Die Seite zeigt nur das Konzept
@@ -43,40 +44,23 @@ src/
 
 Die Reihenfolge der Sektionen steht in `src/pages/index.astro`.
 
-## E-Mail-Formular und Systeme.io
+## E-Mail-Formular
 
 Das Formular schickt `POST { email, source }` als JSON an `PUBLIC_SIGNUP_ENDPOINT`.
 `source` ist `hero` oder `final-cta`, je nachdem, welches Formular benutzt wurde.
 
 **Aktueller Stand: Demo-Modus.** Solange `PUBLIC_SIGNUP_ENDPOINT` leer ist, prüft das
 Formular die Eingabe und zeigt die Erfolgsmeldung an, **sendet aber nichts**. In der
-Browser-Konsole erscheint dazu ein Hinweis. Vor dem Livegang muss das Backend angebunden
-werden.
+Browser-Konsole erscheint dazu ein Hinweis.
 
-### Anbindung (sobald Zugangsdaten vorliegen)
-
-1. **In Systeme.io:** einen Tag für diesen Lead-Magnet anlegen und eine Automation
-   „Tag hinzugefügt → E-Mail mit dem 30-Tage-Plan senden" einrichten.
-2. **Provider umsetzen:** `src/server/providers/systeme-io.ts` ist vorbereitet, aber
-   absichtlich noch nicht implementiert (es gibt noch keine Zugangsdaten). Dort nach der
-   offiziellen Systeme.io-API-Dokumentation den Kontakt anlegen und den Tag zuweisen.
-   Der API-Key gehört **nur** auf den Server (`SYSTEME_IO_API_KEY`, `SYSTEME_IO_TAG_ID`),
-   nie in eine `PUBLIC_*`-Variable.
-3. **Handler bereitstellen:** `src/server/subscribe.ts` ist ein framework-unabhängiger
-   Handler (Web-Standard `Request` → `Response`) mit Validierung, Honeypot und CORS. Er
-   läuft als Astro-Endpoint (mit Server-Adapter), als Netlify-/Vercel-Function oder als
-   Cloudflare Worker. Ein Beispiel steht im Dateikopf. Der Vertrag lässt sich genauso als
-   WordPress-REST-Route oder PHP-Skript auf dem Hosting umsetzen.
-4. **Frontend verbinden:** `PUBLIC_SIGNUP_ENDPOINT` setzen (siehe `.env.example`) und neu
-   bauen. Optional leitet `PUBLIC_SIGNUP_SUCCESS_URL` nach der Anmeldung auf eine
-   Danke-Seite weiter.
-
-*Alternative ohne eigenes Backend:* ein Systeme.io-Formular einbetten und
-`SignupForm.astro` dadurch ersetzen.
+Als E-Mail-Dienst ist **Brevo** vorgesehen. Die Anbindung folgt in einem eigenen Schritt.
+`src/server/subscribe.ts` ist ein framework-unabhängiger Handler (Web-Standard
+`Request` → `Response`) mit Validierung, Honeypot und CORS. Dort wird später der
+Brevo-Provider statt `consoleProvider` eingesetzt.
 
 ## Offene Punkte vor dem Livegang
 
-- [ ] Backend bzw. Systeme.io anbinden (siehe oben)
+- [ ] Brevo anbinden (siehe oben)
 - [ ] Rechtstexte einfügen: `src/pages/gizlilik-politikasi.astro`,
       `cerez-politikasi.astro`, `yasal-bilgiler.astro`. Sie stehen aktuell als Platzhalter
       auf `noindex` und sind nicht in der Sitemap.

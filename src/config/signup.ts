@@ -3,7 +3,7 @@
  *
  * The form posts `{ email, source }` as JSON to `endpoint`. Any backend that
  * accepts this contract works — see `src/server/subscribe.ts` for a ready
- * handler that will forward signups to Systeme.io once it is connected.
+ * handler that will forward signups to the email provider (Brevo) once connected.
  *
  * While `PUBLIC_SIGNUP_ENDPOINT` is empty the form runs in demo mode:
  * it validates and shows the success state, but sends nothing.
