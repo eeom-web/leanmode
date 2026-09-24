@@ -55,7 +55,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-steps li::before{content:counter(lmp-step);flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#101614;color:#fff;font-size:14px;font-weight:600}
 .lmp-daynum{color:#101614;font-size:28px;letter-spacing:-.02em;margin:0 4px}
 .lmp-progress .elementor-progress-wrapper{border-radius:4px}
-.lmp-progress .elementor-progress-bar{border-radius:4px}
+.lmp-progress .elementor-progress-bar{border-radius:4px;transition:none!important}
 @media (min-width:1025px){.lmp-sticky{position:sticky;top:120px;align-self:flex-start}}
 
 /* Noise -> one step */

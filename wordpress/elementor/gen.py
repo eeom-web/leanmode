@@ -114,6 +114,9 @@ def section(key, children, *, bg=None, pad=(128, 96, 72), side=(32, 32, 16), tag
     if bg:
         st.update(merge({"background_background": "classic", "background_color": "#FFFFFF"}, G(background_color=bg)))
     st.update(s)
+    # Backgrounds here are CSS gradients, not images: skip Elementor's background lazy-load
+    # (it would hide them until the section scrolls into view).
+    st["css_classes"] = " ".join(filter(None, [st.get("css_classes"), "e-no-lazyload"]))
     node = con(key, children, **st)
     node["isInner"] = False
     return node
@@ -237,7 +240,7 @@ def icon_box(key, ic, title, desc="", *, inline=False, card=True, title_typo="lm
         "position": "inline-start" if inline else "block-start",
         "text_align": "start", "content_vertical_alignment": "top",
         "icon_size": px(icon_size), "icon_padding": px(icon_pad, "px"),
-        "icon_space": px(16 if inline else 22), "title_bottom_space": px(6 if inline else 10),
+        "icon_space": px(16), "title_bottom_space": px(6 if inline else 10),
         "primary_color": "#EEF4F0", "secondary_color": "#1D5A48",
         "title_color": "#101614", "description_color": "#5D6762",
     }
@@ -489,8 +492,8 @@ def landing():
         ], cols=(3, 3, 1), gap=0, margin=dims(64, 0, 0, 0), margin_mobile=dims(40, 0, 0, 0),
             border_border="solid", border_width=dims(1, 0, 0, 0), border_color=line),
     ], padding=dims(80, 72, 80, 72), padding_tablet=dims(56, 40, 56, 40), padding_mobile=dims(40, 20, 40, 20),
-        border_radius=dims(32), background_background="gradient", background_color="rgba(29,90,72,0.5)",
-        background_color_stop=px(0, "%"), background_color_b="#0F1D19", background_color_b_stop=px(60, "%"),
+        border_radius=dims(32), background_background="gradient", background_color="#1B3F34",
+        background_color_stop=px(0, "%"), background_color_b="#0F1D19", background_color_b_stop=px(62, "%"),
         background_gradient_type="radial", background_gradient_position="top right")])
 
     audience = section(f"{p}-audience", [row(f"{p}-audience-row", [
@@ -502,7 +505,7 @@ def landing():
         ], width=40, gap=18, css_classes="lmp-sticky"),
         grid(f"{p}-audience-grid", [
             icon_box(f"{p}-audience-{i}", "check", t, "", icon_size=16, icon_pad=12,
-                     stacked_colors=("lmpaccent", "lmpsurface"), icon_space=px(36), icon_space_mobile=px(16),
+                     stacked_colors=("lmpaccent", "lmpsurface"), icon_space=px(28), icon_space_mobile=px(16),
                      position_mobile="inline-start", content_vertical_alignment="middle",
                      **merge(local_typo("title", size=20, weight=600, lh=1.3, ls=-0.015, size_m=17),
                              {"title_bottom_space": px(0)}))
