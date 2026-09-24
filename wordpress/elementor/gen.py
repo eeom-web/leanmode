@@ -577,7 +577,7 @@ def legal_page(slug, title, home_url):
     return [header(p, f"{home_url}#kayit"), main, footer(p, LEGAL)]
 
 
-# Slugs of the WordPress pages this build targets.
+# Slugs of the WordPress pages this build targets. The landing page is the site's front page.
 LANDING_SLUG = "ucretsiz-30-gunluk-plan"
 LEGAL_PAGES = [("gizlilik-politikasi", "Gizlilik Politikası"), ("cerez-politikasi", "Çerez Politikası"),
                ("yasal-bilgiler", "Yasal Bilgiler")]
@@ -594,7 +594,7 @@ if __name__ == "__main__":
 
     write("landing.json", landing())
     for slug, title in LEGAL_PAGES:
-        write(f"{slug}.json", legal_page(slug, title, f"/{LANDING_SLUG}/"))
+        write(f"{slug}.json", legal_page(slug, title, "/"))
 
     from kit import settings as kit_settings
     write("kit.json", kit_settings)
