@@ -310,7 +310,19 @@ def header(prefix, cta_url=None):
     ], pad=(16, 14, 12), tag="header", css_classes="lmp-header")
 
 
-def footer(prefix, legal):
+def footer(prefix, legal, compact=False):
+    """Site footer. The compact variant is a single row (copyright + legal links) for one-screen pages."""
+    copyright_ = "<p>© 2026 Lean Mode Pro. Tüm hakları saklıdır.</p>"
+    if compact:
+        return section(f"{prefix}-footer", [
+            row(f"{prefix}-footer-row", [
+                text(f"{prefix}-copyright", copyright_, color="lmpmuted", typo="lmpsmall"),
+                icon_list(f"{prefix}-footer-links", [(t, None, u) for t, u in legal], gap=28,
+                          text_color_hover="#101614"),
+            ], gap=12, stack=None, flex_justify_content="space-between", flex_wrap="wrap",
+                flex_direction_mobile="column-reverse", flex_align_items_mobile="flex-start"),
+        ], pad=(20, 24, 28), tag="footer", border_border="solid", border_width=dims(1, 0, 0, 0),
+            border_color="#E3E2DB")
     return section(f"{prefix}-footer", [
         row(f"{prefix}-footer-row", [
             logo(f"{prefix}-footer-logo"),
@@ -318,8 +330,7 @@ def footer(prefix, legal):
                       text_color_hover="#101614"),
         ], gap=24, stack=None, flex_justify_content="space-between", flex_wrap="wrap",
             flex_direction_mobile="column", flex_align_items_mobile="flex-start"),
-        text(f"{prefix}-copyright", "<p>© 2026 Lean Mode Pro. Tüm hakları saklıdır.</p>", color="lmpmuted",
-             typo="lmpsmall", _margin=dims(32, 0, 0, 0)),
+        text(f"{prefix}-copyright", copyright_, color="lmpmuted", typo="lmpsmall", _margin=dims(32, 0, 0, 0)),
     ], pad=(48, 48, 40), tag="footer", border_border="solid", border_width=dims(1, 0, 0, 0),
         border_color="#E3E2DB")
 
@@ -565,68 +576,55 @@ def landing():
 
 
 def thanks_page():
-    """Confirmation page shown after a signup (/tesekkurler/)."""
+    """Confirmation page shown after a signup (/tesekkurler/). On desktop it fits one screen, without scrolling."""
     p = "thanks"
-    hero = section(f"{p}-hero", [row(f"{p}-hero-row", [
-        col(f"{p}-hero-copy", [
-            widget(f"{p}-hero-icon", "icon", merge({
-                "selected_icon": icon("check"), "view": "stacked", "shape": "circle", "align": "start",
-                "primary_color": "#1D5A48", "secondary_color": "#FFFFFF",
-                "size": px(22), "icon_padding": px(16, "px"), "_margin": dims(0, 0, 8, 0)},
-                G(primary_color="lmpaccent", secondary_color="lmpsurface"))),
-            label(f"{p}-hero-label", "Kaydın alındı"),
-            heading(f"{p}-hero-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>',
-                    tag="h1", **local_typo("", size=64, weight=600, lh=1.04, ls=-0.03, size_t=48, size_m=38)),
-            text(f"{p}-hero-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz. "
-                                   "Şimdi gelen kutunu kontrol et.</p>", typo="lmplead", color="lmpinksoft",
-                 _element_width="initial", _element_custom_width=px(560), _element_custom_width_mobile=px(100, "%")),
-        ], width=56, gap=18, flex_align_items="flex-start"),
-        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html(daycard=False))], width=40),
-    ], gap=48)], pad=(72, 48, 32))
-    hero["settings"]["padding"] = dims(72, 32, 64, 32)
-    hero["settings"]["padding_tablet"] = dims(48, 32, 48, 32)
-    hero["settings"]["padding_mobile"] = dims(32, 16, 40, 16)
-
     steps = [
-        ("envelope", "E-postanı kontrol et",
+        ("E-postanı kontrol et.",
          "LEAN MODE PRO'dan gelen e-postayı aç. Göremiyorsan spam veya promosyonlar klasörüne de bak."),
-        ("check", "Kaydını onayla",
+        ("Kaydını onayla.",
          "Bir onay e-postası aldıysan içindeki bağlantıya tıkla. Planın, onaydan sonra gönderilir."),
-        ("calendar-alt", "1. günü planla",
+        ("1. günü planla.",
          "Planı açacağın günü ve saati şimdiden belirle. Başlamak için mükemmel bir gün beklemene gerek yok."),
     ]
-    next_steps = section(f"{p}-steps", [
-        heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph2"),
-        grid(f"{p}-steps-grid", [icon_box(f"{p}-step-{i}", ic, t, d) for i, (ic, t, d) in enumerate(steps)],
-             cols=(3, 1, 1), gap=20, margin=dims(40, 0, 0, 0), margin_mobile=dims(28, 0, 0, 0)),
-    ], pad=(40, 32, 24))
+    steps_html = "<ol>" + "".join(f"<li><span><strong>{t}</strong> {d}</span></li>" for t, d in steps) + "</ol>"
 
-    prep = section(f"{p}-prep", [row(f"{p}-prep-panel", [
-        col(f"{p}-prep-copy", [
-            heading(f"{p}-prep-title", "1. güne hazırlan", typo="lmph2"),
-            text(f"{p}-prep-text", "<p>Planın gelene kadar bu üç küçük hazırlığı yapabilirsin:</p>",
-                 typo="lmplead", color="lmpinksoft"),
-            icon_list(f"{p}-prep-list", [
-                ("Bir mezura: 1. gün bel çevreni ölçeceksin.", "check", None),
-                ("Bir su şişesi: 2. günün odağı su.", "check", None),
-                ("Bir not defteri veya telefonunda bir not: yediklerini ve adımlarını yazmak için.", "check", None),
-            ], inline=False, text_color="lmpinksoft", size=15, gap=14,
-                **local_typo("icon", size=17, weight=500, lh=1.45)),
-        ], width=64, gap=18),
-        col(f"{p}-prep-action", [
-            button(f"{p}-prep-home", "Ana sayfaya dön", "/", full_mobile=True),
-        ], width=30, flex_align_items="flex-end", flex_align_items_tablet="flex-start",
-            flex_align_items_mobile="stretch"),
-    ], gap=40, align="center", padding=dims(56, 56, 56, 56), padding_tablet=dims(48, 40, 48, 40),
-        padding_mobile=dims(32, 20, 32, 20), border_radius=dims(32), border_border="solid",
-        border_width=dims(1), border_color="#D5E4DA",
+    copy = col(f"{p}-copy", [
+        heading(f"{p}-badge", "Kaydın alındı", tag="p", color="lmpinksoft", cls="lmp-badge lmp-badge--check",
+                _element_width="auto",
+                **merge(local_typo("", size=13, weight=600, lh=1.3),
+                        {"_background_background": "classic", "_background_color": "#FFFFFF",
+                         "_border_border": "solid", "_border_width": dims(1), "_border_color": "#E3E2DB",
+                         "_border_radius": dims(999), "_padding": dims(6, 14, 6, 8)},
+                        G(_background_color="lmpsurface", _border_color="lmpline"))),
+        heading(f"{p}-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>',
+                tag="h1", **local_typo("", size=52, weight=600, lh=1.05, ls=-0.03, size_t=46, size_m=36)),
+        text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz.</p>",
+             typo="lmplead", color="lmpinksoft"),
+        heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
+        text(f"{p}-steps", steps_html, color="lmpmuted", cls="lmp-steps lmp-steps--detail",
+             **local_typo("", size=16, weight=400, lh=1.55)),
+    ], width=56, gap=16, flex_align_items="flex-start")
+
+    prep = col(f"{p}-prep", [
+        heading(f"{p}-prep-title", "1. güne hazırlan", **local_typo("", size=26, weight=600, lh=1.15, ls=-0.02,
+                                                                     size_m=24)),
+        text(f"{p}-prep-text", "<p>Planın gelene kadar bu üç küçük hazırlığı yapabilirsin:</p>", color="lmpinksoft",
+             **local_typo("", size=16, weight=400, lh=1.55)),
+        icon_list(f"{p}-prep-list", [
+            ("Bir mezura: 1. gün bel çevreni ölçeceksin.", "check", None),
+            ("Bir su şişesi: 2. günün odağı su.", "check", None),
+            ("Bir not defteri veya telefonunda bir not: yediklerini ve adımlarını yazmak için.", "check", None),
+        ], inline=False, text_color="lmpinksoft", size=14, gap=12, icon_self_vertical_align="flex-start",
+            icon_vertical_offset=px(5), **local_typo("icon", size=16, weight=500, lh=1.5)),
+        button(f"{p}-home", "Ana sayfaya dön", "/", align="justify", _margin=dims(10, 0, 0, 0)),
+    ], width=40, gap=14, padding=dims(36), padding_tablet=dims(32), padding_mobile=dims(24, 20, 24, 20),
+        border_radius=dims(28), border_border="solid", border_width=dims(1), border_color="#D5E4DA",
         **merge({"background_background": "classic", "background_color": "#E3EDE7"},
-                G(background_color="lmpaccentsoft")))], pad=(40, 32, 24))
-    prep["settings"]["padding"] = dims(40, 32, 128, 32)
-    prep["settings"]["padding_tablet"] = dims(32, 32, 96, 32)
-    prep["settings"]["padding_mobile"] = dims(24, 16, 72, 16)
+                G(background_color="lmpaccentsoft")))
 
-    return [header(p), hero, next_steps, prep, footer(p, LEGAL)]
+    main = section(f"{p}-main", [row(f"{p}-row", [copy, prep], gap=48)], pad=(40, 48, 32), css_classes="lmp-fit")
+    main["settings"]["padding_mobile"] = dims(32, 16, 56, 16)
+    return [header(p), main, footer(p, LEGAL, compact=True)]
 
 
 def legal_page(slug, title, home_url):

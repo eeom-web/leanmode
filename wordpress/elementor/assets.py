@@ -14,6 +14,11 @@ LOGO_MASK = (
     "%3Crect x='9.75' y='8.5' width='4.5' height='12.5' rx='1.25'/%3E"
     "%3Crect x='16.5' y='3' width='4.5' height='18' rx='1.25'/%3E%3C/svg%3E\")"
 )
+CHECK_BG = (
+    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' "
+    "stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E"
+    "%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E\")"
+)
 
 CSS = """
 html{scroll-behavior:smooth;scroll-padding-top:96px}
@@ -55,10 +60,22 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-steps ol{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:14px;counter-reset:lmp-step}
 .lmp-steps li{counter-increment:lmp-step;display:flex;align-items:center;gap:14px}
 .lmp-steps li::before{content:counter(lmp-step);flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#101614;color:#fff;font-size:14px;font-weight:600}
+.lmp-badge--check .elementor-heading-title::before{width:18px;height:18px;box-shadow:none;background:#1D5A48 CHECK_BG center/11px no-repeat}
+.lmp-steps--detail ol{margin:0;gap:16px}
+.lmp-steps--detail li{align-items:flex-start}
+.lmp-steps--detail li::before{width:28px;height:28px;background:#1D5A48;font-size:13px}
+.lmp-steps--detail strong{color:#101614;font-weight:600}
 .lmp-daynum{color:#101614;font-size:28px;letter-spacing:-.02em;margin:0 4px}
 .lmp-progress .elementor-progress-wrapper{border-radius:4px}
 .lmp-progress .elementor-progress-bar{border-radius:4px;transition:none!important}
 @media (min-width:1025px){.lmp-sticky{position:sticky;top:120px;align-self:flex-start}}
+
+/* One-screen pages: on desktop, header + content (.lmp-fit) + footer fill exactly one viewport */
+@media (min-width:1025px){
+.elementor:has(> .lmp-fit){display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+.admin-bar .elementor:has(> .lmp-fit){min-height:calc(100vh - 32px);min-height:calc(100dvh - 32px)}
+.elementor > .lmp-fit{flex-grow:1;justify-content:center}
+}
 
 /* Noise -> one step */
 .lmp-shift{display:grid;justify-items:center;gap:20px}
@@ -142,7 +159,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-daycard__bar i.is-done{background:#1D5A48}
 .lmp-daycard__text{color:#101614;font-size:14px;font-weight:600}
 @media (max-width:479px){.lmp-daycard{width:176px;padding:12px 14px}}
-""".replace("MASK", LOGO_MASK)
+""".replace("MASK", LOGO_MASK).replace("CHECK_BG", CHECK_BG)
 
 JS = r"""
 (function(){
