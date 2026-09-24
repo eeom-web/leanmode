@@ -667,10 +667,10 @@ def welcome_page():
         step_list(f"{p}-steps", [
             ("Planı kaydet.", "Telefonuna veya bilgisayarına indir, her gün kolayca aç."),
             ("Önce temel bilgileri oku.", "Tabak modeli, alışveriş listesi ve hareketler ilk sayfalarda."),
-            ("Her sabah günün sayfasını aç.", "Her gün tek bir sayfadır ve birkaç dakikada okunur."),
+            ("Her sabah günün sayfasını aç.", "Her gün tek bir sayfa, birkaç dakikada okunur."),
         ]),
-    ], width=56, gap=16, flex_align_items="flex-start")
-    visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html())], width=40)
+    ], width=56, gap=16, flex_align_items="flex-start", css_classes="lmp-fit-copy")
+    visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html())], width=40, css_classes="lmp-fit-visual")
     return fit_page(p, copy, visual)
 
 

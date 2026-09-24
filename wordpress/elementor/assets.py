@@ -78,10 +78,15 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .elementor > .lmp-fit{flex-grow:1}
 .elementor .lmp-fit .lmp-mockup{--book-w:clamp(190px,calc((100vh - 300px) * .7),340px);padding:16px 16px 24px}
 }
+@media (min-width:1025px) and (max-width:1279px){
+.lmp-fit-copy{--width:64%!important}
+.lmp-fit-visual{--width:32%!important}
+}
 @media (min-width:1025px) and (max-height:700px){
 .elementor > .lmp-fit{--padding-top:20px!important;--padding-bottom:20px!important}
 .lmp-fit .e-con{--row-gap:13px!important}
 .lmp-fit h1.elementor-heading-title{font-size:44px!important}
+.lmp-fit .lmp-daycard{display:none}
 }
 @media (min-width:1025px) and (max-height:620px){
 .elementor:has(> .lmp-fit) > .e-con:not(.lmp-fit){--padding-top:10px!important;--padding-bottom:10px!important}
