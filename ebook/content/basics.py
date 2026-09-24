@@ -118,13 +118,13 @@ PLATE = {
     ],
     "hand": [
         ("Protein", "1 avuç içi",
-         "≈ 100–150 g pişmiş tavuk, et veya balık · 2–3 yumurta · 1 kase (200 g) yoğurt"),
+         "100–150 g pişmiş tavuk, et veya balık · 2–3 yumurta · 1 kase (200 g) yoğurt"),
         ("Karbonhidrat", "1 yumruk",
-         "≈ ¾ su bardağı pişmiş pilav, bulgur veya makarna · 1 orta boy patates · 1–2 ince dilim tam buğday ekmeği"),
+         "3/4 su bardağı pişmiş pilav, bulgur veya makarna · 1 orta boy patates · 1–2 ince dilim tam buğday ekmeği"),
         ("Sebze", "2 avuç",
          "Salata, haşlanmış veya fırında sebze, zeytinyağlı sebze yemeği"),
         ("Yağ", "1 başparmak",
-         "≈ 1 yemek kaşığı zeytinyağı · 10–12 badem · 5–6 zeytin"),
+         "1 yemek kaşığı zeytinyağı · 10–12 badem · 5–6 zeytin"),
     ],
     "adjust": (
         "Bu ölçüler bir başlangıç noktasıdır. Daha iri yapılıysan, fiziksel olarak çok aktifsen ya da "
@@ -133,7 +133,7 @@ PLATE = {
     ),
     "rhythm": ("Günlük düzen: 3 ana öğün ve gerçekten acıktığında 1 ara öğün. "
                "Ara öğün zorunlu değil."),
-    "units": "Plandaki ölçüler: 1 kase yoğurt ≈ 200 g · 1 su bardağı ≈ 200 ml · 1 kibrit kutusu peynir ≈ 30 g",
+    "units": "Plandaki ölçüler: 1 kase yoğurt: yaklaşık 200 g · 1 su bardağı: yaklaşık 200 ml · 1 kibrit kutusu peynir: yaklaşık 30 g",
 }
 
 SHOPPING = [
@@ -204,7 +204,7 @@ EXERCISES = [
         "how": ["Eller omuz hizasında; baştan topuğa düz bir çizgi.",
                 "Göğsünü kontrollü indir; dirsekler gövdeye yaklaşık 45 derece.",
                 "Avuçlarınla iterek yukarı çık."],
-        "easy": "Sırasıyla: duvara şınav → masaya veya tezgâha eğimli şınav → diz üstü şınav.",
+        "easy": "Kolaydan zora: duvara şınav, masaya veya tezgâha eğimli şınav, diz üstü şınav.",
         "hard": "Klasik şınav, 3 saniyede iniş.",
     },
     {

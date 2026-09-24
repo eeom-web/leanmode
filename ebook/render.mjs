@@ -13,7 +13,9 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.join(here, 'dist');
 const out = path.join(dist, 'lean-mode-pro-30-gunluk-kilo-verme-plani.pdf');
 
-const browser = await chromium.launch();
+// Without hinting, glyph positions are not snapped to whole pixels: even letter spacing in the
+// PDF, and word spaces that PDF viewers recognise (search and copy work).
+const browser = await chromium.launch({ args: ['--font-render-hinting=none'] });
 const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
 await page.goto(`file://${path.join(dist, 'ebook.html')}`, { waitUntil: 'load' });
 await page.emulateMedia({ media: 'print' });

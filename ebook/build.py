@@ -12,7 +12,7 @@ from content import basics as B
 from content import plan as P
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-FONT_DIR = os.path.join(ROOT, "..", "node_modules", "@fontsource-variable", "instrument-sans", "files")
+FONT_DIR = os.path.join(ROOT, "fonts")
 
 ICONS = {
     "focus": '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
@@ -33,8 +33,8 @@ def icon(name, size=14):
 
 
 def esc(text):
-    # Keep ranges such as "1–10" or "8.000–10.000" on one line (U+2060 word joiner).
-    text = re.sub(r"(\d)–(\d)", "\\1\u2060–\u2060\\2", html.escape(text, quote=False))
+    # Keep ranges such as "1–10" or "8.000–10.000" on one line.
+    text = re.sub(r"(\S*\d–\d\S*)", r"<x-nw>\1</x-nw>", html.escape(text, quote=False))
     # Ordinals such as "16. gün" stay together.
     return re.sub(r"(\d)\. (?=[a-zçğıöşü])", "\\1.\u00a0", text)
 
@@ -171,6 +171,26 @@ def basics():
     add("temel2", page(p2, "plain"))
 
 
+def plate_svg():
+    """Plate model as vector pie: sebze 50 %, protein 25 %, karbonhidrat 22 %, yağ 3 %."""
+    import math
+    parts = [(0.50, "#8fc3a8"), (0.25, "#1d5a48"), (0.22, "#d8cba8"), (0.03, "#b9a676")]
+    cx = cy = 50
+    rad = 44
+    start = -90.0
+    paths = []
+    for frac, color in parts:
+        end = start + frac * 360
+        a0, a1 = math.radians(start), math.radians(end)
+        x0, y0 = cx + rad * math.cos(a0), cy + rad * math.sin(a0)
+        x1, y1 = cx + rad * math.cos(a1), cy + rad * math.sin(a1)
+        large = 1 if frac > 0.5 else 0
+        paths.append(f'<path d="M{cx} {cy} L{x0:.2f} {y0:.2f} A{rad} {rad} 0 {large} 1 {x1:.2f} {y1:.2f} Z" fill="{color}"/>')
+        start = end
+    return ('<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" fill="#fff" stroke="#d2d1c9" stroke-width=".5"/>'
+            + "".join(paths) + "</svg>")
+
+
 def plate():
     T = B.PLATE
     rows = "".join(f'<tr><th>{esc(a)}</th><td class="hand">{esc(b)}</td><td>{esc(c)}</td></tr>' for a, b, c in T["hand"])
@@ -179,7 +199,7 @@ def plate():
     <p class="eyebrow">Beslenme</p>
     <h2 class="h2">{esc(T["title"])}</h2>
     <p class="lead">{esc(T["lead"])}</p>
-    <div class="plate-wrap"><div class="plate"><div class="plate-in"></div></div><ul class="plate-legend">{legend}</ul></div>
+    <div class="plate-wrap"><div class="plate">{plate_svg()}</div><ul class="plate-legend">{legend}</ul></div>
     <h3 class="h3">El ölçüsü (her ana öğün için)</h3>
     <table class="tbl hand-tbl"><thead><tr><th>Grup</th><th>Ölçü</th><th>Yaklaşık karşılığı</th></tr></thead><tbody>{rows}</tbody></table>
     <div class="callout tint"><p>{esc(T["adjust"])}</p></div>
@@ -332,7 +352,9 @@ def checkin(training_day=True):
 
 
 def notes():
-    return '<section class="notes"><p class="label muted-label"><span>NOTLARIM</span></p><div class="note-lines"></div></section>'
+    # Real lines (not a CSS pattern): patterns make PDF viewers slow. Extra lines are clipped.
+    return ('<section class="notes"><p class="label muted-label"><span>NOTLARIM</span></p>'
+            '<div class="note-lines">' + "<span></span>" * 18 + "</div></section>")
 
 
 def training_block(t):
@@ -528,13 +550,18 @@ def build():
 
 
 def font_face():
+    """Static Instrument Sans, one file per weight (ebook/fonts, SIL OFL).
+
+    - Static instead of variable: variable fonts end up as slow Type 3 glyph drawings in the PDF.
+    - One file per weight with Latin and Latin Extended merged: split subsets would switch fonts
+      inside Turkish words (ğ, ş, İ), which breaks search and copy in PDF viewers.
+    """
     faces = []
-    for subset, rng in [("latin", "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"),
-                        ("latin-ext", "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF")]:
-        with open(os.path.join(FONT_DIR, f"instrument-sans-{subset}-wght-normal.woff2"), "rb") as fh:
+    for weight in (400, 500, 600, 700):
+        with open(os.path.join(FONT_DIR, f"instrument-sans-{weight}.woff2"), "rb") as fh:
             data = base64.b64encode(fh.read()).decode()
-        faces.append(f"@font-face{{font-family:'Instrument Sans';font-weight:400 700;font-style:normal;"
-                     f"src:url(data:font/woff2;base64,{data}) format('woff2');unicode-range:{rng}}}")
+        faces.append(f"@font-face{{font-family:'Instrument Sans';font-weight:{weight};font-style:normal;"
+                     f"src:url(data:font/woff2;base64,{data}) format('woff2')}}")
     return "\n".join(faces)
 
 
