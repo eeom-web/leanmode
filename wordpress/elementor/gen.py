@@ -575,7 +575,7 @@ def thanks_page():
                 "size": px(22), "icon_padding": px(16, "px"), "_margin": dims(0, 0, 8, 0)},
                 G(primary_color="lmpaccent", secondary_color="lmpsurface"))),
             label(f"{p}-hero-label", "Kaydın alındı"),
-            heading(f"{p}-hero-title", 'Teşekkürler! 30 günlük planın <span class="lmp-accent-word">yolda.</span>',
+            heading(f"{p}-hero-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>',
                     tag="h1", **local_typo("", size=64, weight=600, lh=1.04, ls=-0.03, size_t=48, size_m=38)),
             text(f"{p}-hero-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz. "
                                    "Şimdi gelen kutunu kontrol et.</p>", typo="lmplead", color="lmpinksoft",
