@@ -125,9 +125,11 @@ def section(key, children, *, bg=None, pad=(128, 96, 72), side=(32, 32, 16), tag
 def row(key, children, gap=64, stack="tablet", align="center", **s):
     st = {"flex_direction": "row", "flex_wrap": "nowrap", "flex_gap": gaps(gap), "flex_align_items": align}
     if stack in ("tablet", "mobile"):
+        st["flex_gap_mobile"] = gaps(min(gap, 32))
         st["flex_direction_mobile"] = "column"
         st["flex_align_items_mobile"] = "stretch"
     if stack == "tablet":
+        st["flex_gap_tablet"] = gaps(min(gap, 48))
         st["flex_direction_tablet"] = "column"
         st["flex_align_items_tablet"] = "stretch"
     st.update(s)
@@ -238,6 +240,7 @@ def icon_box(key, ic, title, desc="", *, inline=False, card=True, title_typo="lm
         "selected_icon": icon(ic), "view": "stacked", "shape": shape,
         "title_text": title, "description_text": desc, "title_size": title_tag,
         "position": "inline-start" if inline else "block-start",
+        **({"position_tablet": "inline-start", "position_mobile": "inline-start"} if inline else {}),
         "text_align": "start", "content_vertical_alignment": "top",
         "icon_size": px(icon_size), "icon_padding": px(icon_pad, "px"),
         "icon_space": px(16), "title_bottom_space": px(6 if inline else 10),
@@ -346,7 +349,7 @@ def landing():
             text(f"{p}-hero-text", "<p>Her gün ne yapacağını düşünmek yerine, sadece bir sonraki adıma "
                                    "odaklan.</p>", color="lmpmuted", _margin=dims(14, 0, 0, 0)),
             button(f"{p}-hero-cta", "Ücretsiz 30 Günlük Planı Al", "#kayit", full_mobile=True,
-                   _margin=dims(36, 0, 0, 0)),
+                   _margin=dims(36, 0, 0, 0), _element_width_mobile="inherit"),
             icon_list(f"{p}-hero-facts", [("Tamamen ücretsiz", "check", None), ("Her gün net bir adım", "check", None),
                                           ("E-posta ile teslim", "check", None)],
                       gap=24, _margin=dims(24, 0, 0, 0)),
