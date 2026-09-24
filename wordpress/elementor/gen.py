@@ -597,7 +597,7 @@ def thanks_page():
                          "_border_radius": dims(999), "_padding": dims(6, 14, 6, 8)},
                         G(_background_color="lmpsurface", _border_color="lmpline"))),
         heading(f"{p}-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>',
-                tag="h1", **local_typo("", size=52, weight=600, lh=1.05, ls=-0.03, size_t=46, size_m=36)),
+                tag="h1", **local_typo("", size=48, weight=600, lh=1.05, ls=-0.03, size_t=46, size_m=36)),
         text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz.</p>",
              typo="lmplead", color="lmpinksoft"),
         heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
@@ -622,7 +622,8 @@ def thanks_page():
         **merge({"background_background": "classic", "background_color": "#E3EDE7"},
                 G(background_color="lmpaccentsoft")))
 
-    main = section(f"{p}-main", [row(f"{p}-row", [copy, prep], gap=48)], pad=(40, 48, 32), css_classes="lmp-fit")
+    main = section(f"{p}-main", [row(f"{p}-row", [copy, prep], gap=48)], pad=(40, 48, 32), css_classes="lmp-fit",
+                   flex_justify_content="center")
     main["settings"]["padding_mobile"] = dims(32, 16, 56, 16)
     return [header(p), main, footer(p, LEGAL, compact=True)]
 
