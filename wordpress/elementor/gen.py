@@ -298,14 +298,15 @@ def logo(key, url="/"):
 
 
 # ---------------------------------------------------------------- shared parts
-def header(prefix, cta_url):
+def header(prefix, cta_url=None):
+    """Sticky header. Without cta_url (e.g. on the confirmation page) it shows the logo only."""
+    items = [logo(f"{prefix}-logo")]
+    if cta_url:
+        items.append(button(f"{prefix}-header-cta", "Ücretsiz Rehberi Al", cta_url, dark=True, small=True,
+                            cls="lmp-header-cta"))
     return section(f"{prefix}-header", [
         html(f"{prefix}-assets", assets.assets_html(), cls="lmp-assets"),
-        row(f"{prefix}-header-row", [
-            logo(f"{prefix}-logo"),
-            button(f"{prefix}-header-cta", "Ücretsiz Rehberi Al", cta_url, dark=True, small=True,
-                   cls="lmp-header-cta"),
-        ], gap=16, stack=None, flex_justify_content="space-between"),
+        row(f"{prefix}-header-row", items, gap=16, stack=None, flex_justify_content="space-between"),
     ], pad=(16, 14, 12), tag="header", css_classes="lmp-header")
 
 
@@ -563,6 +564,71 @@ def landing():
             footer(p, LEGAL)]
 
 
+def thanks_page():
+    """Confirmation page shown after a signup (/tesekkurler/)."""
+    p = "thanks"
+    hero = section(f"{p}-hero", [row(f"{p}-hero-row", [
+        col(f"{p}-hero-copy", [
+            widget(f"{p}-hero-icon", "icon", merge({
+                "selected_icon": icon("check"), "view": "stacked", "shape": "circle", "align": "start",
+                "primary_color": "#1D5A48", "secondary_color": "#FFFFFF",
+                "size": px(22), "icon_padding": px(16, "px"), "_margin": dims(0, 0, 8, 0)},
+                G(primary_color="lmpaccent", secondary_color="lmpsurface"))),
+            label(f"{p}-hero-label", "Kaydın alındı"),
+            heading(f"{p}-hero-title", 'Teşekkürler! 30 günlük planın <span class="lmp-accent-word">yolda.</span>',
+                    tag="h1", **local_typo("", size=64, weight=600, lh=1.04, ls=-0.03, size_t=48, size_m=38)),
+            text(f"{p}-hero-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz. "
+                                   "Şimdi gelen kutunu kontrol et.</p>", typo="lmplead", color="lmpinksoft",
+                 _element_width="initial", _element_custom_width=px(560), _element_custom_width_mobile=px(100, "%")),
+        ], width=56, gap=18, flex_align_items="flex-start"),
+        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html(daycard=False))], width=40),
+    ], gap=48)], pad=(72, 48, 32))
+    hero["settings"]["padding"] = dims(72, 32, 64, 32)
+    hero["settings"]["padding_tablet"] = dims(48, 32, 48, 32)
+    hero["settings"]["padding_mobile"] = dims(32, 16, 40, 16)
+
+    steps = [
+        ("envelope", "E-postanı kontrol et",
+         "LEAN MODE PRO'dan gelen e-postayı aç. Göremiyorsan spam veya promosyonlar klasörüne de bak."),
+        ("check", "Kaydını onayla",
+         "Bir onay e-postası aldıysan içindeki bağlantıya tıkla. Planın, onaydan sonra gönderilir."),
+        ("calendar-alt", "1. günü planla",
+         "Planı açacağın günü ve saati şimdiden belirle. Başlamak için mükemmel bir gün beklemene gerek yok."),
+    ]
+    next_steps = section(f"{p}-steps", [
+        heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph2"),
+        grid(f"{p}-steps-grid", [icon_box(f"{p}-step-{i}", ic, t, d) for i, (ic, t, d) in enumerate(steps)],
+             cols=(3, 1, 1), gap=20, margin=dims(40, 0, 0, 0), margin_mobile=dims(28, 0, 0, 0)),
+    ], pad=(40, 32, 24))
+
+    prep = section(f"{p}-prep", [row(f"{p}-prep-panel", [
+        col(f"{p}-prep-copy", [
+            heading(f"{p}-prep-title", "1. güne hazırlan", typo="lmph2"),
+            text(f"{p}-prep-text", "<p>Planın gelene kadar bu üç küçük hazırlığı yapabilirsin:</p>",
+                 typo="lmplead", color="lmpinksoft"),
+            icon_list(f"{p}-prep-list", [
+                ("Bir mezura: 1. gün bel çevreni ölçeceksin.", "check", None),
+                ("Bir su şişesi: 2. günün odağı su.", "check", None),
+                ("Bir not defteri veya telefonunda bir not: yediklerini ve adımlarını yazmak için.", "check", None),
+            ], inline=False, text_color="lmpinksoft", size=15, gap=14,
+                **local_typo("icon", size=17, weight=500, lh=1.45)),
+        ], width=64, gap=18),
+        col(f"{p}-prep-action", [
+            button(f"{p}-prep-home", "Ana sayfaya dön", "/", full_mobile=True),
+        ], width=30, flex_align_items="flex-end", flex_align_items_tablet="flex-start",
+            flex_align_items_mobile="stretch"),
+    ], gap=40, align="center", padding=dims(56, 56, 56, 56), padding_tablet=dims(48, 40, 48, 40),
+        padding_mobile=dims(32, 20, 32, 20), border_radius=dims(32), border_border="solid",
+        border_width=dims(1), border_color="#D5E4DA",
+        **merge({"background_background": "classic", "background_color": "#E3EDE7"},
+                G(background_color="lmpaccentsoft")))], pad=(40, 32, 24))
+    prep["settings"]["padding"] = dims(40, 32, 128, 32)
+    prep["settings"]["padding_tablet"] = dims(32, 32, 96, 32)
+    prep["settings"]["padding_mobile"] = dims(24, 16, 72, 16)
+
+    return [header(p), hero, next_steps, prep, footer(p, LEGAL)]
+
+
 def legal_page(slug, title, home_url):
     p = f"legal-{slug}"
     main = section(f"{p}-main", [
@@ -593,6 +659,7 @@ if __name__ == "__main__":
             json.dump(data, fh, ensure_ascii=False, separators=(",", ":"))
 
     write("landing.json", landing())
+    write("tesekkurler.json", thanks_page())
     for slug, title in LEGAL_PAGES:
         write(f"{slug}.json", legal_page(slug, title, "/"))
 

@@ -147,7 +147,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 JS = r"""
 (function(){
   /* Formular-Einstellungen: endpoint leer = Demo-Modus (es wird nichts gesendet). */
-  var CONFIG = { endpoint: '', successUrl: '', timeoutMs: 15000 };
+  var CONFIG = { endpoint: '', successUrl: '/tesekkurler/', timeoutMs: 15000 };
   var TEXT = {
     empty: 'Lütfen e-posta adresini gir.',
     invalid: 'Lütfen geçerli bir e-posta adresi gir.',
