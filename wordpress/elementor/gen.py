@@ -640,7 +640,6 @@ def thanks_page():
             ("Bir not defteri veya telefonunda bir not: yediklerini ve adımlarını yazmak için.", "check", None),
         ], inline=False, text_color="lmpinksoft", size=14, gap=12, icon_self_vertical_align="flex-start",
             icon_vertical_offset=px(5), **local_typo("icon", size=16, weight=500, lh=1.5)),
-        button(f"{p}-home", "Ana sayfaya dön", "/", align="justify", _margin=dims(10, 0, 0, 0)),
     ], width=40, gap=14, padding=dims(36), padding_tablet=dims(32), padding_mobile=dims(24, 20, 24, 20),
         border_radius=dims(28), border_border="solid", border_width=dims(1), border_color="#D5E4DA",
         **merge({"background_background": "classic", "background_color": "#E3EDE7"},
