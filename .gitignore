@@ -1,6 +1,9 @@
 # build output
 dist/
 !wordpress/elementor/dist/
+!ebook/dist/
+ebook/dist/preview/
+ebook/dist/ebook.html
 .astro/
 
 # dependencies
