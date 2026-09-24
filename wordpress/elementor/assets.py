@@ -95,6 +95,17 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-fit h1.elementor-heading-title{font-size:40px!important}
 }
 
+/* Legal pages */
+.lmp-prose h2{margin:40px 0 12px;color:#101614;font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.lmp-prose h3{margin:24px 0 8px;color:#101614;font-size:18px;font-weight:600;line-height:1.35}
+.lmp-prose ul{margin:0 0 .75em;padding-left:22px}
+.lmp-prose li{margin:0 0 6px}
+.lmp-prose a{color:#1D5A48;text-decoration:underline;text-underline-offset:2px}
+.lmp-prose a:hover{color:#164A3B}
+.lmp-prose strong{color:#101614;font-weight:600}
+.lmp-prose .lmp-updated{margin-top:40px;color:#5D6762;font-size:14px}
+@media (max-width:767px){.lmp-prose h2{margin-top:32px;font-size:20px}}
+
 /* Noise -> one step */
 .lmp-shift{display:grid;justify-items:center;gap:20px}
 .lmp-shift__noise{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:26rem;margin:0;padding:0;list-style:none}

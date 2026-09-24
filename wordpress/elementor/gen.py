@@ -7,6 +7,7 @@ import json
 import sys
 
 import assets
+import legal
 
 _seen = set()
 
@@ -680,9 +681,7 @@ def legal_page(slug, title, home_url):
                 typo="lmpsmall"),
         heading(f"{p}-title", title, tag="h1", **local_typo("", size=52, weight=600, lh=1.08, ls=-0.026,
                                                             size_t=42, size_m=34)),
-        text(f"{p}-placeholder", "<p>Bu sayfanın içeriği hazırlanmaktadır.</p>", color="lmpmuted",
-             _border_border="dashed", _border_width=dims(1), _border_color="#D2D1C9", _border_radius=dims(16),
-             _padding=dims(20, 24, 20, 24)),
+        text(f"{p}-body", legal.BODIES[slug](), cls="lmp-prose"),
     ], gap=24, pad=(96, 72, 56), boxed_width=px(760), min_height=px(60, "vh"))
     return [header(p, f"{home_url}#kayit"), main, footer(p, LEGAL)]
 
