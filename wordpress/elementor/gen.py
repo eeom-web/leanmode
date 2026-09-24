@@ -575,34 +575,58 @@ def landing():
             footer(p, LEGAL)]
 
 
+# ---------------------------------------------------------------- one-screen pages (after the signup)
+EBOOK_PDF = "/wp-content/uploads/2026/09/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf"
+EBOOK_PDF_NAME = "lean-mode-pro-30-gunluk-kilo-verme-plani.pdf"
+
+
+def status_badge(key, text_):
+    """White pill with a green check, e.g. "Kaydın alındı"."""
+    return heading(key, text_, tag="p", color="lmpinksoft", cls="lmp-badge lmp-badge--check", _element_width="auto",
+                   **merge(local_typo("", size=13, weight=600, lh=1.3),
+                           {"_background_background": "classic", "_background_color": "#FFFFFF",
+                            "_border_border": "solid", "_border_width": dims(1), "_border_color": "#E3E2DB",
+                            "_border_radius": dims(999), "_padding": dims(6, 14, 6, 8)},
+                           G(_background_color="lmpsurface", _border_color="lmpline")))
+
+
+def fit_title(key, html_):
+    return heading(key, html_, tag="h1", **local_typo("", size=48, weight=600, lh=1.05, ls=-0.03, size_t=46,
+                                                       size_m=36))
+
+
+def step_list(key, steps):
+    """Numbered steps: bold title followed by one sentence."""
+    html_ = "<ol>" + "".join(f"<li><span><strong>{t}</strong> {d}</span></li>" for t, d in steps) + "</ol>"
+    return text(key, html_, color="lmpmuted", cls="lmp-steps lmp-steps--detail",
+                **local_typo("", size=16, weight=400, lh=1.55))
+
+
+def fit_page(p, left, right):
+    """Header, a two-column main section that fills one desktop screen (.lmp-fit) and the compact footer."""
+    main = section(f"{p}-main", [row(f"{p}-row", [left, right], gap=48)], pad=(40, 48, 32), css_classes="lmp-fit",
+                   flex_justify_content="center")
+    main["settings"]["padding_mobile"] = dims(32, 16, 56, 16)
+    return [header(p), main, footer(p, LEGAL, compact=True)]
+
+
 def thanks_page():
     """Confirmation page shown after a signup (/tesekkurler/). On desktop it fits one screen, without scrolling."""
     p = "thanks"
-    steps = [
-        ("E-postanı kontrol et.",
-         "LEAN MODE PRO'dan gelen e-postayı aç. Göremiyorsan spam veya promosyonlar klasörüne de bak."),
-        ("Kaydını onayla.",
-         "Bir onay e-postası aldıysan içindeki bağlantıya tıkla. Planın, onaydan sonra gönderilir."),
-        ("1. günü planla.",
-         "Planı açacağın günü ve saati şimdiden belirle. Başlamak için mükemmel bir gün beklemene gerek yok."),
-    ]
-    steps_html = "<ol>" + "".join(f"<li><span><strong>{t}</strong> {d}</span></li>" for t, d in steps) + "</ol>"
-
     copy = col(f"{p}-copy", [
-        heading(f"{p}-badge", "Kaydın alındı", tag="p", color="lmpinksoft", cls="lmp-badge lmp-badge--check",
-                _element_width="auto",
-                **merge(local_typo("", size=13, weight=600, lh=1.3),
-                        {"_background_background": "classic", "_background_color": "#FFFFFF",
-                         "_border_border": "solid", "_border_width": dims(1), "_border_color": "#E3E2DB",
-                         "_border_radius": dims(999), "_padding": dims(6, 14, 6, 8)},
-                        G(_background_color="lmpsurface", _border_color="lmpline"))),
-        heading(f"{p}-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>',
-                tag="h1", **local_typo("", size=48, weight=600, lh=1.05, ls=-0.03, size_t=46, size_m=36)),
+        status_badge(f"{p}-badge", "Kaydın alındı"),
+        fit_title(f"{p}-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>'),
         text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz.</p>",
              typo="lmplead", color="lmpinksoft"),
         heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
-        text(f"{p}-steps", steps_html, color="lmpmuted", cls="lmp-steps lmp-steps--detail",
-             **local_typo("", size=16, weight=400, lh=1.55)),
+        step_list(f"{p}-steps", [
+            ("E-postanı kontrol et.",
+             "LEAN MODE PRO'dan gelen e-postayı aç. Göremiyorsan spam veya promosyonlar klasörüne de bak."),
+            ("Kaydını onayla.",
+             "Bir onay e-postası aldıysan içindeki bağlantıya tıkla. Planın, onaydan sonra gönderilir."),
+            ("1. günü planla.",
+             "Planı açacağın günü ve saati şimdiden belirle. Başlamak için mükemmel bir gün beklemene gerek yok."),
+        ]),
     ], width=56, gap=16, flex_align_items="flex-start")
 
     prep = col(f"{p}-prep", [
@@ -621,11 +645,33 @@ def thanks_page():
         border_radius=dims(28), border_border="solid", border_width=dims(1), border_color="#D5E4DA",
         **merge({"background_background": "classic", "background_color": "#E3EDE7"},
                 G(background_color="lmpaccentsoft")))
+    return fit_page(p, copy, prep)
 
-    main = section(f"{p}-main", [row(f"{p}-row", [copy, prep], gap=48)], pad=(40, 48, 32), css_classes="lmp-fit",
-                   flex_justify_content="center")
-    main["settings"]["padding_mobile"] = dims(32, 16, 56, 16)
-    return [header(p), main, footer(p, LEGAL, compact=True)]
+
+def welcome_page():
+    """Thank-you page after the email confirmation (double opt-in, /kayit-onaylandi/): the e-book download."""
+    p = "welcome"
+    copy = col(f"{p}-copy", [
+        status_badge(f"{p}-badge", "Kaydın onaylandı"),
+        fit_title(f"{p}-title", 'Hoş geldin!<br>Planın <span class="lmp-accent-word">hazır.</span>'),
+        text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı şimdi indirebilirsin.</p>",
+             typo="lmplead", color="lmpinksoft"),
+        row(f"{p}-download", [
+            button(f"{p}-download-btn", "Planı indir", EBOOK_PDF, full_mobile=True, selected_icon=icon("arrow-down"),
+                   link={"url": EBOOK_PDF, "is_external": "", "nofollow": "on",
+                         "custom_attributes": f"download|{EBOOK_PDF_NAME}"}),
+            text(f"{p}-download-meta", "<p>PDF · 53 sayfa · 1,1 MB</p>", color="lmpmuted", typo="lmpsmall"),
+        ], gap=20, stack="mobile", flex_gap_mobile=gaps(12), flex_align_items_mobile="stretch",
+            _margin=dims(6, 0, 0, 0)),
+        heading(f"{p}-steps-title", "Nasıl başlamalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
+        step_list(f"{p}-steps", [
+            ("Planı kaydet.", "Telefonuna veya bilgisayarına indir, her gün kolayca aç."),
+            ("Önce temel bilgileri oku.", "Tabak modeli, alışveriş listesi ve hareketler ilk sayfalarda."),
+            ("Her sabah günün sayfasını aç.", "Her gün tek bir sayfadır ve birkaç dakikada okunur."),
+        ]),
+    ], width=56, gap=16, flex_align_items="flex-start")
+    visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html())], width=40)
+    return fit_page(p, copy, visual)
 
 
 def legal_page(slug, title, home_url):
@@ -659,6 +705,7 @@ if __name__ == "__main__":
 
     write("landing.json", landing())
     write("tesekkurler.json", thanks_page())
+    write("kayit-onaylandi.json", welcome_page())
     for slug, title in LEGAL_PAGES:
         write(f"{slug}.json", legal_page(slug, title, "/"))
 

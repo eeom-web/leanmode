@@ -76,6 +76,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .elementor:has(> .lmp-fit){display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 .admin-bar .elementor:has(> .lmp-fit){min-height:calc(100vh - 32px);min-height:calc(100dvh - 32px)}
 .elementor > .lmp-fit{flex-grow:1}
+.elementor .lmp-fit .lmp-mockup{--book-w:clamp(190px,calc((100vh - 300px) * .7),340px);padding:16px 16px 24px}
 }
 @media (min-width:1025px) and (max-height:700px){
 .elementor > .lmp-fit{--padding-top:20px!important;--padding-bottom:20px!important}
