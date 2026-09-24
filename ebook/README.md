@@ -25,10 +25,10 @@ python3 ebook/build.py      # erzeugt dist/ebook.html
 node ebook/render.mjs       # erzeugt das PDF und prüft jede Seite auf Überlauf
 ```
 
-`render.mjs` braucht Playwright mit Chromium.
+`render.mjs` braucht Playwright mit Chromium. Seitenverweise („s. 12“) und die
+türkischen Endungen danach („s. 10'da“) werden automatisch berechnet.
 
 Für ein flüssiges PDF gilt:
 - Die Schriften liegen in `fonts/` als statische Schnitte, eine Datei pro Schnitt mit allen türkischen Zeichen.
 - Chromium läuft ohne Font-Hinting.
-- Im CSS keine Muster-Verläufe, Schatten oder transparenten Verläufe. Chromium macht daraus Bilder, und das PDF würde wieder langsam. Seitenverweise („s. 12“) und die
-türkischen Endungen danach („s. 10'da“) werden automatisch berechnet.
+- Im CSS keine Muster-Verläufe, Schatten oder transparenten Verläufe. Chromium macht daraus Bilder, und das PDF würde wieder langsam.
