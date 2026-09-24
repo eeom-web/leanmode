@@ -3,8 +3,10 @@
 ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>'
 ARROW_DOWN = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14"/><path d="m6 13 6 6 6-6"/></svg>'
 CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
-MAIL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>'
 CAL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>'
+
+CONSENT = ("Kayıt olarak ücretsiz planı almayı ve LEAN MODE PRO'dan e-posta yoluyla faydalı içerikler ve teklifler "
+           "almayı kabul ediyorum. İstediğim zaman abonelikten çıkabilirim.")
 
 LOGO_MASK = (
     "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E"
@@ -102,10 +104,9 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 }
 .lmp-signup__error{margin:0;color:#B3261E;font-size:14px;font-weight:500}
 .lmp-signup__error:empty{display:none}
-.lmp-signup__note{display:flex;align-items:flex-start;gap:8px;margin:0;color:#5D6762;font-size:14px;line-height:1.5}
-.lmp-signup__note svg{flex:none;margin-top:3px}
-.lmp-signup__note a{margin-left:4px;color:#5D6762;text-decoration:underline;text-decoration-color:#D2D1C9;text-underline-offset:3px}
-.lmp-signup__note a:hover{color:#101614}
+.lmp-signup__consent{max-width:36rem;margin:0;padding:0 4px;color:#5D6762;font-size:12.5px;line-height:1.55}
+.lmp-signup__consent a{color:inherit;text-decoration:underline;text-decoration-color:#D2D1C9;text-underline-offset:2px}
+.lmp-signup__consent a:hover{color:#101614;text-decoration-color:currentColor}
 .lmp-signup__hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 .lmp-signup__success{display:flex;align-items:flex-start;gap:16px;padding:22px 24px;border:1px solid #E3EDE7;border-radius:24px;background:#EEF4F0;outline:none}
 .lmp-signup__success-icon{display:grid;flex:none;place-items:center;width:40px;height:40px;border-radius:50%;background:#1D5A48;color:#fff}
@@ -236,11 +237,11 @@ def form_html(uid, source, button_label):
 <form class="lmp-signup__form" method="post" novalidate data-lmp-signup>
 <label class="lmp-signup__label" for="{uid}-email">E-posta adresin</label>
 <div class="lmp-signup__field">
-<input class="lmp-signup__input" id="{uid}-email" type="email" name="email" placeholder="E-posta adresini gir" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" maxlength="254" required aria-describedby="{uid}-error {uid}-note">
+<input class="lmp-signup__input" id="{uid}-email" type="email" name="email" placeholder="E-posta adresini gir" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" maxlength="254" required aria-describedby="{uid}-error {uid}-consent">
 <button class="lmp-signup__button" type="submit"><span data-label>{button_label}</span>{ARROW}</button>
 </div>
 <p class="lmp-signup__error" id="{uid}-error" aria-live="polite" data-error></p>
-<p class="lmp-signup__note" id="{uid}-note">{MAIL}<span>30 günlük rehberi e-posta adresine gönderelim. <a href="/gizlilik-politikasi/">Gizlilik Politikası</a></span></p>
+<p class="lmp-signup__consent" id="{uid}-consent">{CONSENT} <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>.</p>
 <input type="hidden" name="source" value="{source}">
 <div class="lmp-signup__hp" aria-hidden="true"><label>Web sitesi <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 </form>

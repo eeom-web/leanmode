@@ -19,7 +19,9 @@ export const signupCopy = {
   placeholder: 'E-posta adresini gir',
   button: 'Ücretsiz Planı Al',
   buttonLoading: 'Gönderiliyor…',
-  note: '30 günlük rehberi e-posta adresine gönderelim.',
+  consent:
+    "Kayıt olarak ücretsiz planı almayı ve LEAN MODE PRO'dan e-posta yoluyla faydalı içerikler ve teklifler almayı kabul ediyorum. İstediğim zaman abonelikten çıkabilirim.",
+  privacyLabel: 'Gizlilik Politikası',
   errors: {
     empty: 'Lütfen e-posta adresini gir.',
     invalid: 'Lütfen geçerli bir e-posta adresi gir.',

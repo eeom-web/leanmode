@@ -1,6 +1,7 @@
 ---
 import Icon from './Icon.astro';
 import { signupConfig, signupCopy } from '../config/signup';
+import { site } from '../config/site';
 
 interface Props {
   /** Unique per page — used for element ids. */
@@ -13,7 +14,7 @@ interface Props {
 const { id, source, buttonLabel = signupCopy.button } = Astro.props;
 const inputId = `${id}-email`;
 const errorId = `${id}-error`;
-const noteId = `${id}-note`;
+const consentId = `${id}-consent`;
 ---
 
 <div class="signup" data-signup-root>
@@ -39,7 +40,7 @@ const noteId = `${id}-note`;
         enterkeyhint="send"
         maxlength="254"
         required
-        aria-describedby={`${errorId} ${noteId}`}
+        aria-describedby={`${errorId} ${consentId}`}
       />
       <button class="btn btn--lg signup__button" type="submit">
         <span data-label>{buttonLabel}</span>
@@ -49,12 +50,9 @@ const noteId = `${id}-note`;
 
     <p class="signup__error" id={errorId} aria-live="polite" data-error></p>
 
-    <p class="signup__note" id={noteId}>
-      <Icon name="mail" size={16} />
-      <span>
-        {signupCopy.note}
-        <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>
-      </span>
+    <p class="signup__consent" id={consentId}>
+      {signupCopy.consent}
+      <a href={site.legalLinks[0].href}>{signupCopy.privacyLabel}</a>.
     </p>
 
     <input type="hidden" name="source" value={source} />
@@ -275,29 +273,25 @@ const noteId = `${id}-note`;
     display: none;
   }
 
-  .signup__note {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
+  /* Consent notice: deliberately quieter than the field and the button. */
+  .signup__consent {
+    max-width: 36rem;
+    padding-inline: 0.25rem;
     color: var(--muted);
-    font-size: var(--fs-sm);
-    line-height: 1.5;
+    font-size: 0.78125rem;
+    line-height: 1.55;
   }
 
-  .signup__note svg {
-    flex: none;
-    margin-top: 0.1875rem;
-  }
-
-  .signup__note a {
-    margin-left: 0.25rem;
-    color: var(--muted);
+  .signup__consent a {
+    color: inherit;
+    text-decoration: underline;
     text-decoration-color: var(--line-strong);
-    text-underline-offset: 3px;
+    text-underline-offset: 2px;
   }
 
-  .signup__note a:hover {
+  .signup__consent a:hover {
     color: var(--ink);
+    text-decoration-color: currentColor;
   }
 
   .signup__hp {
