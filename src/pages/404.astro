@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout
+  title={`Sayfa bulunamadı | ${site.name}`}
+  description="Aradığın sayfa bulunamadı."
+  noindex
+  headerCtaHref={`/${site.signupAnchor}`}
+>
+  <section class="notfound container">
+    <p class="eyebrow">404</p>
+    <h1>Bu sayfa bulunamadı.</h1>
+    <p class="lead">Aradığın sayfa taşınmış ya da hiç var olmamış olabilir.</p>
+    <a class="btn" href="/">Ana sayfaya dön</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+    min-height: 60vh;
+    align-content: center;
+    padding-block: 4rem;
+  }
+
+  .notfound h1 {
+    font-size: clamp(2.25rem, 3vw + 1.25rem, 3.5rem);
+  }
+</style>

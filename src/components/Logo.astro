@@ -1,0 +1,73 @@
+---
+import { site } from '../config/site';
+
+interface Props {
+  href?: string;
+  class?: string;
+}
+
+const { href = '/', class: className } = Astro.props;
+---
+
+<a class:list={['logo', className]} href={href} aria-label={`${site.name} — Ana sayfa`}>
+  <svg class="logo__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <rect x="3" y="13" width="4.5" height="8" rx="1.25"></rect>
+    <rect x="9.75" y="8.5" width="4.5" height="12.5" rx="1.25"></rect>
+    <rect x="16.5" y="3" width="4.5" height="18" rx="1.25"></rect>
+  </svg>
+  <span class="logo__text">
+    {site.wordmark.main}&nbsp;<span class="logo__accent">{site.wordmark.accent}</span>
+  </span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .logo__mark {
+    flex: none;
+    width: 1.375rem;
+    height: 1.375rem;
+    fill: var(--accent);
+  }
+
+  .logo__text {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .logo__accent {
+    color: var(--accent);
+  }
+
+  @media (max-width: 479px) {
+    .logo {
+      gap: 0.5rem;
+    }
+
+    .logo__text {
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  @media (max-width: 399px) {
+    .logo__mark {
+      display: none;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .logo__text {
+      font-size: 0.8125rem;
+      letter-spacing: 0.08em;
+    }
+  }
+</style>

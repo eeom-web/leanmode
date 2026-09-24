@@ -1,0 +1,344 @@
+---
+import Icon from './Icon.astro';
+import { signupConfig, signupCopy } from '../config/signup';
+
+interface Props {
+  /** Unique per page — used for element ids. */
+  id: string;
+  /** Sent with the signup so the backend knows which form was used. */
+  source: string;
+  buttonLabel?: string;
+}
+
+const { id, source, buttonLabel = signupCopy.button } = Astro.props;
+const inputId = `${id}-email`;
+const errorId = `${id}-error`;
+const noteId = `${id}-note`;
+---
+
+<div class="signup" data-signup-root>
+  <form
+    class="signup__form"
+    method="post"
+    action={signupConfig.endpoint || undefined}
+    novalidate
+    data-signup
+  >
+    <label class="signup__label" for={inputId}>{signupCopy.label}</label>
+    <div class="signup__field">
+      <input
+        class="signup__input"
+        id={inputId}
+        type="email"
+        name="email"
+        placeholder={signupCopy.placeholder}
+        autocomplete="email"
+        inputmode="email"
+        autocapitalize="off"
+        spellcheck="false"
+        enterkeyhint="send"
+        maxlength="254"
+        required
+        aria-describedby={`${errorId} ${noteId}`}
+      />
+      <button class="btn btn--lg signup__button" type="submit">
+        <span data-label>{buttonLabel}</span>
+        <Icon name="arrow-right" size={18} strokeWidth={2} />
+      </button>
+    </div>
+
+    <p class="signup__error" id={errorId} aria-live="polite" data-error></p>
+
+    <p class="signup__note" id={noteId}>
+      <Icon name="mail" size={16} />
+      <span>
+        {signupCopy.note}
+        <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>
+      </span>
+    </p>
+
+    <input type="hidden" name="source" value={source} />
+    <!-- Honeypot: invisible to people, bots tend to fill it in. -->
+    <div class="signup__hp" aria-hidden="true">
+      <label>
+        Web sitesi
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+  </form>
+
+  <div class="signup__success" role="status" tabindex="-1" hidden data-success>
+    <span class="signup__success-icon">
+      <Icon name="check" size={22} strokeWidth={2.2} />
+    </span>
+    <div>
+      <p class="signup__success-title">{signupCopy.success.title}</p>
+      <p class="signup__success-text">{signupCopy.success.text}</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { signupConfig, signupCopy } from '../config/signup';
+  import { isValidEmail, normalizeEmail } from '../lib/email';
+  import { submitSignup } from '../lib/signup-client';
+
+  function setError(form: HTMLFormElement, input: HTMLInputElement, message: string) {
+    const error = form.querySelector<HTMLElement>('[data-error]');
+    if (error) error.textContent = message;
+    input.setAttribute('aria-invalid', String(message !== ''));
+  }
+
+  function setLoading(form: HTMLFormElement, loading: boolean) {
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const label = button?.querySelector<HTMLElement>('[data-label]');
+    if (!button || !label) return;
+
+    button.dataset.idleLabel ??= label.textContent ?? '';
+    button.disabled = loading;
+    form.setAttribute('aria-busy', String(loading));
+    label.textContent = loading ? signupCopy.buttonLoading : button.dataset.idleLabel;
+  }
+
+  function showSuccess(form: HTMLFormElement) {
+    if (signupConfig.successUrl) {
+      window.location.assign(signupConfig.successUrl);
+      return;
+    }
+    const root = form.closest('[data-signup-root]');
+    const success = root?.querySelector<HTMLElement>('[data-success]');
+    if (!success) return;
+    form.hidden = true;
+    success.hidden = false;
+    success.focus({ preventScroll: true });
+  }
+
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
+    const form = event.currentTarget as HTMLFormElement;
+    if (form.getAttribute('aria-busy') === 'true') return;
+
+    const data = new FormData(form);
+    const input = form.elements.namedItem('email') as HTMLInputElement;
+    const email = normalizeEmail(String(data.get('email') ?? ''));
+
+    // Honeypot filled → silently "succeed".
+    if (String(data.get('website') ?? '') !== '') {
+      showSuccess(form);
+      return;
+    }
+
+    if (email === '' || !isValidEmail(email)) {
+      setError(form, input, email === '' ? signupCopy.errors.empty : signupCopy.errors.invalid);
+      input.focus();
+      return;
+    }
+
+    setError(form, input, '');
+    setLoading(form, true);
+    try {
+      await submitSignup({ email, source: String(data.get('source') ?? 'unknown') });
+      showSuccess(form);
+    } catch (error) {
+      console.error(error);
+      setError(form, input, signupCopy.errors.failed);
+    } finally {
+      setLoading(form, false);
+    }
+  }
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-signup]')) {
+    form.addEventListener('submit', handleSubmit);
+
+    // Clear the error as soon as the address becomes valid.
+    const input = form.elements.namedItem('email') as HTMLInputElement;
+    input.addEventListener('input', () => {
+      if (input.getAttribute('aria-invalid') === 'true' && isValidEmail(normalizeEmail(input.value))) {
+        setError(form, input, '');
+      }
+    });
+  }
+</script>
+
+<style>
+  .signup {
+    container-type: inline-size;
+    width: 100%;
+  }
+
+  .signup__form {
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .signup__label {
+    color: var(--ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .signup__field {
+    display: grid;
+    gap: 0.625rem;
+  }
+
+  .signup__input {
+    width: 100%;
+    min-height: 3.75rem;
+    padding: 0 1.375rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 1rem; /* ≥16px prevents iOS zoom on focus */
+    outline: none;
+    box-shadow: var(--shadow-sm);
+    transition:
+      border-color 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+  }
+
+  .signup__input::placeholder {
+    color: #8a938e;
+  }
+
+  .signup__input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgb(29 90 72 / 0.14);
+  }
+
+  .signup__input[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .signup__input[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 4px rgb(179 38 30 / 0.12);
+  }
+
+  .signup__button {
+    width: 100%;
+  }
+
+  .signup__button:disabled {
+    cursor: progress;
+    opacity: 0.8;
+  }
+
+  /* Wide enough: merge input and button into one pill-shaped field. */
+  @container (min-width: 500px) {
+    .signup__field {
+      display: flex;
+      gap: 0.375rem;
+      padding: 0.375rem;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transition:
+        border-color 0.2s var(--ease),
+        box-shadow 0.2s var(--ease);
+    }
+
+    .signup__field:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgb(29 90 72 / 0.14), var(--shadow);
+    }
+
+    .signup__field:has([aria-invalid='true']) {
+      border-color: var(--danger);
+    }
+
+    .signup__input,
+    .signup__input:focus,
+    .signup__input[aria-invalid='true'] {
+      flex: 1;
+      min-width: 0;
+      min-height: 3.25rem;
+      padding-inline: 1.125rem 0.5rem;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .signup__button {
+      width: auto;
+      min-height: 3.25rem;
+    }
+  }
+
+  .signup__error {
+    color: var(--danger);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+
+  .signup__error:empty {
+    display: none;
+  }
+
+  .signup__note {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+  .signup__note svg {
+    flex: none;
+    margin-top: 0.1875rem;
+  }
+
+  .signup__note a {
+    margin-left: 0.25rem;
+    color: var(--muted);
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+  }
+
+  .signup__note a:hover {
+    color: var(--ink);
+  }
+
+  .signup__hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .signup__success {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.375rem 1.5rem;
+    border: 1px solid var(--accent-soft);
+    border-radius: var(--radius-lg);
+    background: var(--accent-tint);
+    outline: none;
+  }
+
+  .signup__success-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .signup__success-title {
+    color: var(--ink);
+    font-size: 1.0625rem;
+    font-weight: 650;
+  }
+
+  .signup__success-text {
+    margin-top: 0.25rem;
+    color: var(--text);
+    font-size: 0.9375rem;
+  }
+</style>

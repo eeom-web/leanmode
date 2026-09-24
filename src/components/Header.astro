@@ -1,0 +1,84 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { site } from '../config/site';
+
+interface Props {
+  /** Where the CTA points; defaults to the signup form on the home page. */
+  ctaHref?: string;
+}
+
+const { ctaHref = site.signupAnchor } = Astro.props;
+---
+
+<header class="header" data-header>
+  <div class="container header__inner">
+    <Logo />
+    <a class="btn btn--dark btn--sm header__cta" href={ctaHref}>
+      Ücretsiz Rehberi Al
+      <Icon name="arrow-right" size={16} strokeWidth={2} />
+    </a>
+  </div>
+</header>
+
+<script>
+  // Adds a subtle background + border once the page is scrolled.
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.25s var(--ease),
+      border-color 0.25s var(--ease);
+  }
+
+  .header[data-scrolled] {
+    background: rgb(246 245 241 / 0.86);
+    border-bottom-color: var(--line);
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+    backdrop-filter: saturate(160%) blur(14px);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--header-h);
+  }
+
+  .header__cta {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 479px) {
+    .header__cta {
+      padding-inline: 0.875rem;
+    }
+
+    .header__cta svg {
+      display: none;
+    }
+  }
+
+  @media (max-width: 359px) {
+    .header__inner {
+      gap: 0.75rem;
+    }
+
+    .header__cta {
+      padding-inline: 0.75rem;
+      font-size: 0.8125rem;
+    }
+  }
+</style>

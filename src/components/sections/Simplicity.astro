@@ -1,0 +1,228 @@
+---
+import Icon from '../Icon.astro';
+
+const noise = [
+  'Her gün yeni bir diyet',
+  'Yüzlerce kural',
+  'Mükemmel olma baskısı',
+  'Çelişen bilgiler',
+  'Karmaşık tablolar',
+];
+
+const principles = [
+  { title: 'Basit', text: 'Gereksiz karmaşa yok.' },
+  { title: 'Adım Adım', text: 'Her gün net bir sonraki adım.' },
+  { title: 'Günlük Hayata Uygun', text: 'Planın sürdürülebilir olması hedefleniyor.' },
+];
+---
+
+<section class="simplicity" aria-labelledby="basit-title">
+  <div class="container">
+    <div class="simplicity__panel">
+      <div class="simplicity__top">
+        <div class="simplicity__copy">
+          <p class="eyebrow simplicity__eyebrow">Basit tut</p>
+          <h2 id="basit-title" class="simplicity__title">Kilo Vermeyi Karmaşıklaştırma.</h2>
+          <p class="simplicity__text">
+            Her gün yeni bir diyet aramak, yüzlerce kural ezberlemek veya mükemmel olmaya çalışmak
+            zorunda değilsin.
+          </p>
+          <p class="simplicity__text simplicity__text--strong">
+            Amaç, 30 gün boyunca uygulanabilecek basit bir sistem oluşturmak.
+          </p>
+        </div>
+
+        <div class="shift" aria-hidden="true">
+          <ul class="shift__noise" role="list">
+            {noise.map((item) => <li>{item}</li>)}
+          </ul>
+          <span class="shift__arrow">
+            <Icon name="arrow-right" size={20} strokeWidth={2} />
+          </span>
+          <p class="shift__one">
+            <Icon name="check" size={18} strokeWidth={2.4} />
+            Bugünün adımı
+          </p>
+        </div>
+      </div>
+
+      <ul class="simplicity__principles" role="list">
+        {
+          principles.map((item, index) => (
+            <li>
+              <span class="simplicity__num">{String(index + 1).padStart(2, '0')}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .simplicity {
+    padding-block: var(--section-y);
+  }
+
+  .simplicity__panel {
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4.5rem);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(90% 60% at 100% 0%, rgb(29 90 72 / 0.45), transparent 60%),
+      var(--dark);
+    color: var(--on-dark-muted);
+  }
+
+  .simplicity__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .simplicity__copy {
+    display: grid;
+    gap: 1.25rem;
+    /* Lets the headline scale with its column so the long word never overflows. */
+    container-type: inline-size;
+  }
+
+  .simplicity__eyebrow {
+    color: #a9d4bf;
+  }
+
+  .simplicity__title {
+    color: var(--on-dark);
+    font-size: min(4.75rem, 12cqi);
+    line-height: 1;
+    letter-spacing: -0.034em;
+  }
+
+  .simplicity__text {
+    max-width: 34rem;
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+  }
+
+  .simplicity__text--strong {
+    color: var(--on-dark);
+  }
+
+  /* "Noise → one step" visual */
+  .shift {
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+  }
+
+  .shift__noise {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 26rem;
+  }
+
+  .shift__noise li {
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--on-dark-line);
+    border-radius: 999px;
+    color: rgb(167 182 175 / 0.72);
+    font-size: 0.875rem;
+    text-decoration: line-through;
+    text-decoration-color: rgb(167 182 175 / 0.6);
+  }
+
+  .shift__arrow {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--on-dark-line);
+    border-radius: 50%;
+    color: var(--on-dark);
+    transform: rotate(90deg);
+  }
+
+  .shift__one {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.875rem 1.375rem;
+    border-radius: 999px;
+    background: var(--on-dark);
+    color: var(--dark);
+    font-size: 1.0625rem;
+    font-weight: 650;
+    box-shadow: 0 20px 40px -16px rgb(0 0 0 / 0.5);
+  }
+
+  .shift__one svg {
+    color: var(--accent);
+  }
+
+  .simplicity__principles {
+    display: grid;
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    border-top: 1px solid var(--on-dark-line);
+  }
+
+  .simplicity__principles li {
+    display: grid;
+    align-content: start;
+    gap: 0.375rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--on-dark-line);
+  }
+
+  .simplicity__principles li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .simplicity__num {
+    color: #a9d4bf;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .simplicity__principles h3 {
+    color: var(--on-dark);
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .simplicity__principles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 0;
+    }
+
+    .simplicity__principles li {
+      padding: 2rem 2rem 0 0;
+      border-bottom: 0;
+    }
+
+    .simplicity__principles li + li {
+      padding-left: 2rem;
+      border-left: 1px solid var(--on-dark-line);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .simplicity__top {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 4rem;
+    }
+
+    .shift {
+      justify-items: center;
+    }
+
+    .shift__noise {
+      justify-content: center;
+    }
+  }
+</style>

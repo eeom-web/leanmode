@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leanmodepro.com/sitemap.xml

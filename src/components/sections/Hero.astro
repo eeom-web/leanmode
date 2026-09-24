@@ -1,0 +1,149 @@
+---
+import EbookMockup from '../EbookMockup.astro';
+import Icon from '../Icon.astro';
+import { site } from '../../config/site';
+
+const facts = ['Tamamen ücretsiz', 'Her gün net bir adım', 'E-posta ile teslim'];
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="hero__badge">
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        Ücretsiz e-kitap · 30 günlük plan
+      </p>
+
+      <h1 id="hero-title" class="hero__title">
+        30 Günde Kilo Vermek İçin <span class="hero__accent">Adım Adım</span> Bir Plan
+      </h1>
+
+      <p class="lead hero__lead">
+        Beslenme, antrenman, günlük hareket ve pratik kilo verme stratejileri tek bir 30 günlük
+        planda.
+      </p>
+
+      <p class="hero__text">
+        Her gün ne yapacağını düşünmek yerine, sadece bir sonraki adıma odaklan.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--lg" href={site.signupAnchor}>
+          Ücretsiz 30 Günlük Planı Al
+          <Icon name="arrow-right" size={18} strokeWidth={2} />
+        </a>
+      </div>
+
+      <ul class="hero__facts" role="list">
+        {
+          facts.map((fact) => (
+            <li>
+              <Icon name="check" size={16} strokeWidth={2.2} />
+              {fact}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <EbookMockup />
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2rem, 5vw, 4.5rem) clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .hero__copy {
+    display: grid;
+    justify-items: start;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem 0.375rem 0.625rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink-soft);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .hero__badge-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .hero__title {
+    margin-top: 1.5rem;
+    font-size: var(--fs-h1);
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+  }
+
+  .hero__accent {
+    color: var(--accent);
+  }
+
+  .hero__lead {
+    max-width: 36rem;
+    margin-top: 1.5rem;
+  }
+
+  .hero__text {
+    max-width: 34rem;
+    margin-top: 0.875rem;
+    color: var(--muted);
+  }
+
+  .hero__actions {
+    margin-top: 2.25rem;
+    width: 100%;
+  }
+
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem 1.5rem;
+    margin-top: 1.5rem;
+    color: var(--muted);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+
+  .hero__facts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .hero__facts svg {
+    color: var(--accent);
+  }
+
+  @media (max-width: 559px) {
+    .hero__actions .btn {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    }
+  }
+</style>

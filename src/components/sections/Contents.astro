@@ -1,0 +1,142 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+
+const items: { icon: IconName; title: string; text: string }[] = [
+  {
+    icon: 'nutrition',
+    title: 'Beslenme Planları',
+    text: 'Günlük beslenmeni daha kolay yönetebilmen için sade ve uygulanabilir bir yapı.',
+  },
+  {
+    icon: 'training',
+    title: 'Antrenman Planları',
+    text: 'Günlük programına uyarlayabileceğin temel antrenman düzeni.',
+  },
+  {
+    icon: 'movement',
+    title: 'Günlük Hareket',
+    text: 'Spor dışında gün boyunca daha aktif olmanı destekleyen basit hareket hedefleri.',
+  },
+  {
+    icon: 'tips',
+    title: 'Kilo Verme Tüyoları',
+    text: 'Günlük hayatında uygulayabileceğin pratik ve kolay anlaşılır stratejiler.',
+  },
+  {
+    icon: 'habits',
+    title: 'Alışkanlıklar',
+    text: '30 gün boyunca daha düzenli bir yaşam tarzı oluşturmanı destekleyen küçük adımlar.',
+  },
+  {
+    icon: 'system',
+    title: 'Heves Değil, Sistem',
+    text: 'Sadece motivasyona bağlı kalmadan süreci gün gün takip edebilmen için net bir yapı.',
+  },
+];
+---
+
+<section class="section contents" aria-labelledby="icerik-title">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">İçerik</p>
+      <h2 id="icerik-title" class="h2">Bu 30 Günlük Planda Neler Var?</h2>
+      <p>
+        Bu rehber, kilo verme sürecini karmaşık hale getirmek yerine 30 güne bölerek her gün ne
+        yapacağını daha net görmeni sağlar.
+      </p>
+    </header>
+
+    <ul class="contents__grid" role="list">
+      {
+        items.map((item, index) => (
+          <li class="card contents__card">
+            <div class="contents__top">
+              <span class="contents__icon">
+                <Icon name={item.icon} />
+              </span>
+              <span class="contents__index" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <h3 class="contents__title">{item.title}</h3>
+            <p class="contents__text">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contents__grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .contents__card {
+    display: grid;
+    align-content: start;
+    gap: 0.625rem;
+    padding: 1.75rem;
+    transition:
+      border-color 0.2s var(--ease),
+      box-shadow 0.2s var(--ease);
+  }
+
+  .contents__card:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow);
+  }
+
+  .contents__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .contents__icon {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--accent);
+  }
+
+  .contents__index {
+    color: #b9b8ae;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+  }
+
+  .contents__title {
+    font-size: var(--fs-h3);
+    letter-spacing: -0.015em;
+  }
+
+  .contents__text {
+    color: var(--muted);
+  }
+
+  @media (min-width: 640px) {
+    .contents__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .contents__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .contents__card {
+      padding: 2rem;
+    }
+  }
+</style>

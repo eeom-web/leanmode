@@ -1,0 +1,243 @@
+---
+import Icon, { type IconName } from '../Icon.astro';
+
+// Structure only — the actual daily content lives in the e-book.
+const blocks: { icon: IconName; label: string; question: string }[] = [
+  { icon: 'focus', label: 'BUGÜNÜN ODAĞI', question: 'Bugün en önemli olan ne?' },
+  { icon: 'nutrition', label: 'BESLENME', question: 'Bugün beslenmende nelere dikkat etmelisin?' },
+  { icon: 'movement', label: 'HAREKET', question: 'Bugün hangi hareket hedefi var?' },
+  { icon: 'training', label: 'ANTRENMAN', question: 'Bugün hangi antrenman planlandı?' },
+  { icon: 'tips', label: 'BUGÜNÜN İPUCU', question: 'Kolayca uygulayabileceğin bir kilo verme ipucu.' },
+  { icon: 'task', label: 'GÜNÜN GÖREVİ', question: 'Gün içinde tamamlayacağın küçük bir görev.' },
+];
+
+const steps = ['Günün sayfasını aç.', 'Adımları sırayla uygula.', 'Günü tamamla, yarına hazır ol.'];
+const segments = Array.from({ length: 30 }, (_, i) => i + 1);
+---
+
+<section class="section daily" aria-labelledby="gunluk-title">
+  <div class="container daily__grid">
+    <div class="daily__copy">
+      <p class="eyebrow">Nasıl çalışır?</p>
+      <h2 id="gunluk-title" class="h2">Her Gün Sadece Bir Sonraki Adıma Odaklan.</h2>
+      <p class="lead">
+        Plan, 30 günün her biri için aynı sade yapıyı kullanır. O günün sayfasını açarsın ve neye
+        odaklanman gerektiğini tek bakışta görürsün.
+      </p>
+      <p>
+        Böylece her sabah yeniden plan yapmak zorunda kalmazsın. Sadece o günün adımlarını
+        uygularsın.
+      </p>
+
+      <ol class="daily__steps" role="list">
+        {
+          steps.map((step, index) => (
+            <li>
+              <span class="daily__step-num">{index + 1}</span>
+              {step}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <figure class="daily__figure">
+      <div class="card daypage">
+        <div class="daypage__head">
+          <p class="daypage__day">
+            GÜN <span>01</span>
+            <small>/ 30</small>
+          </p>
+          <span class="daypage__tag">Örnek sayfa yapısı</span>
+        </div>
+        <div class="daypage__bar" aria-hidden="true">
+          {segments.map((segment) => <span class:list={{ 'is-done': segment === 1 }} />)}
+        </div>
+
+        <ul class="daypage__blocks" role="list">
+          {
+            blocks.map((block) => (
+              <li class="daypage__block">
+                <span class="daypage__icon">
+                  <Icon name={block.icon} size={20} />
+                </span>
+                <div>
+                  <p class="daypage__label">{block.label}</p>
+                  <p class="daypage__question">{block.question}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <figcaption class="daily__caption">
+        Bu görsel yalnızca günlük sayfaların yapısını gösterir. Her günün içeriği e-kitapta yer
+        alır.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .daily__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .daily__copy {
+    display: grid;
+    gap: 1.125rem;
+    align-content: start;
+  }
+
+  .daily__copy .lead {
+    margin-top: 0.25rem;
+  }
+
+  .daily__steps {
+    display: grid;
+    gap: 0.875rem;
+    margin-top: 1rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .daily__steps li {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .daily__step-num {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .daily__figure {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .daypage {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .daypage__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .daypage__day {
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+  }
+
+  .daypage__day span {
+    color: var(--ink);
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .daypage__day small {
+    font-size: 0.875rem;
+  }
+
+  .daypage__tag {
+    padding: 0.3rem 0.75rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .daypage__bar {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    gap: 3px;
+    margin-top: 1rem;
+  }
+
+  .daypage__bar span {
+    height: 6px;
+    border-radius: 2px;
+    background: var(--bg-alt);
+  }
+
+  .daypage__bar .is-done {
+    background: var(--accent);
+  }
+
+  .daypage__blocks {
+    display: grid;
+    margin-top: 1.25rem;
+  }
+
+  .daypage__block {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .daypage__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 12px;
+    background: var(--accent-tint);
+    color: var(--accent);
+  }
+
+  .daypage__label {
+    color: var(--ink);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+  }
+
+  .daypage__question {
+    margin-top: 0.125rem;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .daily__caption {
+    color: var(--muted);
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .daypage__blocks {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .daily__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    }
+  }
+</style>

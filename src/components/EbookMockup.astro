@@ -1,0 +1,281 @@
+---
+/**
+ * Visual stand-in for the upcoming e-book: a CSS-only cover, no real pages.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  size?: 'lg' | 'sm';
+  /** Small floating "day" card next to the book. */
+  showDayCard?: boolean;
+}
+
+const { size = 'lg', showDayCard = true } = Astro.props;
+const days = Array.from({ length: 30 }, (_, i) => i + 1);
+---
+
+<div
+  class:list={['mockup', `mockup--${size}`]}
+  role="img"
+  aria-label="30 Günlük Kilo Verme Planı e-kitap kapağı: Adım Adım Rehber — Beslenme, Antrenman, Hareket, Alışkanlıklar"
+>
+  <div class="book">
+    <div class="book__pages"></div>
+    <div class="book__cover">
+      <div class="cover__top">
+        <span class="cover__brand">LEAN MODE PRO</span>
+        <span class="cover__edition">E-KİTAP</span>
+      </div>
+
+      <div class="cover__title">
+        <span class="cover__kicker">30 GÜNLÜK</span>
+        <span class="cover__main">KİLO VERME PLANI</span>
+      </div>
+
+      <span class="cover__sub">Adım Adım Rehber</span>
+
+      <div class="cover__days">
+        {days.map((day) => <span class:list={['cover__day', { 'is-active': day === 1 }]} />)}
+      </div>
+
+      <span class="cover__tags">Beslenme • Antrenman • Hareket • Alışkanlıklar</span>
+    </div>
+  </div>
+
+  {
+    showDayCard && (
+      <div class="daycard">
+        <div class="daycard__head">
+          <Icon name="calendar" size={16} />
+          <span>
+            GÜN <strong>01</strong> / 30
+          </span>
+        </div>
+        <div class="daycard__bar">
+          {days.map((day) => (
+            <span class:list={{ 'is-done': day === 1 }} />
+          ))}
+        </div>
+        <span class="daycard__text">Her gün bir sonraki adım</span>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .mockup {
+    --book-w: min(66vw, 300px);
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1rem 2.5rem;
+    isolation: isolate;
+  }
+
+  .mockup--sm {
+    --book-w: min(64vw, 260px);
+    padding: 1rem 0.5rem 1.5rem;
+  }
+
+  @media (min-width: 960px) {
+    .mockup:not(.mockup--sm) {
+      --book-w: 360px;
+    }
+  }
+
+  /* Soft backdrop */
+  .mockup::before {
+    content: '';
+    position: absolute;
+    inset: 4% 0;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, #dce8e0 0%, rgb(220 232 224 / 0.55) 55%, rgb(220 232 224 / 0) 100%);
+  }
+
+  .book {
+    position: relative;
+    width: var(--book-w);
+    aspect-ratio: 5 / 7;
+    container-type: inline-size;
+    filter: drop-shadow(0 30px 40px rgb(15 29 25 / 0.22)) drop-shadow(0 6px 10px rgb(15 29 25 / 0.12));
+  }
+
+  /* Page block peeking out on the fore-edge */
+  .book__pages {
+    position: absolute;
+    inset: 1.6% -3.2% 1.6% 4%;
+    border-radius: 3px 8px 8px 3px;
+    background:
+      linear-gradient(90deg, rgb(0 0 0 / 0.08), transparent 30%),
+      repeating-linear-gradient(90deg, #fbfaf6 0 1.5px, #e2e1d9 1.5px 2.5px);
+  }
+
+  .book__cover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 9cqi 9cqi 8cqi 11cqi;
+    border-radius: 4px 10px 10px 4px;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 70% at 85% 0%, rgb(255 255 255 / 0.1), transparent 60%),
+      linear-gradient(160deg, #24604d 0%, #174537 48%, #0f3027 100%);
+    color: #f1f5f2;
+  }
+
+  /* Spine shading */
+  .book__cover::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5cqi;
+    background: linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.32) 0%,
+      rgb(255 255 255 / 0.1) 55%,
+      rgb(0 0 0 / 0.12) 100%
+    );
+  }
+
+  /* Hairline frame */
+  .book__cover::after {
+    content: '';
+    position: absolute;
+    inset: 4cqi 4cqi 4cqi 7cqi;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: 3px 6px 6px 3px;
+    pointer-events: none;
+  }
+
+  .cover__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 3.4cqi;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .cover__edition {
+    color: rgb(241 245 242 / 0.6);
+    font-weight: 600;
+  }
+
+  .cover__title {
+    display: grid;
+    gap: 2.5cqi;
+    margin-top: auto;
+  }
+
+  .cover__kicker {
+    color: #a9d4bf;
+    font-size: 5.6cqi;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+  }
+
+  .cover__main {
+    font-size: 12.2cqi;
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+  }
+
+  .cover__sub {
+    margin-top: 5cqi;
+    padding-top: 4.5cqi;
+    border-top: 1px solid rgb(255 255 255 / 0.2);
+    font-size: 5cqi;
+    font-weight: 500;
+  }
+
+  .cover__days {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 1.8cqi;
+    margin-top: 7cqi;
+  }
+
+  .cover__day {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.26);
+  }
+
+  .cover__day.is-active {
+    border-color: #a9d4bf;
+    background: #a9d4bf;
+  }
+
+  .cover__tags {
+    margin-top: auto;
+    color: rgb(241 245 242 / 0.72);
+    font-size: 3.3cqi;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* Floating day card */
+  .daycard {
+    position: absolute;
+    top: 55%;
+    right: max(0px, calc(50% - var(--book-w) / 2 - 3rem));
+    display: grid;
+    gap: 0.5rem;
+    width: 12.5rem;
+    padding: 0.875rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .daycard__head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  .daycard__head svg {
+    color: var(--accent);
+  }
+
+  .daycard__head strong {
+    color: var(--ink);
+  }
+
+  .daycard__bar {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    gap: 2px;
+  }
+
+  .daycard__bar span {
+    height: 6px;
+    border-radius: 2px;
+    background: var(--bg-alt);
+  }
+
+  .daycard__bar .is-done {
+    background: var(--accent);
+  }
+
+  .daycard__text {
+    color: var(--ink);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 479px) {
+    .daycard {
+      width: 11rem;
+      padding: 0.75rem 0.875rem;
+    }
+  }
+</style>

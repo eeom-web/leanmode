@@ -1,0 +1,163 @@
+---
+// `span`: how many of the 30 day-columns the label may use on wide screens.
+const milestones = [
+  { day: 1, span: 6, label: 'BAŞLA' },
+  { day: 7, span: 7, label: 'RUTİN OLUŞTUR' },
+  { day: 14, span: 7, label: 'DEVAM ET' },
+  { day: 21, span: 4, label: 'ALIŞKANLIKLARI GÜÇLENDİR' },
+  { day: 30, span: 6, label: 'YENİ RUTİNİNİ OLUŞTUR' },
+];
+const milestoneDays = new Set(milestones.map((m) => m.day));
+const days = Array.from({ length: 30 }, (_, i) => i + 1);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="section timeline" aria-labelledby="zaman-title">
+  <div class="container">
+    <header class="section-head timeline__head">
+      <p class="eyebrow">Süreç</p>
+      <h2 id="zaman-title" class="h2">30 Gün</h2>
+      <p>Bu görünüm, 30 günlük sürecin genel akışını temsil eder.</p>
+    </header>
+
+    <div class="timeline__body">
+      <div class="timeline__track" aria-hidden="true">
+        {days.map((day) => <span class:list={{ 'is-milestone': milestoneDays.has(day) }} />)}
+      </div>
+
+      <ol class="timeline__list" role="list">
+        {
+          milestones.map((m) => (
+            <li class="timeline__item" style={`--day: ${m.day}; --span: ${m.span}`}>
+              <span class="timeline__day">
+                <span class="visually-hidden">Gün </span>
+                {pad(m.day)}
+              </span>
+              <span class="timeline__label">{m.label}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    background: var(--bg-alt);
+  }
+
+  .timeline__body {
+    position: relative;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  /* Mobile: vertical list with a line */
+  .timeline__track {
+    display: none;
+  }
+
+  .timeline__list {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    padding-left: 2.25rem;
+  }
+
+  .timeline__list::before {
+    content: '';
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.5625rem;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--accent), var(--accent-soft));
+  }
+
+  .timeline__item {
+    position: relative;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .timeline__item::before {
+    content: '';
+    position: absolute;
+    top: 0.625rem;
+    left: -2.25rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 4px solid var(--bg-alt);
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .timeline__day {
+    color: var(--ink);
+    font-size: 2.25rem;
+    font-weight: 650;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .timeline__label {
+    color: var(--ink-soft);
+    font-size: 0.875rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+  }
+
+  /* Desktop: horizontal 30-day track, labels placed on their day */
+  @media (min-width: 1024px) {
+    .timeline__track {
+      display: grid;
+      grid-template-columns: repeat(30, minmax(0, 1fr));
+      gap: 4px;
+      align-items: end;
+      height: 3rem;
+    }
+
+    .timeline__track span {
+      height: 1.25rem;
+      border-radius: 3px;
+      background: var(--line-strong);
+    }
+
+    .timeline__track .is-milestone {
+      height: 3rem;
+      background: var(--accent);
+    }
+
+    .timeline__list {
+      grid-template-columns: repeat(30, minmax(0, 1fr));
+      column-gap: 4px;
+      margin-top: 1.5rem;
+      padding-left: 0;
+    }
+
+    .timeline__list::before,
+    .timeline__item::before {
+      display: none;
+    }
+
+    .timeline__item {
+      grid-row: 1;
+      grid-column: var(--day) / span var(--span);
+      align-content: start;
+      padding-right: 1rem;
+    }
+
+    .timeline__item:last-child {
+      grid-column: span var(--span) / -1;
+      padding-right: 0;
+      text-align: right;
+    }
+
+    .timeline__day {
+      font-size: clamp(2.25rem, 2.5vw + 1rem, 3.25rem);
+    }
+  }
+</style>

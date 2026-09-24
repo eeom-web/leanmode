@@ -1,0 +1,63 @@
+---
+import EbookMockup from '../EbookMockup.astro';
+import SignupForm from '../SignupForm.astro';
+---
+
+<section class="final" aria-labelledby="basla-title">
+  <div class="container">
+    <div class="final__panel">
+      <div class="final__copy">
+        <p class="eyebrow">Ücretsiz 30 günlük plan</p>
+        <h2 id="basla-title" class="h2">30 Günlük Yolculuğuna Bugün Başla.</h2>
+        <p class="lead">Ne yapacağını düşünmek yerine, ilk adımdan başla.</p>
+        <div class="final__form">
+          <SignupForm id="final-form" source="final-cta" buttonLabel="Ücretsiz 30 Günlük Planı Al" />
+        </div>
+      </div>
+      <div class="final__mockup">
+        <EbookMockup size="sm" showDayCard={false} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final {
+    padding-bottom: var(--section-y);
+  }
+
+  .final__panel {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+    padding: clamp(2rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 4.5rem);
+    border: 1px solid #d5e4da;
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(70% 90% at 100% 100%, rgb(255 255 255 / 0.6), transparent 70%),
+      var(--accent-soft);
+  }
+
+  .final__copy {
+    display: grid;
+    gap: 1.125rem;
+  }
+
+  .final__form {
+    max-width: 36rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 767px) {
+    .final__mockup {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .final__panel {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+      gap: 3rem;
+    }
+  }
+</style>

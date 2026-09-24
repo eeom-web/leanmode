@@ -1,0 +1,156 @@
+---
+import Icon from '../Icon.astro';
+
+const steps = [
+  { day: 1, action: 'BAŞLA', text: 'İlk adımı at.' },
+  { day: 15, action: 'DEVAM ET', text: 'Rutini güçlendir.' },
+  { day: 30, action: 'SİSTEMİ OTURT', text: 'Öğrendiklerini günlük hayatına taşımaya başla.' },
+];
+const segments = Array.from({ length: 30 }, (_, i) => i + 1);
+---
+
+<section class="section roadmap" aria-labelledby="yol-haritasi-title">
+  <div class="container">
+    <div class="roadmap__head">
+      <div class="roadmap__title-wrap">
+        <p class="eyebrow">Yaklaşım</p>
+        <h2 id="yol-haritasi-title" class="h2">Sadece Bilgi Değil. Bir Yol Haritası.</h2>
+      </div>
+      <div class="roadmap__body">
+        <p>
+          İnternette kilo vermek hakkında binlerce bilgi bulabilirsin. Sorun çoğu zaman bilgi
+          eksikliği değil, nereden başlayacağını ve ne yapacağını bilememektir.
+        </p>
+        <p>
+          Bu yüzden 30 günlük plan, bilgileri tek bir sistem içinde adım adım ilerleyecek şekilde
+          düzenlemek için tasarlanmıştır.
+        </p>
+      </div>
+    </div>
+
+    <ol class="roadmap__steps" role="list">
+      {
+        steps.map((step) => (
+          <li class="card roadmap__step">
+            <p class="roadmap__day">
+              {step.day}. GÜN
+              <Icon name="arrow-right" size={16} strokeWidth={2} />
+            </p>
+            <h3 class="roadmap__action">{step.action}</h3>
+            <p class="roadmap__text">{step.text}</p>
+            <div class="roadmap__bar" aria-hidden="true">
+              {segments.map((segment) => (
+                <span class:list={{ 'is-done': segment <= step.day }} />
+              ))}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .roadmap {
+    background: var(--bg-alt);
+  }
+
+  .roadmap__head {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .roadmap__title-wrap {
+    display: grid;
+    gap: 1.125rem;
+    align-content: start;
+  }
+
+  .roadmap__body {
+    display: grid;
+    gap: 1rem;
+    max-width: 38rem;
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+  }
+
+  .roadmap__body p:first-child {
+    color: var(--ink-soft);
+  }
+
+  .roadmap__steps {
+    display: grid;
+    gap: 1rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .roadmap__step {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding: 1.75rem;
+  }
+
+  .roadmap__day {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 650;
+    letter-spacing: 0.12em;
+  }
+
+  .roadmap__action {
+    margin-top: 0.75rem;
+    font-size: clamp(1.75rem, 1.5vw + 1.25rem, 2.25rem);
+    letter-spacing: -0.02em;
+  }
+
+  .roadmap__text {
+    min-height: 3.2em;
+    color: var(--muted);
+  }
+
+  .roadmap__bar {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    gap: 3px;
+    margin-top: 1.25rem;
+  }
+
+  .roadmap__bar span {
+    height: 8px;
+    border-radius: 2px;
+    background: var(--bg-alt);
+  }
+
+  .roadmap__bar .is-done {
+    background: var(--accent);
+  }
+
+  @media (max-width: 767px) {
+    .roadmap__text {
+      min-height: 0;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .roadmap__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .roadmap__head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4rem;
+      align-items: end;
+    }
+
+    .roadmap__step {
+      padding: 2rem;
+    }
+  }
+</style>
