@@ -30,7 +30,8 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
 
 - Name, Anschrift, E-Mail, Telefon und USt-IdNr. stehen **nicht** im Repository. Die Texte enthalten
   Platzhalter wie `{{lmp:name}}`; beim Import auf WordPress werden sie aus der Option `lmp_operator`
-  ersetzt. Ohne USt-IdNr. fällt der Block zwischen `<!--lmp:vat-->` und `<!--/lmp:vat-->` weg.
+  ersetzt. Leere optionale Felder (USt-IdNr., Telefon, zuständige Aufsichtsbehörde) fallen samt
+  ihrem Block weg, z. B. alles zwischen `<!--lmp:vat-->` und `<!--/lmp:vat-->`.
 - Die Datenschutzerklärung beschreibt den Stand vom 24.09.2026: keine Cookies, kein Browser-Speicher,
   keine externen Verbindungen für Besucher. Dafür ist „Hostinger Reach“ deaktiviert und das
   Must-use-Plugin `wordpress/mu-plugins/lmp-privacy.php` schaltet das WordPress-Emoji-Skript ab.

@@ -3,7 +3,8 @@
 The operator's personal data is NOT stored in this repository. The texts contain placeholders such as
 {{lmp:name}}; they are filled in on the WordPress server from the option `lmp_operator` when the pages
 are imported. The optional VAT block sits between <!--lmp:vat--> and <!--/lmp:vat--> and is dropped when
-no VAT ID is set.
+no VAT ID is set. The same applies to <!--lmp:phone--> and <!--lmp:authority-->
+(the data protection authority responsible for the operator's place of business).
 
 Facts the texts rely on (checked on 24.09.2026, re-check after changes to the site):
 - Hosting: Hostinger International Ltd. (Cyprus), server in Frankfurt (de-fra-web1812.main-hosting.eu).
@@ -18,7 +19,8 @@ UPDATED = "24 Eylül 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Almanya</p>"
-    '<p>E-posta: <a href="mailto:{{lmp:email}}">{{lmp:email}}</a><br>Telefon: {{lmp:phone}}</p>'
+    '<p>E-posta: <a href="mailto:{{lmp:email}}">{{lmp:email}}</a>'
+    "<!--lmp:phone--><br>Telefon: {{lmp:phone}}<!--/lmp:phone--></p>"
 )
 
 
@@ -147,6 +149,7 @@ def privacy_html():
         "<p>Bunun için bize e-posta göndermen yeterli. Ayrıca bir veri koruma denetim makamına şikâyette bulunma "
         "hakkın vardır (GDPR md. 77). Türkiye'de yaşıyorsan, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun "
         "11. maddesindeki haklarını da bize iletebilirsin.</p>",
+        "<!--lmp:authority--><p>Bizim için yetkili denetim makamı: {{lmp:authority}}</p><!--/lmp:authority-->",
 
         "<h2>11. Değişiklikler</h2>",
         "<p>Siteyi veya kullandığımız hizmetleri değiştirirsek bu gizlilik politikasını güncelleriz. Her zaman bu "
