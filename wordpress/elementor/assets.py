@@ -104,6 +104,11 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-prose a:hover{color:#164A3B}
 .lmp-prose strong{color:#101614;font-weight:600}
 .lmp-prose .lmp-updated{margin-top:40px;color:#5D6762;font-size:14px}
+.lmp-prose table{width:100%;margin:8px 0 18px;border-collapse:collapse;font-size:15px;line-height:1.5}
+.lmp-prose th,.lmp-prose td{padding:10px 12px 10px 0;border-bottom:1px solid #E3E2DB;text-align:left;vertical-align:top}
+.lmp-prose th{color:#101614;font-weight:600}
+.lmp-prose td:last-child,.lmp-prose th:last-child{padding-right:0;white-space:nowrap}
+.lmp-prose code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.9em;color:#101614}
 @media (max-width:767px){.lmp-prose h2{margin-top:32px;font-size:20px}}
 
 /* Noise -> one step */

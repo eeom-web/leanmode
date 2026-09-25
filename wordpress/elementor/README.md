@@ -38,6 +38,11 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   Wer neue Plugins, Einbettungen, Statistik-Tools oder Ähnliches einbaut, muss die Texte anpassen.
 - Brevo muss mit Double-Opt-in und **ohne** Öffnungs- und Klick-Tracking eingerichtet werden, so steht es
   in der Datenschutzerklärung.
+- **Tracking-Schalter** (`lmp_operator['tracking']`): leer = Stand ohne Cookies; gesetzt = Texte für
+  Cookie-Banner, Google Analytics 4, Google Ads und Meta Pixel (Abschnitte `<!--lmp:tracking-->`, die
+  Gegenstücke stehen in `<!--lmp:!tracking-->`). Erst einschalten, wenn alles live ist:
+  Cookie-Banner (Consent Mode v2 „basic“: Google- und Meta-Tags laden erst nach Einwilligung),
+  Link „Çerez ayarları“ im Footer, Aufbewahrung in GA4 auf 14 Monate. Danach die drei Rechtsseiten neu importieren.
 
 ## Wichtig
 
