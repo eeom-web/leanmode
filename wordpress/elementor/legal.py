@@ -149,7 +149,7 @@ def privacy_html():
         "<p>Bunun için bize e-posta göndermen yeterli. Ayrıca bir veri koruma denetim makamına şikâyette bulunma "
         "hakkın vardır (GDPR md. 77). Türkiye'de yaşıyorsan, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun "
         "11. maddesindeki haklarını da bize iletebilirsin.</p>",
-        "<!--lmp:authority--><p>Bizim için yetkili denetim makamı: {{lmp:authority}}</p><!--/lmp:authority-->",
+        "<!--lmp:authority--><p>Bizim için yetkili denetim makamı: {{lmp:authority}}.</p><!--/lmp:authority-->",
 
         "<h2>11. Değişiklikler</h2>",
         "<p>Siteyi veya kullandığımız hizmetleri değiştirirsek bu gizlilik politikasını güncelleriz. Her zaman bu "
