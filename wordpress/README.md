@@ -5,6 +5,9 @@
 | `elementor/` | Seitenaufbau für Elementor, Rechtstexte, gemeinsames CSS/JS (siehe dortige README) |
 | `mu-plugins/lmp-privacy.php` | Schaltet das WordPress-Emoji-Skript ab (kein Browser-Speicher, keine Anfragen an s.w.org) |
 | `mu-plugins/lmp-signup.php` | Anmelde-Endpunkt `POST /wp-json/lmp/v1/subscribe` für das Formular |
+| `mu-plugins/lmp-site-icon.php` | Vollflächiges Apple-Touch-Icon statt des abgerundeten Website-Icons |
+| `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
+| `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brevo/doi-tr.html` | Bestätigungs-Mail (Double-Opt-in, Türkisch) als Brevo-Vorlage |
 
 Die Must-use-Plugins liegen auf dem Server in `wp-content/mu-plugins/`.
