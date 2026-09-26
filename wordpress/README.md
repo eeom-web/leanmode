@@ -8,6 +8,7 @@
 | `mu-plugins/lmp-site-icon.php` | Vollflächiges Apple-Touch-Icon statt des abgerundeten Website-Icons |
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
+| `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
 | `brevo/doi-tr.html` | Bestätigungs-Mail (Double-Opt-in, Türkisch) als Brevo-Vorlage |
 
 Die Must-use-Plugins liegen auf dem Server in `wp-content/mu-plugins/`.
