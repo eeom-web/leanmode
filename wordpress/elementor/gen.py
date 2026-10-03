@@ -577,7 +577,7 @@ def landing():
 
 
 # ---------------------------------------------------------------- one-screen pages (after the signup)
-EBOOK_PDF = "/wp-content/uploads/2026/09/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf"
+EBOOK_PDF = "/wp-content/uploads/2026/09/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf?v=2"  # ?v= bumps caches
 EBOOK_PDF_NAME = "lean-mode-pro-30-gunluk-kilo-verme-plani.pdf"
 
 
@@ -660,7 +660,7 @@ def welcome_page():
             button(f"{p}-download-btn", "Planı indir", EBOOK_PDF, full_mobile=True, selected_icon=icon("arrow-down"),
                    link={"url": EBOOK_PDF, "is_external": "", "nofollow": "on",
                          "custom_attributes": f"download|{EBOOK_PDF_NAME}"}),
-            text(f"{p}-download-meta", "<p>PDF · 53 sayfa · 1,1 MB</p>", color="lmpmuted", typo="lmpsmall"),
+            text(f"{p}-download-meta", "<p>PDF · 53 sayfa · 0,5 MB</p>", color="lmpmuted", typo="lmpsmall"),
         ], gap=20, stack="mobile", flex_gap_mobile=gaps(12), flex_align_items_mobile="stretch",
             _margin=dims(6, 0, 0, 0)),
         heading(f"{p}-steps-title", "Nasıl başlamalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),

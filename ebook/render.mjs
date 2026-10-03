@@ -46,6 +46,9 @@ if (process.argv.includes('--png')) {
 await page.pdf({ path: out, format: 'A4', printBackground: true, preferCSSPageSize: true });
 await browser.close();
 
+// Shrink the PDF (same look and text, about half the size, fast web view). Needs: pip install pikepdf
+console.log(execSync(`python3 "${path.join(here, 'optimize_pdf.py')}" "${out}"`, { encoding: 'utf8' }).trim());
+
 console.log(`${count} pages -> ${path.relative(process.cwd(), out)}`);
 if (problems.length) {
   console.log('LAYOUT PROBLEMS:\n' + problems.join('\n'));
