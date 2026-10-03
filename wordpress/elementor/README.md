@@ -50,6 +50,6 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   ersten Aufbau und als Backup. Ein erneuter Import überschreibt Änderungen, die im Editor
   gemacht wurden.
 - Das E-Mail-Formular steckt in HTML-Widgets, weil Elementor Free kein Formular-Widget hat.
-  Bis Brevo angebunden ist, läuft es im **Demo-Modus** und sendet nichts. Die Einstellung
-  steht im Widget „home-assets“ (erstes Element im Header), Variable `CONFIG.endpoint`.
+  Es sendet an ein Brevo-Anmeldeformular (Double-Opt-in), siehe `../README.md`. Die Einstellung steht
+  im Assets-Widget (erstes Element im Header jeder Seite), Variable `CONFIG.brevoFormUrl`.
 - Globale Farben und Schriften: Elementor → Website-Einstellungen → Globale Farben / Globale Schriftarten.

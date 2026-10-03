@@ -12,14 +12,22 @@
 
 Die Must-use-Plugins liegen auf dem Server in `wp-content/mu-plugins/`.
 
-## Anmeldeformular
+## Anmeldeformular (Brevo, Double-Opt-in)
 
-Die Website ist mit keinem E-Mail-Dienst verbunden (Stand 27.09.2026). Das Formular läuft im
-Demo-Modus: `CONFIG.endpoint` im gemeinsamen Assets-Widget ist leer, es wird nichts gesendet oder
-gespeichert, Besucher werden nur auf `/tesekkurler/` weitergeleitet. Die frühere Brevo-Anbindung
-(Must-use-Plugin `lmp-signup.php`, Option `lmp_brevo`) ist vom Server und aus dem Repository entfernt.
+Das Formular der Website sendet direkt an ein Brevo-Anmeldeformular (Stand 03.10.2026). Im gemeinsamen
+Assets-Widget steht in `CONFIG.brevoFormUrl` die öffentliche Formular-Adresse aus dem Brevo-Einbettungscode
+(`action`, `…sibforms.com/serve/…`). Das ist kein Geheimnis: Es wird **kein API-Schlüssel** verwendet, auf
+dem Server ist keiner gespeichert.
 
-Für eine spätere Anbindung: Nach der Double-Opt-in-Bestätigung sollte auf `/kayit-onaylandi/`
-(Download-Seite) weitergeleitet werden. `brevo/doi-tr.html` ist ein Entwurf für die Bestätigungs-Mail;
-die Platzhalter `{{lmp:name}}` usw. müssen vor der Verwendung durch die Angaben aus dem Impressum
-ersetzt werden, `{{ doubleoptin }}` ist Brevos Platzhalter für den Bestätigungslink.
+Ablauf: Eintragen → das Skript schickt `EMAIL`, das leere Spam-Schutzfeld `email_address_check` und `locale`
+per POST an `<brevoFormUrl>?isAjax=1` (wie Brevos eigenes Einbettungsskript, ohne Cookies) → bei
+`success: true` Weiterleitung auf `/tesekkurler/` → Brevo schickt die Bestätigungs-Mail → nach dem Klick
+leitet Brevo auf die im Formular eingestellte Seite weiter (`/kayit-onaylandi/`, Download).
+
+Liste, Bestätigungs-Mail, Weiterleitung nach der Bestätigung und Captcha (aus) werden in Brevo im Formular
+eingestellt, nicht hier. Brevo-Skripte, -Styles oder -Schriften werden nicht geladen; Brevo wird erst beim
+Absenden kontaktiert. Leeres `brevoFormUrl` = Demo-Modus.
+
+`brevo/doi-tr.html` ist ein Entwurf für die Bestätigungs-Mail; die Platzhalter `{{lmp:name}}` usw. müssen vor
+der Verwendung durch die Angaben aus dem Impressum ersetzt werden, `{{ doubleoptin }}` ist Brevos Platzhalter
+für den Bestätigungslink.

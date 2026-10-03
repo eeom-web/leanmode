@@ -197,8 +197,16 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 
 JS = r"""
 (function(){
-  /* Formular-Einstellungen: endpoint leer = Demo-Modus (es wird nichts gesendet). */
-  var CONFIG = { endpoint: '', successUrl: '/tesekkurler/', timeoutMs: 15000 };
+  /* Formular-Einstellungen.
+     brevoFormUrl: öffentliche Adresse des Brevo-Anmeldeformulars (action aus dem Brevo-Einbettungscode).
+     Das ist kein Geheimnis und kein API-Schlüssel. Leer = Demo-Modus, es wird nichts gesendet.
+     Double-Opt-in, Liste, Bestätigungs-Mail und die Weiterleitung nach der Bestätigung stellt Brevo im Formular ein. */
+  var CONFIG = {
+    brevoFormUrl: 'https://7c905345.sibforms.com/serve/MUIFADIq3Y7ilkUefu0VUgSDY6zbPkBfj1elhcMDMOW47P1yy0u4b310TIrfOyMpe89fyMLw3rLnEwhF2hQJAGQs0x4USC_ByNsT-UM0mH4jdE_S96lJ4Dr3tAYm7mgz82PEsY4OzdXCtgqY7hORkFuVqZ_hq_6XiqOk-wvvGNgIdBWDv8oxlcw62jvp1NFSy0tzL4FV3hZHzKfRMA==',
+    brevoLocale: 'de',
+    successUrl: '/tesekkurler/',
+    timeoutMs: 15000
+  };
   var TEXT = {
     empty: 'Lütfen e-posta adresini gir.',
     invalid: 'Lütfen geçerli bir e-posta adresi gir.',
@@ -229,19 +237,26 @@ JS = r"""
     if (!ok) return;
     form.hidden = true; ok.hidden = false; ok.focus({ preventScroll: true });
   }
+  /* Sends the address the same way Brevo's own embed script does: multipart POST to <form url>?isAjax=1,
+     answer is JSON with success: true/false. No cookies are sent along. */
   function send(payload){
-    if (!CONFIG.endpoint) {
-      console.info('[Lean Mode Pro] Demo-Modus: kein Endpoint gesetzt, es wurde nichts gesendet.', payload);
+    if (!CONFIG.brevoFormUrl) {
+      console.info('[Lean Mode Pro] Demo-Modus: kein Formular verbunden, es wurde nichts gesendet.', payload);
       return new Promise(function(r){ setTimeout(r, 600); });
     }
+    var body = new FormData();
+    body.append('EMAIL', payload.email);
+    body.append('email_address_check', '');
+    body.append('locale', CONFIG.brevoLocale);
     var ctrl = new AbortController();
     var t = setTimeout(function(){ ctrl.abort(); }, CONFIG.timeoutMs);
-    return fetch(CONFIG.endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload),
-      signal: ctrl.signal
-    }).then(function(res){ clearTimeout(t); if (!res.ok) throw new Error('HTTP ' + res.status); });
+    return fetch(CONFIG.brevoFormUrl + '?isAjax=1', { method: 'POST', body: body, credentials: 'omit', signal: ctrl.signal })
+      .then(function(res){
+        clearTimeout(t);
+        return res.json().catch(function(){ return {}; }).then(function(data){
+          if (!res.ok || !data.success) throw new Error('Brevo ' + res.status + ' ' + JSON.stringify(data.errors || data.message || ''));
+        });
+      }, function(err){ clearTimeout(t); throw err; });
   }
   function init(){
     var header = document.querySelector('.lmp-header');
