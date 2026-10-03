@@ -17,11 +17,12 @@ are imported. Optional blocks:
 Other facts the texts rely on:
 - Hosting: Hostinger International Ltd. (Cyprus), server in Frankfurt (de-fra-web1812.main-hosting.eu).
 - Font Instrument Sans is served from the site itself (Elementor local Google Fonts).
-- The signup form asks only for the email address. Emails via Brevo (Sendinblue SAS, Paris) with double
-  opt-in, without open/click tracking (to be configured that way when Brevo is connected).
+- The signup form asks only for the email address. It posts to a Brevo signup form (Sendinblue SAS, Paris)
+  with double opt-in. Brevo measures opens and clicks of the emails (tracking pixel, redirected links).
 """
 
-UPDATED = "25 Eylül 2026"
+UPDATED = "25 Eylül 2026"        # cookie policy
+PRIVACY_UPDATED = "3 Ekim 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Almanya</p>"
@@ -34,8 +35,8 @@ META = "Meta Platforms Ireland Limited, Merrion Road, Dublin 4, D04 X2K5, İrlan
 CONSENT_BASIS = "Hukuki dayanak onayındır (GDPR md. 6/1-a, TDDDG § 25/1)."
 
 
-def _updated():
-    return f'<p class="lmp-updated">Son güncelleme: {UPDATED}</p>'
+def _updated(date=UPDATED):
+    return f'<p class="lmp-updated">Son güncelleme: {date}</p>'
 
 
 def _if(flag, html):
@@ -85,8 +86,9 @@ def privacy_html():
         _if("tracking", "<li>Çerezleri, Google Analytics'i ve Google ile Meta'nın (Facebook, Instagram) reklam "
                         "araçlarını yalnızca onay verirsen kullanıyoruz. Onayını istediğin zaman sayfanın "
                         "altındaki <strong>Çerez ayarları</strong> bağlantısından geri alabilirsin.</li>"),
-        "<li>Kayıt olursan e-posta adresini, planı ve e-postalarımızı gönderebilmek için e-posta hizmeti Brevo ile "
-        "işliyoruz. Onayını istediğin zaman geri alabilirsin.</li>",
+        "<li>Kayıt olursan e-posta adresini, planı ve e-postalarımızı gönderebilmek ve e-postalarımızın açılıp "
+        "tıklanmasını ölçebilmek için e-posta hizmeti Brevo ile işliyoruz. Onayını istediğin zaman geri "
+        "alabilirsin.</li>",
         "<li>Verilerini satmıyoruz.</li></ul>",
 
         "<h2>Veri sorumlusu</h2>",
@@ -185,9 +187,17 @@ def privacy_html():
         "<h3>E-posta hizmeti: Brevo</h3>",
         "<p>E-postaları Brevo ile gönderiyoruz. Hizmet sağlayıcı: Sendinblue SAS (Brevo), 17 rue Salneuve, "
         "75017 Paris, Fransa. E-posta adresin ve kayıtla ilgili bilgiler Brevo'da saklanır; Brevo bu verileri "
-        "veri işleyen olarak bizim adımıza işler. E-postalarımızın açılıp açılmadığını veya içindeki "
-        "bağlantılara tıklanıp tıklanmadığını ölçmüyoruz. Brevo'nun gizlilik politikası: "
+        "veri işleyen olarak bizim adımıza işler. Brevo'nun gizlilik politikası: "
         f"{_link('https://www.brevo.com/legal/privacypolicy/', 'brevo.com/legal/privacypolicy')}</p>",
+        "<h3>Açılma ve tıklama ölçümü</h3>",
+        "<p>E-postalarımızın ne kadar ilgi gördüğünü anlamak ve içeriklerimizi iyileştirmek için Brevo ile bir "
+        "e-postanın açılıp açılmadığını ve içindeki hangi bağlantılara tıklandığını ölçeriz. Bunun için "
+        "e-postalarda küçük, görünmez bir görsel (izleme pikseli) ve Brevo üzerinden yönlendirilen bağlantılar "
+        "kullanılır. Bu sırada açılma ve tıklama zamanı, IP adresi ile kullanılan e-posta programı ve cihaz "
+        "hakkında teknik bilgiler kaydedilir ve e-posta adresinle ilişkilendirilir.</p>",
+        "<p>Hukuki dayanak, e-postalarımızı almak için verdiğin onaydır (GDPR md. 6/1-a). Ölçüme ayrıca itiraz "
+        "etmek teknik olarak mümkün değildir; ölçümü istemiyorsan abonelikten çıkman gerekir. Abonelikten "
+        "çıktığında ölçüm de sona erer.</p>",
         "<h3>Abonelikten çıkma ve saklama süresi</h3>",
         "<p>Onayını istediğin zaman geri alabilirsin: her e-postanın sonundaki abonelikten çıkma bağlantısıyla "
         "veya bize yazarak. Geri alma, o ana kadar yapılan işlemenin hukuka uygunluğunu etkilemez. E-posta "
@@ -232,7 +242,7 @@ def privacy_html():
         "<h2>Değişiklikler</h2>",
         "<p>Siteyi veya kullandığımız hizmetleri değiştirirsek bu gizlilik politikasını güncelleriz. Her zaman bu "
         "sayfadaki güncel sürüm geçerlidir.</p>",
-        _updated(),
+        _updated(PRIVACY_UPDATED),
     ])
 
 

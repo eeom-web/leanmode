@@ -36,8 +36,8 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   keine externen Verbindungen für Besucher. Dafür ist „Hostinger Reach“ deaktiviert und das
   Must-use-Plugin `wordpress/mu-plugins/lmp-privacy.php` schaltet das WordPress-Emoji-Skript ab.
   Wer neue Plugins, Einbettungen, Statistik-Tools oder Ähnliches einbaut, muss die Texte anpassen.
-- Brevo muss mit Double-Opt-in und **ohne** Öffnungs- und Klick-Tracking eingerichtet werden, so steht es
-  in der Datenschutzerklärung.
+- Brevo läuft mit Double-Opt-in; die Datenschutzerklärung beschreibt die Messung von Öffnungen und
+  Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
 - **Tracking-Schalter** (`lmp_operator['tracking']`): leer = Stand ohne Cookies; gesetzt = Texte für
   Cookie-Banner, Google Analytics 4, Google Ads und Meta Pixel (Abschnitte `<!--lmp:tracking-->`, die
   Gegenstücke stehen in `<!--lmp:!tracking-->`). Erst einschalten, wenn alles live ist:
