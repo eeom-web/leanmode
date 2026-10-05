@@ -13,8 +13,9 @@ plus `google` (= ga or gads) name the tools that are actually installed:
 - empty: no cookies, no browser storage, no external requests for visitors (state checked on 24.09.2026:
   Hostinger Reach deactivated, WordPress emoji script switched off via mu-plugin lmp-privacy.php).
 - set:   cookie banner (consent before any non-essential tag loads; consent cookie `lmp_consent`, 12 months),
-  link "Çerez ayarları" in the footer. Since 05.10.2026: Meta Pixel only (meta = 1).
-  Google Analytics 4 (retention 14 months) and Google Ads need Consent Mode v2 "basic" when added.
+  link "Çerez ayarları" in the footer. Meta Pixel was live with a banner on 05.10.2026 only and was removed
+  the same day (flags off again). Google Analytics 4 (retention 14 months) and Google Ads would need
+  Consent Mode v2 "basic". The banner code is in Git history (commit 6eeceec).
 
 Other facts the texts rely on:
 - Hosting: Hostinger International Ltd. (Cyprus), server in Frankfurt (de-fra-web1812.main-hosting.eu).

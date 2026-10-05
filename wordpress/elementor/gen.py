@@ -337,7 +337,7 @@ def footer(prefix, legal, compact=False):
 
 
 LEGAL = [("Gizlilik Politikası", "/gizlilik-politikasi/"), ("Çerez Politikası", "/cerez-politikasi/"),
-         ("Yasal Bilgiler", "/yasal-bilgiler/"), ("Çerez ayarları", "#cerez-ayarlari")]
+         ("Yasal Bilgiler", "/yasal-bilgiler/")]
 
 
 # ---------------------------------------------------------------- landing page

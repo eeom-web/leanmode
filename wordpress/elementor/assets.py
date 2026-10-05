@@ -131,17 +131,6 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-milestone::before{top:12px;left:-36px}
 }
 
-/* Cookie banner (consent before the Meta Pixel loads) */
-.lmp-consent{position:fixed;z-index:60;left:16px;right:16px;bottom:16px;max-width:520px;margin:0 auto;padding:20px 22px;border:1px solid #E3E2DB;border-radius:20px;background:#fff;box-shadow:0 2px 6px rgba(16,22,20,.05),0 24px 60px -24px rgba(16,22,20,.35);color:#414B46;font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.55}
-@media (min-width:768px){.lmp-consent{left:24px;right:auto;bottom:24px;margin:0}}
-.lmp-consent__title{margin:0 0 6px;color:#101614;font-size:16px;font-weight:600;line-height:1.3}
-.lmp-consent__text{margin:0 0 16px}
-.lmp-consent__text a{color:#1D5A48;text-decoration:underline;text-underline-offset:2px}
-.lmp-consent__actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.lmp-consent__btn{appearance:none;margin:0;padding:12px 16px;border:1px solid #1D5A48;border-radius:999px;background:#1D5A48;color:#fff;font:inherit;font-size:15px;font-weight:600;line-height:1.2;cursor:pointer;transition:background-color .2s ease}
-.lmp-consent__btn:hover{background:#164A3B}
-.lmp-consent__btn:focus-visible{outline:2px solid #1D5A48;outline-offset:3px}
-
 /* Signup form */
 .lmp-signup{container-type:inline-size;width:100%}
 .lmp-signup__form{display:grid;gap:10px;margin:0}
@@ -269,86 +258,20 @@ JS = r"""
         });
       }, function(err){ clearTimeout(t); throw err; });
   }
-  /* Cookie banner + Meta Pixel. The pixel loads only after "Kabul et"; the choice is kept in the
-     necessary cookie lmp_consent (12 months). "Çerez ayarları" in the footer (#cerez-ayarlari) reopens it. */
-  var PIXEL_ID = '2362284981222890';
-  var CONSENT = {
-    cookie: 'lmp_consent', maxAge: 31536000,
-    title: 'Çerez tercihin',
-    text: 'Onay verirsen, reklamlarımızın etkisini ölçmek ve Facebook ile Instagram\'da sana uygun reklamlar gösterebilmek için Meta Pixel\'i kullanırız. Bunun için çerezler kullanılır ve veriler Meta\'ya (ABD dahil) aktarılır. Onay vermesen de site eksiksiz çalışır. Seçimini istediğin zaman sayfanın altındaki “Çerez ayarları” bağlantısından değiştirebilirsin.',
-    links: '<a href="/cerez-politikasi/">Çerez Politikası</a> · <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>',
-    deny: 'Reddet', accept: 'Kabul et'
-  };
-  function getConsent(){
-    var m = document.cookie.match(/(?:^|; )lmp_consent=(granted|denied)/);
-    return m ? m[1] : null;
-  }
-  function setConsent(value){
-    document.cookie = CONSENT.cookie + '=' + value + '; Max-Age=' + CONSENT.maxAge + '; Path=/; SameSite=Lax' +
-      (location.protocol === 'https:' ? '; Secure' : '');
-  }
-  function loadPixel(){
-    if (!PIXEL_ID || window.fbq) return;
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;
-    n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    window.fbq('init', PIXEL_ID);
-    window.fbq('track', 'PageView');
-  }
-  function clearMetaCookies(){
+  /* The Meta Pixel and its cookie banner were removed on 05.10.2026. Delete the cookies they may have left
+     in browsers of visitors who had accepted (first-party cookies of this domain only). */
+  function clearOldTrackingCookies(){
+    if (!/(?:^|; )(lmp_consent|_fbp|_fbc)=/.test(document.cookie)) return;
     var host = location.hostname.replace(/^www\./, '');
-    ['_fbp', '_fbc'].forEach(function(name){
+    ['lmp_consent', '_fbp', '_fbc'].forEach(function(name){
       ['', '; Domain=' + host, '; Domain=.' + host].forEach(function(domain){
         document.cookie = name + '=; Max-Age=0; Path=/' + domain;
       });
     });
   }
-  function closeBanner(){
-    var el = document.getElementById('lmp-consent');
-    if (el) el.parentNode.removeChild(el);
-  }
-  function decide(value){
-    setConsent(value);
-    closeBanner();
-    if (value === 'granted') { loadPixel(); return; }
-    if (window.fbq) window.fbq('consent', 'revoke');
-    clearMetaCookies();
-  }
-  function showBanner(){
-    if (document.getElementById('lmp-consent')) return;
-    var el = document.createElement('div');
-    el.id = 'lmp-consent';
-    el.className = 'lmp-consent';
-    el.setAttribute('role', 'dialog');
-    el.setAttribute('aria-labelledby', 'lmp-consent-title');
-    el.innerHTML = '<p class="lmp-consent__title" id="lmp-consent-title">' + CONSENT.title + '</p>' +
-      '<p class="lmp-consent__text">' + CONSENT.text + ' ' + CONSENT.links + '</p>' +
-      '<div class="lmp-consent__actions">' +
-      '<button type="button" class="lmp-consent__btn" data-consent="denied">' + CONSENT.deny + '</button>' +
-      '<button type="button" class="lmp-consent__btn" data-consent="granted">' + CONSENT.accept + '</button></div>';
-    el.addEventListener('click', function(e){
-      var btn = e.target.closest('[data-consent]');
-      if (btn) decide(btn.getAttribute('data-consent'));
-    });
-    document.body.appendChild(el);
-  }
-  function initConsent(){
-    var choice = getConsent();
-    if (choice === 'granted') loadPixel();
-    else if (!choice) showBanner();
-    document.addEventListener('click', function(e){
-      var link = e.target.closest && e.target.closest('a[href$="#cerez-ayarlari"]');
-      if (!link) return;
-      e.preventDefault();
-      showBanner();
-      var first = document.querySelector('#lmp-consent [data-consent]');
-      if (first) first.focus({ preventScroll: true });
-    });
-  }
 
   function init(){
-    initConsent();
+    clearOldTrackingCookies();
     var header = document.querySelector('.lmp-header');
     if (header) {
       var upd = function(){ header.classList.toggle('is-scrolled', window.scrollY > 8); };
