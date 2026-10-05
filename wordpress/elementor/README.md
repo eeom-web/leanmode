@@ -38,11 +38,13 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   Wer neue Plugins, Einbettungen, Statistik-Tools oder Ähnliches einbaut, muss die Texte anpassen.
 - Brevo läuft mit Double-Opt-in; die Datenschutzerklärung beschreibt die Messung von Öffnungen und
   Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
-- **Tracking-Schalter** (`lmp_operator['tracking']`): leer = Stand ohne Cookies; gesetzt = Texte für
-  Cookie-Banner, Google Analytics 4, Google Ads und Meta Pixel (Abschnitte `<!--lmp:tracking-->`, die
-  Gegenstücke stehen in `<!--lmp:!tracking-->`). Erst einschalten, wenn alles live ist:
-  Cookie-Banner (Consent Mode v2 „basic“: Google- und Meta-Tags laden erst nach Einwilligung),
-  Link „Çerez ayarları“ im Footer, Aufbewahrung in GA4 auf 14 Monate. Danach die drei Rechtsseiten neu importieren.
+- **Tracking-Schalter** in `lmp_operator`: `tracking` (Cookie-Banner aktiv) und je Werkzeug `meta`, `ga`,
+  `gads`, `google` (= ga oder gads). Nur gesetzte Werkzeuge erscheinen in Datenschutz- und Cookie-Seite.
+  Stand 05.10.2026: `tracking` und `meta` gesetzt (Meta Pixel 2362284981222890).
+- **Cookie-Banner** im gemeinsamen Assets-Skript: Der Meta Pixel lädt erst nach „Kabul et“, die Wahl steht
+  im notwendigen Cookie `lmp_consent` (12 Monate). Footer-Link „Çerez ayarları“ (`#cerez-ayarlari`) öffnet
+  den Banner erneut; beim Widerruf werden `_fbp`/`_fbc` gelöscht. Kein `<noscript>`-Pixel (der würde ohne
+  Einwilligung senden). Weitere Werkzeuge (Google) müssen ebenfalls über diesen Banner laufen.
 
 ## Wichtig
 

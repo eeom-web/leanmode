@@ -2,17 +2,19 @@
 
 The operator's personal data is NOT stored in this repository. The texts contain placeholders such as
 {{lmp:name}}; they are filled in on the WordPress server from the option `lmp_operator` when the pages
-are imported. Optional blocks:
+are imported. Optional blocks (they may be nested; the filler repeats until none is left):
 
-- <!--lmp:X--> … <!--/lmp:X-->   is kept only when the option field X is set (vat, phone, authority, tracking)
+- <!--lmp:X--> … <!--/lmp:X-->   is kept only when the option field X is set
+  (vat, phone, authority, tracking, meta, ga, gads, google)
 - <!--lmp:!X--> … <!--/lmp:!X--> is kept only when X is empty
 
-`tracking` switches between two states of the site:
+`tracking` switches between two states of the site, and `meta`, `ga`, `gads` (Google Analytics, Google Ads)
+plus `google` (= ga or gads) name the tools that are actually installed:
 - empty: no cookies, no browser storage, no external requests for visitors (state checked on 24.09.2026:
   Hostinger Reach deactivated, WordPress emoji script switched off via mu-plugin lmp-privacy.php).
-- set:   cookie banner (consent before any non-essential tag loads, Google Consent Mode v2 "basic"),
-  Google Analytics 4 (data retention 14 months), Google Ads conversion tracking and remarketing, Meta Pixel.
-  Only switch it on when these are live, and keep the "Çerez ayarları" link in the footer.
+- set:   cookie banner (consent before any non-essential tag loads; consent cookie `lmp_consent`, 12 months),
+  link "Çerez ayarları" in the footer. Since 05.10.2026: Meta Pixel only (meta = 1).
+  Google Analytics 4 (retention 14 months) and Google Ads need Consent Mode v2 "basic" when added.
 
 Other facts the texts rely on:
 - Hosting: Hostinger International Ltd. (Cyprus), server in Frankfurt (de-fra-web1812.main-hosting.eu).
@@ -21,8 +23,8 @@ Other facts the texts rely on:
   with double opt-in. Brevo measures opens and clicks of the emails (tracking pixel, redirected links).
 """
 
-UPDATED = "25 Eylül 2026"        # cookie policy
-PRIVACY_UPDATED = "3 Ekim 2026"
+UPDATED = "5 Ekim 2026"          # cookie policy
+PRIVACY_UPDATED = "5 Ekim 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Almanya</p>"
@@ -83,9 +85,9 @@ def privacy_html():
         "<li>Siteyi ziyaret ettiğinde sunucu, sayfayı gösterebilmek için teknik erişim verilerini kısa süreliğine "
         "kaydeder.</li>",
         _if("!tracking", "<li>Ziyaretçiler için çerez, analiz, takip veya reklam aracı kullanmıyoruz.</li>"),
-        _if("tracking", "<li>Çerezleri, Google Analytics'i ve Google ile Meta'nın (Facebook, Instagram) reklam "
-                        "araçlarını yalnızca onay verirsen kullanıyoruz. Onayını istediğin zaman sayfanın "
-                        "altındaki <strong>Çerez ayarları</strong> bağlantısından geri alabilirsin.</li>"),
+        _if("tracking", "<li>Reklam ve analiz araçlarını ve bunların çerezlerini yalnızca onay verirsen "
+                        "kullanıyoruz. Onayını istediğin zaman sayfanın altındaki <strong>Çerez ayarları</strong> "
+                        "bağlantısından geri alabilirsin.</li>"),
         "<li>Kayıt olursan e-posta adresini, planı ve e-postalarımızı gönderebilmek ve e-postalarımızın açılıp "
         "tıklanmasını ölçebilmek için e-posta hizmeti Brevo ile işliyoruz. Onayını istediğin zaman geri "
         "alabilirsin.</li>",
@@ -118,7 +120,7 @@ def privacy_html():
             'Ayrıntılar için <a href="/cerez-politikasi/">Çerez Politikası</a>\'na bakabilirsin.</p>'),
         _if("tracking",
             "<h2>Çerezler ve onay yönetimi</h2>"
-            "<p>Siteyi ilk kez ziyaret ettiğinde bir çerez penceresi gösteririz. İstatistik ve pazarlama amaçlı "
+            "<p>Siteyi ilk kez ziyaret ettiğinde bir çerez penceresi gösteririz. Analiz ve reklam amaçlı "
             "çerezler ve benzeri teknolojiler ancak onay verirsen yüklenir. Onay vermesen de site eksiksiz "
             "çalışır.</p>"
             "<p>Seçimini hatırlamak için tarayıcında zorunlu bir çerez saklanır. Bu çerez için onay gerekmez "
@@ -133,7 +135,7 @@ def privacy_html():
         "<p>Sitede kullanılan yazı tipi (Instrument Sans) kendi sunucumuzdan yüklenir. Bu sırada Google'a veya başka "
         "bir yazı tipi sağlayıcısına bağlantı kurulmaz.</p>",
 
-        _if("tracking",
+        _if("ga",
             "<h2>Google Analytics</h2>"
             "<p>Onay verirsen, sitenin nasıl kullanıldığını anlamak ve geliştirmek için Google Analytics 4 "
             f"kullanırız. Sağlayıcı: {GOOGLE}.</p>"
@@ -143,8 +145,8 @@ def privacy_html():
             "saklanmaz. Biz bu bilgileri yalnızca istatistik olarak görürüz; kim olduğunu göremeyiz.</p>"
             f"<p>{CONSENT_BASIS} Veriler ABD'ye de aktarılabilir (bkz. <em>Verilerin aktarılması</em>). Analytics "
             "verilerini en fazla 14 ay saklarız. Google'ın gizlilik politikası: "
-            f"{_link('https://policies.google.com/privacy', 'policies.google.com/privacy')}</p>"
-
+            f"{_link('https://policies.google.com/privacy', 'policies.google.com/privacy')}</p>"),
+        _if("gads",
             "<h2>Google Ads</h2>"
             "<p>Google'da reklam veriyoruz. Onay verirsen, reklamlarımızın işe yarayıp yaramadığını ölçmek "
             "(dönüşüm izleme) ve siteyi ziyaret etmiş kişilere Google'da ve iş ortağı sitelerde yeniden reklam "
@@ -154,8 +156,8 @@ def privacy_html():
             "istatistikler görürüz. Google hesabında oturum açıksa, Google bu bilgileri hesabınla "
             "ilişkilendirebilir.</p>"
             f"<p>{CONSENT_BASIS} Veriler ABD'ye de aktarılabilir. Google'daki kişiselleştirilmiş reklamları "
-            f"{_link('https://myadcenter.google.com/', 'Reklam Merkezim')} sayfasından da yönetebilirsin.</p>"
-
+            f"{_link('https://myadcenter.google.com/', 'Reklam Merkezim')} sayfasından da yönetebilirsin.</p>"),
+        _if("meta",
             "<h2>Meta Pixel (Facebook ve Instagram)</h2>"
             "<p>Facebook ve Instagram'da reklam veriyoruz. Onay verirsen sitemizde Meta Pixel'i kullanırız. "
             f"Sağlayıcı: {META}.</p>"
@@ -216,13 +218,15 @@ def privacy_html():
         "<h2>Verilerin aktarılması</h2>",
         "<p>Verilerini satmıyoruz. Yasal bir zorunluluk olmadıkça veriler yalnızca bu politikada adı geçen hizmet "
         "sağlayıcılara aktarılır. Hostinger ve Brevo, Avrupa Birliği'nde kurulu şirketlerdir.</p>",
+        _if("google", "<p>Google, verileri ABD'deki ana şirketi Google LLC'ye de aktarabilir. Google LLC, AB-ABD "
+                      "Veri Gizliliği Çerçevesi (EU-U.S. Data Privacy Framework) kapsamında sertifikalıdır.</p>"),
+        _if("meta", "<p>Meta, verileri ABD'deki ana şirketi Meta Platforms, Inc.'e de aktarabilir. Meta Platforms, "
+                    "Inc., AB-ABD Veri Gizliliği Çerçevesi (EU-U.S. Data Privacy Framework) kapsamında "
+                    "sertifikalıdır.</p>"),
         _if("tracking",
-            "<p>Google ve Meta, verileri ABD'deki ana şirketlerine (Google LLC, Meta Platforms, Inc.) de "
-            "aktarabilir. Her iki şirket de AB-ABD Veri Gizliliği Çerçevesi (EU-U.S. Data Privacy Framework) "
-            "kapsamında sertifikalıdır. AB Komisyonu bu çerçeve için bir yeterlilik kararı almıştır "
-            "(GDPR md. 45).</p>"
-            "<p>GDPR md. 22 anlamında otomatik karar verme yapmıyoruz. Onay verirsen Google ve Meta, reklamları "
-            "ilgi alanlarına göre göstermek için verileri kullanabilir.</p>"),
+            "<p>AB Komisyonu bu çerçeve için bir yeterlilik kararı almıştır (GDPR md. 45).</p>"
+            "<p>GDPR md. 22 anlamında otomatik karar verme yapmıyoruz. Onay verirsen reklam ortaklarımız, "
+            "reklamları ilgi alanlarına göre göstermek için verileri kullanabilir.</p>"),
         _if("!tracking", "<p>Otomatik karar verme veya profil oluşturma yapmıyoruz.</p>"),
 
         "<h2>Hakların</h2>",
@@ -247,19 +251,19 @@ def privacy_html():
 
 
 COOKIE_TABLE = [
-    # (name, provider and purpose, lifetime)
-    ("Onay çerezi", "LEAN MODE PRO: çerez seçimini hatırlar (zorunlu).", "12 ay"),
-    ("_ga", "Google Analytics: ziyaretçileri birbirinden ayırt eder (istatistik).", "2 yıl"),
-    ("_ga_&lt;kimlik&gt;", "Google Analytics: oturum durumunu saklar (istatistik).", "2 yıl"),
-    ("_gcl_au", "Google Ads: reklamlardan sonraki dönüşümleri ölçer (pazarlama).", "3 ay"),
-    ("_fbp", "Meta Pixel: ziyaretçileri tanır, reklam ölçümü ve yeniden pazarlama (pazarlama).", "3 ay"),
-    ("_fbc", "Meta Pixel: bir Facebook veya Instagram reklamına tıklandığını saklar (pazarlama).", "3 ay"),
+    # (name, provider and purpose, lifetime, flag)
+    ("lmp_consent", "LEAN MODE PRO: çerez seçimini hatırlar (zorunlu).", "12 ay", None),
+    ("_ga", "Google Analytics: ziyaretçileri birbirinden ayırt eder (istatistik).", "2 yıl", "ga"),
+    ("_ga_&lt;kimlik&gt;", "Google Analytics: oturum durumunu saklar (istatistik).", "2 yıl", "ga"),
+    ("_gcl_au", "Google Ads: reklamlardan sonraki dönüşümleri ölçer (pazarlama).", "3 ay", "gads"),
+    ("_fbp", "Meta Pixel: ziyaretçileri tanır, reklam ölçümü ve yeniden pazarlama (pazarlama).", "3 ay", "meta"),
+    ("_fbc", "Meta Pixel: bir Facebook veya Instagram reklamına tıklandığını saklar (pazarlama).", "3 ay", "meta"),
 ]
 
 
 def cookies_html():
-    rows = "".join(f"<tr><td><code>{n}</code></td><td>{p}</td><td>{d}</td></tr>" if n.startswith("_")
-                   else f"<tr><td>{n}</td><td>{p}</td><td>{d}</td></tr>" for n, p, d in COOKIE_TABLE)
+    row = "<tr><td><code>{}</code></td><td>{}</td><td>{}</td></tr>"
+    rows = "".join(_if(flag, row.format(n, p, d)) if flag else row.format(n, p, d) for n, p, d, flag in COOKIE_TABLE)
     return "".join([
         "<p>Bu sayfa, leanmodepro.com'un çerezleri ve benzeri teknolojileri nasıl kullandığını açıklar.</p>",
         "<h2>Çerez nedir?</h2>",
@@ -274,17 +278,20 @@ def cookies_html():
         _if("tracking",
             "<h2>Onayın ve seçimlerin</h2>"
             "<p>Siteyi ilk kez ziyaret ettiğinde bir çerez penceresi gösteririz. Yalnızca zorunlu çerez hemen "
-            "kaydedilir; istatistik ve pazarlama çerezleri ancak onay verirsen yüklenir. Onay vermesen de site "
+            "kaydedilir; analiz ve reklam çerezleri ancak onay verirsen yüklenir. Onay vermesen de site "
             "eksiksiz çalışır. Seçimini istediğin zaman sayfanın altındaki <strong>Çerez ayarları</strong> "
             "bağlantısından değiştirebilir veya geri alabilirsin.</p>"
             "<h2>Kullandığımız çerezler</h2>"
-            "<p><strong>Zorunlu:</strong> Onay seçimini hatırlamak için gereklidir (TDDDG § 25/2 no. 2).<br>"
-            "<strong>İstatistik:</strong> Google Analytics. Sitenin nasıl kullanıldığını anlamamıza yardımcı olur.<br>"
-            "<strong>Pazarlama:</strong> Google Ads ve Meta Pixel (Facebook, Instagram). Reklamlarımızın etkisini "
-            "ölçer ve ilgini çekebilecek reklamlar gösterir.</p>"
+            "<p><strong>Zorunlu:</strong> Onay seçimini hatırlamak için gereklidir (TDDDG § 25/2 no. 2)."
+            "<!--lmp:ga--><br><strong>İstatistik:</strong> Google Analytics. Sitenin nasıl kullanıldığını "
+            "anlamamıza yardımcı olur.<!--/lmp:ga-->"
+            "<!--lmp:gads--><br><strong>Pazarlama:</strong> Google Ads. Reklamlarımızın etkisini ölçer ve ilgini "
+            "çekebilecek reklamlar gösterir.<!--/lmp:gads-->"
+            "<!--lmp:meta--><br><strong>Pazarlama:</strong> Meta Pixel (Facebook, Instagram). Reklamlarımızın "
+            "etkisini ölçer ve ilgini çekebilecek reklamlar gösterir.<!--/lmp:meta--></p>"
             f"<table><thead><tr><th>Çerez</th><th>Sağlayıcı ve amaç</th><th>Süre</th></tr></thead>"
             f"<tbody>{rows}</tbody></table>"
-            "<p>Google ve Meta kendi alan adlarında da çerezler kullanabilir. Ayrıntılar ve hukuki dayanaklar "
+            "<p>Reklam ortaklarımız kendi alan adlarında da çerezler kullanabilir. Ayrıntılar ve hukuki dayanaklar "
             'için <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>\'na bakabilirsin.</p>'
             "<h2>Tarayıcı ayarları</h2>"
             "<p>Çerezleri tarayıcının ayarlarından da silebilir veya engelleyebilirsin. Onay çerezini silersen çerez "
@@ -319,7 +326,12 @@ def fill(html, operator):
         keep = bool(str(operator.get(key, "")).strip()) != bool(neg)
         return body if keep else ""
 
-    html = re.sub(r"<!--lmp:(!?)([a-z]+)-->(.*?)<!--/lmp:\1\2-->", block, html, flags=re.S)
+    pattern = re.compile(r"<!--lmp:(!?)([a-z]+)-->(.*?)<!--/lmp:\1\2-->", re.S)
+    while True:                                   # blocks can be nested (e.g. a table row inside `tracking`)
+        new = pattern.sub(block, html)
+        if new == html:
+            break
+        html = new
     for key, val in operator.items():
         html = html.replace("{{lmp:" + key + "}}", escape(str(val)))
     return html
