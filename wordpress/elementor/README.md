@@ -40,9 +40,11 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
 - **Tracking-Schalter** in `lmp_operator`: `tracking` (Cookie-Banner aktiv) und je Werkzeug `meta`, `ga`,
   `gads`, `google` (= ga oder gads). Nur gesetzte Werkzeuge erscheinen in Datenschutz- und Cookie-Seite.
-  Stand 05.10.2026: alle leer, die Seite nutzt keine Cookies und kein Tracking. Der Meta Pixel mit
-  Cookie-Banner war kurz live und ist wieder entfernt (Code in Commit 6eeceec). Ein kleines Skript löscht
-  bei früheren Besuchern noch die Cookies `lmp_consent`, `_fbp` und `_fbc`.
+  Stand 06.10.2026: `tracking` und `meta` gesetzt (Meta Pixel 2362284981222890).
+- **Cookie-Banner** im gemeinsamen Assets-Skript: Der Meta Pixel lädt erst nach „Kabul et“, die Wahl steht
+  im notwendigen Cookie `lmp_consent` (12 Monate). Footer-Link „Çerez ayarları“ (`#cerez-ayarlari`) öffnet
+  den Banner erneut; beim Widerruf werden `_fbp`/`_fbc` gelöscht. Kein `<noscript>`-Pixel (der würde ohne
+  Einwilligung senden). Weitere Werkzeuge (Google) müssen ebenfalls über diesen Banner laufen.
 
 ## Wichtig
 
