@@ -36,6 +36,13 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   keine externen Verbindungen für Besucher. Dafür ist „Hostinger Reach“ deaktiviert und das
   Must-use-Plugin `wordpress/mu-plugins/lmp-privacy.php` schaltet das WordPress-Emoji-Skript ab.
   Wer neue Plugins, Einbettungen, Statistik-Tools oder Ähnliches einbaut, muss die Texte anpassen.
+- Die Datenschutzerklärung (Stand 11.10.2026) folgt im Aufbau der e-recht24-Vorlage (übersetzt und an die Seite
+  angepasst, Quellenhinweis am Ende): 1. Überblick, 2. Hosting (Hostinger International Ltd. laut AVV,
+  Domain-Registrar HOSTINGER operations, UAB), 3. Pflichtinformationen und Rechte, 4. Datenerfassung (Cookies,
+  Banner, Server-Logs, E-Mail-Kontakt), 5. Social Media (keine Plugins, Facebook-/Instagram-Seite mit
+  gemeinsamer Verantwortung für Insights), 6. Analyse und Werbung (Meta Pixel), 7. Newsletter mit
+  Double-Opt-in über Brevo, 8. Änderungen. WP Statistics und Shariff aus der Vorlage fehlen bewusst, weil sie
+  nicht installiert sind.
 - Brevo läuft mit Double-Opt-in; die Datenschutzerklärung beschreibt die Messung von Öffnungen und
   Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
 - **Tracking-Schalter** in `lmp_operator`: `tracking` (Cookie-Banner aktiv) und je Werkzeug `meta`, `ga`,
