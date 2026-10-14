@@ -8,6 +8,7 @@
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
+| `brand/ebook-cover-{360,540,720}.webp` | E-Book-Cover für die Website (Canva-Vorlage des Betreibers, schwarzer Rand entfernt, auf 2:3 zugeschnitten), Mediathek „Lean Mode Pro – E-Kitap Kapağı“ |
 | `brevo/doi-tr.html` | Entwurf einer Bestätigungs-Mail (Double-Opt-in, Türkisch), nicht verbunden |
 
 Die Must-use-Plugins liegen auf dem Server in `wp-content/mu-plugins/`.
