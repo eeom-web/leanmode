@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Lean Mode Pro – Seite geschlossen
- * Description: Schließt die Website für Besucher (HTTP 503, kein Formular, kein Pixel). Erreichbar bleiben die
- *              Rechtsseiten (Impressum-Pflicht für Facebook/Instagram, Links in den E-Mails) und die Download-Seite
- *              für bereits angemeldete Leser. Eingeloggte Administratoren sehen die Seite normal.
+ * Description: Schließt die Website für Besucher (HTTP 503, kein Formular). Erreichbar bleiben die Rechtsseiten
+ *              (Impressum-Pflicht für Social-Media-Profile, Links in den E-Mails) und die Download-Seite für bereits
+ *              angemeldete Leser. Eingeloggte Administratoren sehen die Seite normal.
  *              Zum Wiedereröffnen diese Datei aus wp-content/mu-plugins/ löschen.
  * Version:     1.0
  */
@@ -18,7 +18,7 @@ add_action(
 		if ( current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		$open = array( 'yasal-bilgiler', 'gizlilik-politikasi', 'kvkk-aydinlatma-metni', 'cerez-politikasi', 'kayit-onaylandi' );
+		$open = array( 'legal-notice', 'privacy-policy', 'disclaimer', 'welcome' );
 		if ( is_page( $open ) ) {
 			return;
 		}
@@ -30,7 +30,7 @@ add_action(
 		header( 'Content-Type: text/html; charset=utf-8' );
 		?>
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,14 +48,13 @@ nav a{color:#5D6762;margin:0 8px;text-decoration:underline;text-underline-offset
 </head>
 <body>
 <p class="logo">LEAN MODE <span>PRO</span></p>
-<h1>Site şu anda kapalı</h1>
-<p>Şu anda yeni kayıt almıyoruz.</p>
-<p>Daha önce kayıt olduysan, planına onay e-postandaki bağlantıdan ulaşabilirsin.</p>
+<h1>We&rsquo;ll be back soon</h1>
+<p>We&rsquo;re not taking new signups right now.</p>
+<p>Already signed up? You can still get your plan through the link in your confirmation email.</p>
 <nav>
-<a href="/yasal-bilgiler/">Yasal Bilgiler</a>
-<a href="/gizlilik-politikasi/">Gizlilik Politikası</a>
-<a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a>
-<a href="/cerez-politikasi/">Çerez Politikası</a>
+<a href="/legal-notice/">Legal Notice</a>
+<a href="/privacy-policy/">Privacy Policy</a>
+<a href="/disclaimer/">Disclaimer</a>
 </nav>
 </body>
 </html>
