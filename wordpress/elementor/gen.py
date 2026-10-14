@@ -368,7 +368,8 @@ def landing():
                                           ("E-posta ile teslim", "check", None)],
                       gap=24, _margin=dims(24, 0, 0, 0), hide_mobile="hidden-mobile"),
         ], width=54, width_m=57, flex_align_items="flex-start"),
-        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html())], width=42, width_m=39,
+        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html(
+            sizes="(max-width:767px) 33vw, (max-width:1024px) 300px, 360px", eager=True))], width=42, width_m=39,
             css_classes="lmp-hero-visual"),
     # Phones: title and cover side by side, everything else hidden, so the signup card below
     # (title, cover and email field) fits on the first screen without scrolling.
@@ -570,7 +571,8 @@ def landing():
                  _margin=dims(16, 0, 0, 0), _element_width="initial", _element_custom_width=px(580),
                  _element_custom_width_mobile=px(100, "%")),
         ], width=62, gap=18),
-        col(f"{p}-final-visual", [html(f"{p}-final-mockup", assets.mockup_html(small=True, daycard=False))],
+        col(f"{p}-final-visual", [html(f"{p}-final-mockup", assets.mockup_html(
+            small=True, daycard=False, sizes="(max-width:767px) 64vw, 260px"))],
             width=34, hide_mobile="hidden-mobile"),
     ], gap=48, padding=dims(72, 72, 72, 72), padding_tablet=dims(56, 40, 56, 40), padding_mobile=dims(32, 20, 32, 20),
         border_radius=dims(32), border_border="solid", border_width=dims(1), border_color="#D5E4DA",
@@ -675,7 +677,9 @@ def welcome_page():
             ("Her sabah günün sayfasını aç.", "Her gün tek bir sayfa, birkaç dakikada okunur."),
         ]),
     ], width=56, gap=16, flex_align_items="flex-start", css_classes="lmp-fit-copy")
-    visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html())], width=40, css_classes="lmp-fit-visual")
+    visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html(
+        sizes="(max-width:767px) 66vw, (max-width:1024px) 300px, 320px", eager=True))], width=40,
+        css_classes="lmp-fit-visual")
     return fit_page(p, copy, visual)
 
 

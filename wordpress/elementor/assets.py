@@ -76,7 +76,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .elementor:has(> .lmp-fit){display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 .admin-bar .elementor:has(> .lmp-fit){min-height:calc(100vh - 32px);min-height:calc(100dvh - 32px)}
 .elementor > .lmp-fit{flex-grow:1}
-.elementor .lmp-fit .lmp-mockup{--book-w:clamp(190px,calc((100vh - 300px) * .7),340px);padding:16px 16px 24px}
+.elementor .lmp-fit .lmp-mockup{--book-w:clamp(180px,calc((100vh - 300px) * .65),320px);padding:16px 16px 24px}
 }
 @media (min-width:1025px) and (max-width:1279px){
 .lmp-fit-copy{--width:64%!important}
@@ -183,21 +183,11 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-mockup--sm{--book-w:min(64vw,260px);padding:16px 8px 24px}
 @media (min-width:1025px){.lmp-mockup:not(.lmp-mockup--sm){--book-w:360px}}
 .lmp-mockup::before{content:"";position:absolute;inset:4% 0;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,#dce8e0 0%,rgba(220,232,224,.55) 55%,rgba(220,232,224,0) 100%)}
-.lmp-book{position:relative;width:var(--book-w);aspect-ratio:5/7;container-type:inline-size;filter:drop-shadow(0 30px 40px rgba(15,29,25,.22)) drop-shadow(0 6px 10px rgba(15,29,25,.12))}
+.lmp-book{position:relative;width:var(--book-w);aspect-ratio:2/3;container-type:inline-size;filter:drop-shadow(0 30px 40px rgba(15,29,25,.22)) drop-shadow(0 6px 10px rgba(15,29,25,.12))}
 .lmp-book__pages{position:absolute;inset:1.6% -3.2% 1.6% 4%;border-radius:3px 8px 8px 3px;background:linear-gradient(90deg,rgba(0,0,0,.08),transparent 30%),repeating-linear-gradient(90deg,#fbfaf6 0 1.5px,#e2e1d9 1.5px 2.5px)}
-.lmp-book__cover{position:absolute;inset:0;display:flex;flex-direction:column;padding:9cqi 9cqi 8cqi 11cqi;border-radius:4px 10px 10px 4px;overflow:hidden;background:radial-gradient(120% 70% at 85% 0%,rgba(255,255,255,.1),transparent 60%),linear-gradient(160deg,#24604d 0%,#174537 48%,#0f3027 100%);color:#f1f5f2;line-height:1.2}
-.lmp-book__cover::before{content:"";position:absolute;inset:0 auto 0 0;width:5cqi;background:linear-gradient(90deg,rgba(0,0,0,.32) 0%,rgba(255,255,255,.1) 55%,rgba(0,0,0,.12) 100%)}
-.lmp-book__cover::after{content:"";position:absolute;inset:4cqi 4cqi 4cqi 7cqi;border:1px solid rgba(255,255,255,.12);border-radius:3px 6px 6px 3px;pointer-events:none}
-.lmp-cover__top{display:flex;align-items:center;justify-content:space-between;font-size:3.4cqi;font-weight:700;letter-spacing:.18em}
-.lmp-cover__ed{color:rgba(241,245,242,.6);font-weight:600}
-.lmp-cover__title{display:grid;gap:2.5cqi;margin-top:auto}
-.lmp-cover__kicker{color:#A9D4BF;font-size:5.6cqi;font-weight:600;letter-spacing:.16em}
-.lmp-cover__main{font-size:12.2cqi;font-weight:700;line-height:.98;letter-spacing:-.02em}
-.lmp-cover__sub{margin-top:5cqi;padding-top:4.5cqi;border-top:1px solid rgba(255,255,255,.2);font-size:5cqi;font-weight:500}
-.lmp-cover__days{display:grid;grid-template-columns:repeat(10,1fr);gap:1.8cqi;margin-top:7cqi}
-.lmp-cover__days i{aspect-ratio:1;border-radius:50%;border:1px solid rgba(255,255,255,.26)}
-.lmp-cover__days i.is-active{border-color:#A9D4BF;background:#A9D4BF}
-.lmp-cover__tags{margin-top:auto;color:rgba(241,245,242,.72);font-size:3.3cqi;font-weight:500;letter-spacing:.02em}
+.lmp-book__cover{position:absolute;inset:0;border-radius:4px 10px 10px 4px;overflow:hidden;background:#101614}
+.lmp-book__cover img{display:block;width:100%;height:100%;object-fit:cover}
+.lmp-book__cover::before{content:"";position:absolute;inset:0 auto 0 0;z-index:1;width:5cqi;background:linear-gradient(90deg,rgba(0,0,0,.32) 0%,rgba(255,255,255,.1) 55%,rgba(0,0,0,.12) 100%)}
 .lmp-daycard{position:absolute;top:55%;right:max(0px,calc(50% - var(--book-w)/2 - 3rem));display:grid;gap:8px;width:200px;padding:14px 16px;border:1px solid #E3E2DB;border-radius:16px;background:#fff;box-shadow:0 2px 6px rgba(16,22,20,.04),0 30px 70px -28px rgba(16,22,20,.28);line-height:1.3}
 .lmp-daycard__head{display:flex;align-items:center;gap:8px;color:#5D6762;font-size:12px;font-weight:600;letter-spacing:.1em}
 .lmp-daycard__head svg{color:#1D5A48}
@@ -419,22 +409,27 @@ def form_html(uid, source, button_label):
 </div>"""
 
 
-def mockup_html(small=False, daycard=True):
-    days = "".join('<i class="is-active"></i>' if i == 0 else "<i></i>" for i in range(30))
+# E-book cover (operator's Canva design, see ../brand/ebook-cover-*.webp), uploaded to the media library.
+COVER = "/wp-content/uploads/2026/10/lean-mode-pro-e-kitap-kapak-{}.webp"
+COVER_WIDTHS = (360, 540, 720)
+COVER_ALT = "30 Günlük Kilo Verme Planı e-kitap kapağı"
+
+
+def mockup_html(small=False, daycard=True, sizes="(max-width:767px) 66vw, 360px", eager=False):
+    """Book mockup with the cover image. `sizes` should match the rendered --book-w; `eager` for covers on the
+    first screen (largest image there)."""
     bar = "".join('<i class="is-done"></i>' if i == 0 else "<i></i>" for i in range(30))
     card = ""
     if daycard:
         card = (f'<div class="lmp-daycard"><div class="lmp-daycard__head">{CAL}<span>GÜN <strong>01</strong> / 30</span></div>'
                 f'<div class="lmp-daycard__bar">{bar}</div><span class="lmp-daycard__text">Her gün bir sonraki adım</span></div>')
+    srcset = ", ".join(f"{COVER.format(w)} {w}w" for w in COVER_WIDTHS)
+    loading = 'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
+    img = (f'<img src="{COVER.format(540)}" srcset="{srcset}" sizes="{sizes}" width="720" height="1080" '
+           f'alt="{COVER_ALT}" decoding="async" {loading}>')
     cls = "lmp-mockup lmp-mockup--sm" if small else "lmp-mockup"
-    return (f'<div class="{cls}" role="img" aria-label="30 Günlük Kilo Verme Planı e-kitap kapağı: Adım Adım Rehber. Beslenme, Antrenman, Hareket, Alışkanlıklar.">'
-            '<div class="lmp-book"><div class="lmp-book__pages"></div><div class="lmp-book__cover">'
-            '<div class="lmp-cover__top"><span>LEAN MODE PRO</span><span class="lmp-cover__ed">E-KİTAP</span></div>'
-            '<div class="lmp-cover__title"><span class="lmp-cover__kicker">30 GÜNLÜK</span><span class="lmp-cover__main">KİLO VERME PLANI</span></div>'
-            '<span class="lmp-cover__sub">Adım Adım Rehber</span>'
-            f'<div class="lmp-cover__days">{days}</div>'
-            '<span class="lmp-cover__tags">Beslenme • Antrenman • Hareket • Alışkanlıklar</span>'
-            f'</div></div>{card}</div>')
+    return (f'<div class="{cls}"><div class="lmp-book"><div class="lmp-book__pages"></div>'
+            f'<div class="lmp-book__cover">{img}</div></div>{card}</div>')
 
 
 def shift_html():
