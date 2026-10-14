@@ -1,6 +1,6 @@
 # E-Book: 30 Günlük Kilo Verme Planı
 
-Kostenloses LEAN MODE PRO E-Book (Türkisch), A4-PDF mit 53 Seiten, rund 0,5 MB.
+Kostenloses LEAN MODE PRO E-Book (Türkisch), A4-PDF mit 53 Seiten, rund 0,8 MB.
 Fertige Datei: [`dist/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf`](dist/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf)
 
 ## Aufbau
@@ -8,6 +8,10 @@ Fertige Datei: [`dist/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf`](dist/lean-m
 | Seiten | Inhalt |
 | ------ | ------ |
 | 1–4 | Cover, Inhaltsverzeichnis, Anleitung und Hinweis, Einleitung |
+
+Das Cover ist das Canva-Design des Betreibers als ganzseitiges Bild: `assets/cover.jpg` (1120 × 1584 px,
+rund 135 dpi, JPEG 76 %, 290 KB), der schwarze Rand auf A4 gleichmäßig gemacht. Für ein neues Cover die Datei
+ersetzen (gleiches Format) und neu erzeugen. Chromium übernimmt das JPEG unverändert ins PDF.
 | 5–13 | Grundlagen, Tellermodell und Handportionen, Einkaufsliste, Aufwärmen und Mobilität, Übungen, Fortschritts- und Gewohnheitstabelle |
 | 14–52 | 4 Phasen (je eine Einstiegsseite), 30 Tagesseiten, 3 Wochen-Checks, Tag 30 mit Rückblick, Plan für die Zeit danach |
 | 53 | Abschluss |

@@ -58,21 +58,14 @@ x-nw { white-space: nowrap; }  /* keeps ranges like 1–10 together; own tag so 
 .lines span { display: block; height: 8.5mm; border-bottom: 1px solid var(--line-strong); }
 .cb { display: inline-block; flex: none; width: 3.4mm; height: 3.4mm; border: 1.2px solid var(--line-strong); border-radius: .8mm; background: #fff; vertical-align: -.6mm; margin-right: 2mm; }
 
-/* ---------- cover */
+/* ---------- cover: the operator's design as a full-page image (assets/cover.jpg) */
+.cover-page { padding: 0; background: #000; }
+.cover-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* green page style, used by the closing page */
 .cover { padding: 20mm 20mm 18mm; color: #f1f5f2;
          background: linear-gradient(160deg, #24604d 0%, #174537 48%, #0f3027 100%); }
 .cover::after { content: ""; position: absolute; inset: 9mm; border: 1px solid #3b6e5f; border-radius: 3mm; pointer-events: none; }
-.cover-top { display: flex; justify-content: space-between; font-size: 9pt; font-weight: 700; letter-spacing: .2em; }
-.cover-top span:last-child { color: rgba(241,245,242,.62); font-weight: 600; }
-.cover-main { margin-top: auto; }
-.cover-kicker { color: var(--mint); font-size: 17pt; font-weight: 600; letter-spacing: .16em; }
-.cover-title { font-size: 52pt; font-weight: 700; line-height: .98; letter-spacing: -.02em; margin-top: 4mm; }
-.cover-sub { margin-top: 9mm; padding-top: 7mm; border-top: 1px solid rgba(255,255,255,.22); font-size: 16pt; font-weight: 500; }
-.cover-subtitle { margin-top: 3mm; max-width: 125mm; color: rgba(241,245,242,.78); font-size: 11pt; line-height: 1.45; }
-.cover-dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 3.2mm; width: 110mm; margin-top: 14mm; }
-.cover-dots i { aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); }
-.cover-dots i.on { background: var(--mint); border-color: var(--mint); }
-.cover-tags { margin-top: auto; padding-top: 12mm; color: rgba(241,245,242,.75); font-size: 10pt; letter-spacing: .03em; }
 
 /* ---------- toc */
 .toc { display: flex; flex-direction: column; gap: 0; margin-top: 4mm; }
@@ -271,4 +264,4 @@ x-nw { white-space: nowrap; }  /* keeps ranges like 1–10 together; own tag so 
 
 /* Tight display tracking also narrows word spaces; widen them slightly so PDF viewers
    still recognise the spaces (search and copy of headings). */
-.h2, .h3, .cover-title, .cover-kicker, .phase-title, .focus h2, .closing h2, .card h3, .ex h3, .goal, .t-name, .q { word-spacing: .12em; }
+.h2, .h3, .phase-title, .focus h2, .closing h2, .card h3, .ex h3, .goal, .t-name, .q { word-spacing: .12em; }

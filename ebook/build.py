@@ -89,19 +89,11 @@ def page(inner, cls="", footer=True):
 
 
 def cover():
-    dots = "".join('<i class="on"></i>' if i == 0 else "<i></i>" for i in range(30))
-    inner = f"""
-    <div class="cover-top"><span>LEAN MODE PRO</span><span>ÜCRETSİZ E-KİTAP</span></div>
-    <div class="cover-main">
-      <p class="cover-kicker">30 GÜNLÜK</p>
-      <h1 class="cover-title">KİLO VERME<br>PLANI</h1>
-      <p class="cover-sub">Adım Adım Rehber</p>
-      <p class="cover-subtitle">{esc(B.SUBTITLE)}</p>
-    </div>
-    <div class="cover-dots">{dots}</div>
-    <p class="cover-tags">Beslenme • Antrenman • Hareket • Alışkanlıklar</p>
-    """
-    add("cover", page(inner, "cover", footer=False))
+    """The operator's cover design (Canva) as a full A4 page: assets/cover.jpg, 1120 x 1584 px (about 135 dpi),
+    black frame evened out to the A4 format."""
+    with open(os.path.join(ROOT, "assets", "cover.jpg"), "rb") as fh:
+        src = "data:image/jpeg;base64," + base64.b64encode(fh.read()).decode()
+    add("cover", page(f'<img class="cover-img" src="{src}" alt="{esc(B.TITLE)}">', "cover-page", footer=False))
 
 
 def toc_page():

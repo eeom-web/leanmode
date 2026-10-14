@@ -1,8 +1,6 @@
 """Front matter and reference pages of the e-book (Turkish copy)."""
 
 TITLE = "30 GÜNLÜK KİLO VERME PLANI"
-SUBTITLE = ("Adım Adım Daha Düzenli Beslenme, Daha Fazla Hareket "
-            "ve Daha Sağlıklı Alışkanlıklar")
 
 HOW_TO_USE = [
     ("Her sabah günün sayfasını aç.",
