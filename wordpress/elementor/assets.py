@@ -144,6 +144,9 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 
 /* Signup form */
 .lmp-signup{container-type:inline-size;width:100%}
+/* The form's size container makes Chrome over-measure its height in column containers (about 100px of
+   empty space under the form on phones); a definite widget width avoids that. */
+.elementor-widget-html:has(>.lmp-signup){width:100%}
 .lmp-signup__form{display:grid;gap:10px;margin:0}
 .lmp-signup__label{color:#101614;font-size:15px;font-weight:600}
 .lmp-signup__field{display:grid;gap:10px}
@@ -204,6 +207,13 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-daycard__bar i.is-done{background:#1D5A48}
 .lmp-daycard__text{color:#101614;font-size:14px;font-weight:600}
 @media (max-width:479px){.lmp-daycard{width:176px;padding:12px 14px}}
+/* Phones: hero title and cover side by side above the signup card (first screen without scrolling) */
+@media (max-width:767px){
+.elementor .e-con .lmp-hero-title .elementor-heading-title{font-size:clamp(22px,7vw,30px);line-height:1.12}
+.lmp-hero-visual .lmp-mockup{--book-w:min(33vw,160px);padding:4px 4px 8px}
+.lmp-hero-visual .lmp-daycard{display:none}
+#kayit .lmp-signup__label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+}
 """.replace("MASK", LOGO_MASK).replace("CHECK_BG", CHECK_BG)
 
 JS = r"""

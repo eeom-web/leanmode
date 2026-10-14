@@ -346,7 +346,7 @@ def landing():
     hero = section(f"{p}-hero", [row(f"{p}-hero-row", [
         col(f"{p}-hero-copy", [
             heading(f"{p}-hero-badge", "Ücretsiz e-kitap · 30 günlük plan", tag="p", color="lmpinksoft",
-                    cls="lmp-badge", _element_width="auto",
+                    cls="lmp-badge", _element_width="auto", hide_mobile="hidden-mobile",
                     **merge(local_typo("", size=13, weight=600, lh=1.3),
                             {"_background_background": "classic", "_background_color": "#FFFFFF",
                              "_border_border": "solid", "_border_width": dims(1), "_border_color": "#E3E2DB",
@@ -354,24 +354,29 @@ def landing():
                              "_margin": dims(0, 0, 24, 0)})),
             heading(f"{p}-hero-title",
                     '30 Günde Kilo Vermek İçin <span class="lmp-accent-word">Adım Adım</span> Bir Plan',
-                    tag="h1", typo="lmpdisplay", _margin=dims(0, 0, 24, 0)),
+                    tag="h1", typo="lmpdisplay", cls="lmp-hero-title", _margin=dims(0, 0, 24, 0),
+                    _margin_mobile=dims(0)),
             text(f"{p}-hero-lead", "<p>Beslenme, antrenman, günlük hareket ve pratik kilo verme stratejileri "
                                    "tek bir 30 günlük planda.</p>", color="lmpinksoft", typo="lmplead",
                  _element_width="initial", _element_custom_width=px(600), _element_custom_width_mobile=px(100, "%"),
-                 _element_custom_width_tablet=px(640)),
+                 _element_custom_width_tablet=px(640), hide_mobile="hidden-mobile"),
             text(f"{p}-hero-text", "<p>Her gün ne yapacağını düşünmek yerine, sadece bir sonraki adıma "
-                                   "odaklan.</p>", color="lmpmuted", _margin=dims(14, 0, 0, 0)),
+                                   "odaklan.</p>", color="lmpmuted", _margin=dims(14, 0, 0, 0), hide_mobile="hidden-mobile"),
             button(f"{p}-hero-cta", "Ücretsiz 30 Günlük Planı Al", "#kayit", full_mobile=True,
-                   _margin=dims(36, 0, 0, 0), _element_width_mobile="inherit"),
+                   _margin=dims(36, 0, 0, 0), _element_width_mobile="inherit", hide_mobile="hidden-mobile"),
             icon_list(f"{p}-hero-facts", [("Tamamen ücretsiz", "check", None), ("Her gün net bir adım", "check", None),
                                           ("E-posta ile teslim", "check", None)],
-                      gap=24, _margin=dims(24, 0, 0, 0)),
-        ], width=54, flex_align_items="flex-start"),
-        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html())], width=42),
-    ], gap=48)], pad=(64, 40, 32), gap=0)
+                      gap=24, _margin=dims(24, 0, 0, 0), hide_mobile="hidden-mobile"),
+        ], width=54, width_m=57, flex_align_items="flex-start"),
+        col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html())], width=42, width_m=39,
+            css_classes="lmp-hero-visual"),
+    # Phones: title and cover side by side, everything else hidden, so the signup card below
+    # (title, cover and email field) fits on the first screen without scrolling.
+    ], gap=48, flex_direction_mobile="row", flex_align_items_mobile="center", flex_gap_mobile=gaps(14))],
+        pad=(64, 40, 32), gap=0)
     hero["settings"]["padding"] = dims(64, 32, 104, 32)
     hero["settings"]["padding_tablet"] = dims(40, 32, 72, 32)
-    hero["settings"]["padding_mobile"] = dims(32, 16, 56, 16)
+    hero["settings"]["padding_mobile"] = dims(20, 16, 10, 16)
 
     signup = section(f"{p}-signup", [row(f"{p}-signup-card", [
         col(f"{p}-signup-intro", [
@@ -381,10 +386,10 @@ def landing():
             icon_list(f"{p}-signup-chips", [("Beslenme", "apple-alt", None), ("Antrenman", "dumbbell", None),
                                              ("Günlük hareket", "walking", None), ("Alışkanlıklar", "redo-alt", None)],
                       cls="lmp-chips", text_color="lmpinksoft", gap=8, _margin=dims(4, 0, 0, 0)),
-        ], width=42, gap=16),
+        ], width=42, gap=16, hide_mobile="hidden-mobile"),
         col(f"{p}-signup-form-col", [html(f"{p}-signup-form", assets.form_html("kayit", "hero", "Ücretsiz Planı Al"))],
             width=54),
-    ], gap=56, **card_style(pad=(48, 24), radius=32, deep=True), padding_tablet=dims(40))],
+    ], gap=56, **card_style(pad=(48, 20), radius=32, deep=True), padding_tablet=dims(40))],
         pad=(0, 0, 0), _element_id="kayit")
 
     contents_items = [
