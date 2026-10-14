@@ -353,7 +353,7 @@ def landing():
                              "_border_radius": dims(999), "_padding": dims(7, 14, 7, 12),
                              "_margin": dims(0, 0, 24, 0)})),
             heading(f"{p}-hero-title",
-                    'Your <span class="lmp-accent-word">Step-by-Step</span> 30-Day Weight Loss Plan',
+                    'Your <span class="lmp-accent-word">Step-by-Step</span> <span class="lmp-nowrap">30-Day</span> Weight Loss Plan',
                     tag="h1", typo="lmpdisplay", cls="lmp-hero-title", _margin=dims(0, 0, 24, 0),
                     _margin_mobile=dims(0)),
             text(f"{p}-hero-lead", "<p>Nutrition, workouts, daily movement and practical weight loss strategies "

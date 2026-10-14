@@ -190,6 +190,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 /* Phones: hero title and cover side by side above the signup card (first screen without scrolling) */
 @media (max-width:767px){
 .elementor .e-con .lmp-hero-title .elementor-heading-title{font-size:clamp(22px,7vw,30px);line-height:1.12}
+.lmp-hero-title .lmp-accent-word,.lmp-nowrap{white-space:nowrap}
 .lmp-hero-visual .lmp-mockup{--book-w:min(33vw,160px);padding:4px 4px 8px}
 .lmp-hero-visual .lmp-daycard{display:none}
 #signup .lmp-signup__label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
