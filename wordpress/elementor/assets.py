@@ -188,7 +188,7 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-book__cover{position:absolute;inset:0;border-radius:4px 10px 10px 4px;overflow:hidden;background:#101614}
 .lmp-book__cover img{display:block;width:100%;height:100%;object-fit:cover}
 .lmp-book__cover::before{content:"";position:absolute;inset:0 auto 0 0;z-index:1;width:5cqi;background:linear-gradient(90deg,rgba(0,0,0,.32) 0%,rgba(255,255,255,.1) 55%,rgba(0,0,0,.12) 100%)}
-.lmp-daycard{position:absolute;top:55%;right:max(0px,calc(50% - var(--book-w)/2 - 3rem));display:grid;gap:8px;width:200px;padding:14px 16px;border:1px solid #E3E2DB;border-radius:16px;background:#fff;box-shadow:0 2px 6px rgba(16,22,20,.04),0 30px 70px -28px rgba(16,22,20,.28);line-height:1.3}
+.lmp-daycard{position:absolute;bottom:10%;right:max(0px,calc(50% - var(--book-w)/2 - 3rem));display:grid;gap:8px;width:200px;padding:14px 16px;border:1px solid #E3E2DB;border-radius:16px;background:#fff;box-shadow:0 2px 6px rgba(16,22,20,.04),0 30px 70px -28px rgba(16,22,20,.28);line-height:1.3}
 .lmp-daycard__head{display:flex;align-items:center;gap:8px;color:#5D6762;font-size:12px;font-weight:600;letter-spacing:.1em}
 .lmp-daycard__head svg{color:#1D5A48}
 .lmp-daycard__head strong{color:#101614}
