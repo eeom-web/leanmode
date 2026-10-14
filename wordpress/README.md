@@ -5,6 +5,7 @@
 | `elementor/` | Seitenaufbau für Elementor, Rechtstexte, gemeinsames CSS/JS (siehe dortige README) |
 | `mu-plugins/lmp-privacy.php` | Schaltet das WordPress-Emoji-Skript ab (kein Browser-Speicher, keine Anfragen an s.w.org) |
 | `mu-plugins/lmp-site-icon.php` | Vollflächiges Apple-Touch-Icon statt des abgerundeten Website-Icons |
+| `mu-plugins/lmp-closed.php` | **Seite geschlossen** (seit 14.10.2026): Besucher sehen eine Hinweisseite (HTTP 503), offen bleiben nur Rechtsseiten und Download-Seite. Zum Wiedereröffnen die Datei auf dem Server löschen |
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
