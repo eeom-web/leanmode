@@ -1,11 +1,12 @@
-"""Texts of the legal pages (Turkish): Yasal Bilgiler (Impressum), Gizlilik Politikası, Çerez Politikası.
+"""Texts of the legal pages (Turkish): Yasal Bilgiler (Impressum), Gizlilik Politikası, KVKK Aydınlatma Metni,
+Çerez Politikası.
 
 The operator's personal data is NOT stored in this repository. The texts contain placeholders such as
 {{lmp:name}}; they are filled in on the WordPress server from the option `lmp_operator` when the pages
 are imported. Optional blocks (they may be nested; the filler repeats until none is left):
 
 - <!--lmp:X--> … <!--/lmp:X-->   is kept only when the option field X is set
-  (vat, phone, authority, tracking, meta, ga, gads, google)
+  (vat, phone, authority, kvkkrep, tracking, meta, ga, gads, google)
 - <!--lmp:!X--> … <!--/lmp:!X--> is kept only when X is empty
 
 `tracking` switches between two states of the site, and `meta`, `ga`, `gads` (Google Analytics, Google Ads)
@@ -15,6 +16,8 @@ plus `google` (= ga or gads) name the tools that are actually installed:
 - set:   cookie banner (consent before any non-essential tag loads; consent cookie `lmp_consent`, 12 months),
   link "Çerez ayarları" in the footer. Since 06.10.2026 (again): Meta Pixel only (meta = 1).
   Google Analytics 4 (retention 14 months) and Google Ads need Consent Mode v2 "basic" when added.
+
+`kvkkrep` is the data controller representative in Turkey (KVKK), empty until one is appointed.
 
 Other facts the texts rely on:
 - Hosting: Hostinger International Ltd. (Cyprus, party of Hostinger's DPA), server in Frankfurt
@@ -28,7 +31,8 @@ Other facts the texts rely on:
 """
 
 UPDATED = "6 Ekim 2026"          # cookie policy
-PRIVACY_UPDATED = "11 Ekim 2026"
+PRIVACY_UPDATED = "14 Ekim 2026"
+KVKK_UPDATED = "14 Ekim 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Almanya</p>"
@@ -233,7 +237,8 @@ def privacy_html():
         "<li>verdiğin onayı istediğin zaman geri alma (md. 7/3)</li>",
         "<li>bir denetim makamına şikâyette bulunma (md. 77)</li></ul>",
         "<p>Bunun için bize e-posta göndermen yeterli. Türkiye'de yaşıyorsan, 6698 sayılı Kişisel Verilerin Korunması "
-        "Kanunu'nun 11. maddesindeki haklarını da bize iletebilirsin.</p>",
+        "Kanunu (KVKK) kapsamındaki bilgileri ve haklarını "
+        '<a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a>\'nde bulabilirsin.</p>',
 
         "<h3>Onayın geri alınması</h3>",
         "<p>Birçok veri işleme işlemi yalnızca açık onayınla mümkündür. Daha önce verdiğin bir onayı istediğin zaman "
@@ -546,6 +551,198 @@ def privacy_html():
     ])
 
 
+def _activity(title, items):
+    rows = "".join(f"<li><strong>{k}:</strong> {v}</li>" for k, v in items)
+    return f"<h3>{title}</h3><ul>{rows}</ul>"
+
+
+def kvkk_html():
+    """Information notice under KVKK art. 10 and the Aydınlatma Tebliği, for visitors in Turkey. It informs only:
+    no consent is asked for here (KVKK Board principle decision 2026/347: notice and consent texts stay separate)."""
+    return "".join([
+        "<p>6698 sayılı Kişisel Verilerin Korunması Kanunu'nun (KVKK) 10. maddesi ve Aydınlatma Yükümlülüğünün Yerine "
+        "Getirilmesinde Uyulacak Usul ve Esaslar Hakkında Tebliğ uyarınca, Türkiye'de bulunan ziyaretçilerimizi ve "
+        "kayıt olan kullanıcılarımızı kişisel verilerinin işlenmesi hakkında bilgilendiriyoruz. Bu metin yalnızca "
+        "bilgilendirme amaçlıdır ve herhangi bir onay gerektirmez.</p>",
+        "<p>Avrupa Birliği Genel Veri Koruma Tüzüğü (GDPR) kapsamındaki ayrıntılı bilgileri "
+        '<a href="/gizlilik-politikasi/">Gizlilik Politikası</a>\'nda, kullanılan çerezleri '
+        '<a href="/cerez-politikasi/">Çerez Politikası</a>\'nda bulabilirsin.</p>',
+
+        "<h2>1. Veri sorumlusu</h2>",
+        "<p>Kişisel verilerin, veri sorumlusu sıfatıyla aşağıdaki kişi tarafından işlenir:</p>",
+        CONTACT,
+        "<p>Veri sorumlusu Almanya'da yerleşiktir.</p>",
+        _if("kvkkrep", "<p>Türkiye'deki veri sorumlusu temsilcimiz: {{lmp:kvkkrep}}</p>"),
+
+        "<h2>2. İşlenen kişisel veriler, işleme amaçları ve hukuki sebepler</h2>",
+        "<p>Kişisel verilerini yalnızca aşağıda belirtilen amaçlarla ve KVKK'nın 5. maddesinde sayılan hukuki sebeplere "
+        "dayanarak işleriz. Sağlık verileri gibi özel nitelikli kişisel verileri (KVKK md. 6) istemiyor ve "
+        "işlemiyoruz; kayıt formunda yalnızca e-posta adresin istenir.</p>",
+        _activity("Siteyi ziyaret ettiğinde", [
+            ("Veriler", "İşlem güvenliği verileri: IP adresi, tarih ve saat, açılan sayfa veya dosya, daha önce ziyaret "
+                        "edilen sayfa, tarayıcı ve işletim sistemi bilgisi"),
+            ("Amaç", "Siteyi sunmak, bilgi güvenliğini sağlamak, hataları ve saldırıları tespit etmek"),
+            ("Hukuki sebep", "Temel hak ve özgürlüklerine zarar vermemek kaydıyla veri sorumlusunun meşru menfaati "
+                             "(KVKK md. 5/2-f)"),
+            ("Toplama yöntemi", "Siteyi açtığında tarayıcın tarafından otomatik olarak gönderilir ve sunucu "
+                                "kayıtlarına yazılır"),
+        ]),
+        _activity("Ücretsiz plan için kayıt olduğunda", [
+            ("Veriler", "İletişim verisi: e-posta adresi; işlem güvenliği verileri: kayıt ve onay zamanı, bu sırada "
+                        "kullanılan IP adresi"),
+            ("Amaç", "E-posta adresini doğrulamak (çift onay) ve talep ettiğin ücretsiz planı sana sunmak"),
+            ("Hukuki sebep", "Bir sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması (KVKK md. 5/2-c)"),
+            ("Toplama yöntemi", "Sitedeki kayıt formu ve onay e-postasındaki bağlantı aracılığıyla elektronik ortamda"),
+        ]),
+        _activity("E-posta bülteni ve teklifler", [
+            ("Veriler", "İletişim verisi: e-posta adresi"),
+            ("Amaç", "LEAN MODE PRO'nun faydalı içeriklerini ve tekliflerini e-postayla göndermek"),
+            ("Hukuki sebep", "Açık rızan (KVKK md. 5/1) ve 6563 sayılı Elektronik Ticaretin Düzenlenmesi Hakkında "
+                             "Kanun kapsamında verdiğin ticari elektronik ileti onayı"),
+            ("Toplama yöntemi", "Sitedeki kayıt formu aracılığıyla elektronik ortamda"),
+        ]),
+        _activity("E-postaların açılma ve tıklanma ölçümü", [
+            ("Veriler", "Pazarlama verileri: bir e-postanın açılıp açılmadığı, içindeki hangi bağlantılara tıklandığı, "
+                        "bunların zamanı, IP adresi, e-posta programı ve cihaz hakkında teknik bilgiler"),
+            ("Amaç", "E-postalarımızın ne kadar ilgi gördüğünü ölçmek ve içeriklerimizi iyileştirmek"),
+            ("Hukuki sebep", "Veri sorumlusunun meşru menfaati (KVKK md. 5/2-f); abonelikten çıktığında ölçüm de "
+                             "sona erer"),
+            ("Toplama yöntemi", "E-postalardaki küçük, görünmez bir görsel (izleme pikseli) ve Brevo üzerinden "
+                                "yönlendirilen bağlantılar aracılığıyla otomatik olarak"),
+        ]),
+        _if("meta", _activity("Meta Pixel (Facebook ve Instagram reklamları)", [
+            ("Veriler", "Pazarlama ve işlem güvenliği verileri: çerez kimlikleri (<code>_fbp</code>, <code>_fbc</code>), "
+                        "ziyaret edilen sayfalar, sayfa görüntüleme gibi olaylar ve etkileşimler, IP adresi, tarayıcı ve "
+                        "cihaz bilgileri, reklam tıklama kimliği"),
+            ("Amaç", "Facebook ve Instagram reklamlarımızın etkisini ölçmek, siteyi ziyaret etmiş kişilere bu "
+                     "platformlarda reklam göstermek ve reklamlarımızı iyileştirmek"),
+            ("Hukuki sebep", "Açık rızan (KVKK md. 5/1); çerez penceresinde <strong>Kabul et</strong>'e tıklamadıkça Meta "
+                             "Pixel yüklenmez"),
+            ("Toplama yöntemi", "Çerezler ve benzeri teknolojiler aracılığıyla otomatik olarak"),
+        ])),
+        _if("ga", _activity("Google Analytics", [
+            ("Veriler", "Ziyaret edilen sayfalar ve süreleri, siteye nereden gelindiği, cihaz, tarayıcı ve işletim "
+                        "sistemi, yaklaşık konum, etkileşimler, çerez kimlikleri"),
+            ("Amaç", "Sitenin nasıl kullanıldığını istatistiksel olarak anlamak ve siteyi geliştirmek"),
+            ("Hukuki sebep", "Açık rızan (KVKK md. 5/1)"),
+            ("Toplama yöntemi", "Çerezler aracılığıyla otomatik olarak"),
+        ])),
+        _if("gads", _activity("Google Ads", [
+            ("Veriler", "Çerez kimlikleri, reklam tıklamaları, ziyaret edilen sayfalar ve kayıt gibi dönüşümler"),
+            ("Amaç", "Google reklamlarımızın etkisini ölçmek ve siteyi ziyaret etmiş kişilere yeniden reklam göstermek"),
+            ("Hukuki sebep", "Açık rızan (KVKK md. 5/1)"),
+            ("Toplama yöntemi", "Çerezler aracılığıyla otomatik olarak"),
+        ])),
+        _if("tracking", _activity("Çerez tercihin", [
+            ("Veriler", "Çerez penceresindeki seçimin (kabul veya ret)"),
+            ("Amaç", "Seçimini hatırlamak ve onay verip vermediğini ispat edebilmek"),
+            ("Hukuki sebep", "Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi için zorunlu olması "
+                             "(KVKK md. 5/2-ç) ve meşru menfaat (KVKK md. 5/2-f)"),
+            ("Toplama yöntemi", "Tarayıcında saklanan zorunlu bir çerez (<code>lmp_consent</code>) aracılığıyla"),
+        ])),
+        _activity("Onay kayıtları", [
+            ("Veriler", "Hukuki işlem verileri: kayıt ve onay zamanı, bu sırada kullanılan IP adresi, kullanılan kayıt "
+                        "formu, abonelikten çıkma zamanı"),
+            ("Amaç", "Ticari elektronik ileti onayını ispat etmek ve olası uyuşmazlıklarda haklarımızı korumak"),
+            ("Hukuki sebep", "Kanunlarda açıkça öngörülmesi ve hukuki yükümlülük (KVKK md. 5/2-a ve 5/2-ç; 6563 sayılı "
+                             "Kanun ve Ticari İletişim ve Ticari Elektronik İletiler Hakkında Yönetmelik) ile bir hakkın "
+                             "tesisi, kullanılması veya korunması (KVKK md. 5/2-e)"),
+            ("Toplama yöntemi", "Kayıt, onay ve abonelikten çıkma sırasında otomatik olarak"),
+        ]),
+        _activity("Bize e-posta yazdığında", [
+            ("Veriler", "Kimlik ve iletişim verileri: adın, e-posta adresin ve mesajında paylaştığın bilgiler"),
+            ("Amaç", "Talebini veya başvurunu yanıtlamak"),
+            ("Hukuki sebep", "Veri sorumlusunun meşru menfaati (KVKK md. 5/2-f); KVKK kapsamındaki başvurularda "
+                             "hukuki yükümlülük (KVKK md. 5/2-ç)"),
+            ("Toplama yöntemi", "E-posta yoluyla"),
+        ]),
+
+        "<h2>3. Kişisel verilerin aktarılması</h2>",
+        "<p>Kişisel verilerini satmıyoruz. Verilerini yalnızca yukarıdaki amaçlar için gerekli olduğu ölçüde şu "
+        "alıcılara aktarırız:</p><ul>",
+        "<li><strong>Barındırma hizmeti sağlayıcısı:</strong> Hostinger International Ltd., Kıbrıs (sunucu: Frankfurt, "
+        "Almanya). Amaç: sitenin barındırılması. Veri işleyen olarak, yalnızca talimatlarımız doğrultusunda.</li>",
+        "<li><strong>E-posta hizmeti sağlayıcısı:</strong> Sendinblue SAS (Brevo), Paris, Fransa. Amaç: kayıt formu, onay "
+        "e-postası, bülten gönderimi ve ölçüm. Veri işleyen olarak, yalnızca talimatlarımız doğrultusunda.</li>",
+        _if("meta", f"<li><strong>Meta:</strong> {META}; ana şirketi Meta Platforms, Inc., ABD. Amaç: reklam ölçümü ve "
+                    "reklamların hedeflenmesi, yalnızca açık rızanla. Verilerin sitemizde toplanması ve Meta'ya "
+                    "aktarılmasından Meta ile birlikte sorumluyuz.</li>"),
+        _if("google", f"<li><strong>Google:</strong> {GOOGLE}; ana şirketi Google LLC, ABD. Amaç: istatistik ve reklam "
+                      "ölçümü, yalnızca açık rızanla.</li>"),
+        "<li><strong>Yetkili kamu kurum ve kuruluşları ile mahkemeler:</strong> kanunen yükümlü olduğumuz hâllerde.</li>",
+        "</ul>",
+        "<h3>Türkiye dışında işleme</h3>",
+        "<p>Veri sorumlusu Almanya'da yerleşik olduğundan kişisel verilerin Türkiye dışında, Avrupa Birliği'nde işlenir. "
+        "Yukarıdaki hizmet sağlayıcılar AB'de kuruludur ve AB Genel Veri Koruma Tüzüğü'ne tabidir; veri işleyenler "
+        "verileri yazılı veri işleme sözleşmelerine dayanarak işler."
+        + _if("meta", " Meta, verileri ABD'deki ana şirketi Meta Platforms, Inc.'e de aktarabilir; bu şirket AB-ABD "
+                      "Veri Gizliliği Çerçevesi kapsamında sertifikalıdır.")
+        + _if("google", " Google, verileri ABD'deki ana şirketi Google LLC'ye de aktarabilir; bu şirket AB-ABD Veri "
+                        "Gizliliği Çerçevesi kapsamında sertifikalıdır.")
+        + "</p>",
+
+        "<h2>4. Saklama süreleri</h2><ul>",
+        "<li>Sunucu kayıtları kısa bir süre sonra otomatik olarak silinir.</li>",
+        "<li>E-posta adresini bültenden çıkana kadar saklarız. Çıktıktan sonra, sana yeniden e-posta gönderilmemesi için "
+        "adresin bir engelleme listesinde tutulabilir.</li>",
+        "<li>Onay kayıtlarını, mevzuatta öngörülen süre boyunca ve olası hukuki taleplerin zamanaşımı süresince "
+        "(genellikle onayın sona ermesinden itibaren üç yıl) saklarız.</li>",
+        "<li>E-posta yazışmalarını, yasal saklama yükümlülükleri saklı kalmak kaydıyla talebin sonuçlanana kadar "
+        "saklarız.</li>",
+        _if("tracking", "<li>Çerez tercihin (<code>lmp_consent</code>) tarayıcında 12 ay saklanır.</li>"),
+        _if("meta", "<li>Meta çerezleri (<code>_fbp</code>, <code>_fbc</code>) tarayıcında 3 ay saklanır.</li>"),
+        "</ul>",
+        "<p>Süreler sona erdiğinde veya işleme amacı ortadan kalktığında kişisel verilerin silinir, yok edilir veya "
+        "anonim hâle getirilir.</p>",
+
+        "<h2>5. Onayının ve açık rızanın geri alınması</h2>",
+        "<p>Ticari elektronik ileti onayını istediğin zaman, gerekçe göstermeden ve ücretsiz olarak geri alabilirsin: her "
+        "e-postadaki abonelikten çıkma bağlantısıyla veya "
+        '<a href="mailto:{{lmp:email}}">{{lmp:email}}</a> adresine yazarak. Ret bildirimin en geç üç iş günü içinde '
+        "işleme alınır."
+        + _if("tracking", " Çerezler için verdiğin açık rızayı sayfanın altındaki <strong>Çerez ayarları</strong> "
+                          "bağlantısından geri alabilirsin.")
+        + " Geri alma, o ana kadar yapılan işlemenin hukuka uygunluğunu etkilemez.</p>",
+
+        "<h2>6. KVKK'nın 11. maddesi kapsamındaki hakların</h2>",
+        "<p>Veri sorumlusuna başvurarak şu haklarını kullanabilirsin:</p><ul>",
+        "<li>kişisel verilerinin işlenip işlenmediğini öğrenme,</li>",
+        "<li>kişisel verilerin işlenmişse buna ilişkin bilgi talep etme,</li>",
+        "<li>kişisel verilerinin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,</li>",
+        "<li>yurt içinde veya yurt dışında kişisel verilerinin aktarıldığı üçüncü kişileri bilme,</li>",
+        "<li>kişisel verilerinin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme,</li>",
+        "<li>KVKK'nın 7. maddesinde öngörülen şartlar çerçevesinde kişisel verilerinin silinmesini veya yok edilmesini "
+        "isteme,</li>",
+        "<li>düzeltme, silme veya yok etme işlemlerinin kişisel verilerinin aktarıldığı üçüncü kişilere bildirilmesini "
+        "isteme,</li>",
+        "<li>işlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle aleyhine bir sonucun "
+        "ortaya çıkmasına itiraz etme,</li>",
+        "<li>kişisel verilerinin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraman hâlinde zararın giderilmesini "
+        "talep etme.</li></ul>",
+        "<p>Münhasıran otomatik sistemlerle senin aleyhine sonuç doğuran kararlar almıyoruz.</p>",
+
+        "<h2>7. Başvuru yöntemi</h2>",
+        "<p>Haklarını kullanmak için başvurunu Türkçe olarak şu yollardan biriyle iletebilirsin:</p><ul>",
+        "<li>bize daha önce bildirdiğin ve sistemimizde kayıtlı olan e-posta adresinden (ör. bültene kayıtlı adresin) "
+        '<a href="mailto:{{lmp:email}}">{{lmp:email}}</a> adresine e-posta göndererek,</li>',
+        "<li>ıslak imzalı yazılı bir dilekçeyle yukarıdaki posta adresine göndererek.</li></ul>",
+        "<p>Başvurunda adın ve soyadın, yazılı başvurularda imzan, Türk vatandaşıysan T.C. kimlik numaran (yabancıysan "
+        "uyruğun ve pasaport ya da varsa kimlik numaran), tebligata esas yerleşim yeri veya iş yeri adresin ve talep "
+        "konun bulunmalıdır; varsa bildirime esas e-posta adresini ve telefon numaranı da ekleyebilirsin (Veri "
+        "Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ).</p>",
+        "<p>Başvurunu niteliğine göre en kısa sürede ve en geç 30 gün içinde ücretsiz olarak sonuçlandırırız. İşlemin "
+        "ayrıca bir maliyet gerektirmesi hâlinde Kişisel Verileri Koruma Kurulu'nun belirlediği tarifedeki ücret "
+        "alınabilir. Başvurunun reddedilmesi, verilen cevabı yetersiz bulman veya süresinde cevap verilmemesi hâlinde, "
+        "cevabı öğrendiğin tarihten itibaren 30 gün ve her hâlde başvuru tarihinden itibaren 60 gün içinde Kişisel "
+        "Verileri Koruma Kurulu'na şikâyette bulunabilirsin (KVKK md. 14).</p>",
+
+        "<h2>8. Değişiklikler</h2>",
+        "<p>Veri işleme faaliyetlerimiz değişirse bu metni güncelleriz. Her zaman bu sayfadaki güncel sürüm "
+        "geçerlidir.</p>",
+        _updated(KVKK_UPDATED),
+    ])
+
+
 COOKIE_TABLE = [
     # (name, provider and purpose, lifetime, flag)
     ("lmp_consent", "LEAN MODE PRO: çerez seçimini hatırlar (zorunlu).", "12 ay", None),
@@ -608,6 +805,7 @@ def cookies_html():
 BODIES = {
     "yasal-bilgiler": imprint_html,
     "gizlilik-politikasi": privacy_html,
+    "kvkk-aydinlatma-metni": kvkk_html,
     "cerez-politikasi": cookies_html,
 }
 

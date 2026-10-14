@@ -336,8 +336,9 @@ def footer(prefix, legal, compact=False):
         border_color="#E3E2DB")
 
 
-LEGAL = [("Gizlilik Politikası", "/gizlilik-politikasi/"), ("Çerez Politikası", "/cerez-politikasi/"),
-         ("Yasal Bilgiler", "/yasal-bilgiler/"), ("Çerez ayarları", "#cerez-ayarlari")]
+LEGAL = [("Gizlilik Politikası", "/gizlilik-politikasi/"), ("KVKK Aydınlatma Metni", "/kvkk-aydinlatma-metni/"),
+         ("Çerez Politikası", "/cerez-politikasi/"), ("Yasal Bilgiler", "/yasal-bilgiler/"),
+         ("Çerez ayarları", "#cerez-ayarlari")]
 
 
 # ---------------------------------------------------------------- landing page
@@ -697,8 +698,8 @@ def legal_page(slug, title, home_url):
 
 # Slugs of the WordPress pages this build targets. The landing page is the site's front page.
 LANDING_SLUG = "ucretsiz-30-gunluk-plan"
-LEGAL_PAGES = [("gizlilik-politikasi", "Gizlilik Politikası"), ("cerez-politikasi", "Çerez Politikası"),
-               ("yasal-bilgiler", "Yasal Bilgiler")]
+LEGAL_PAGES = [("gizlilik-politikasi", "Gizlilik Politikası"), ("kvkk-aydinlatma-metni", "KVKK Aydınlatma Metni"),
+               ("cerez-politikasi", "Çerez Politikası"), ("yasal-bilgiler", "Yasal Bilgiler")]
 
 if __name__ == "__main__":
     import os

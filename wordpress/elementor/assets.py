@@ -276,7 +276,7 @@ JS = r"""
     cookie: 'lmp_consent', maxAge: 31536000,
     title: 'Çerez tercihin',
     text: 'Onay verirsen, reklamlarımızın etkisini ölçmek ve Facebook ile Instagram\'da sana uygun reklamlar gösterebilmek için Meta Pixel\'i kullanırız. Bunun için çerezler kullanılır ve veriler Meta\'ya (ABD dahil) aktarılır. Onay vermesen de site eksiksiz çalışır. Seçimini istediğin zaman sayfanın altındaki “Çerez ayarları” bağlantısından değiştirebilirsin.',
-    links: '<a href="/cerez-politikasi/">Çerez Politikası</a> · <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>',
+    links: '<a href="/cerez-politikasi/">Çerez Politikası</a> · <a href="/gizlilik-politikasi/">Gizlilik Politikası</a> · <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a>',
     deny: 'Reddet', accept: 'Kabul et'
   };
   function getConsent(){
@@ -397,7 +397,7 @@ def form_html(uid, source, button_label):
 <button class="lmp-signup__button" type="submit"><span data-label>{button_label}</span>{ARROW}</button>
 </div>
 <p class="lmp-signup__error" id="{uid}-error" aria-live="polite" data-error></p>
-<p class="lmp-signup__consent" id="{uid}-consent">{CONSENT} <a href="/gizlilik-politikasi/">Gizlilik Politikası</a>.</p>
+<p class="lmp-signup__consent" id="{uid}-consent">{CONSENT} <a href="/gizlilik-politikasi/">Gizlilik Politikası</a> · <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a></p>
 <input type="hidden" name="source" value="{source}">
 <div class="lmp-signup__hp" aria-hidden="true"><label>Web sitesi <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 </form>

@@ -19,7 +19,7 @@ Hier wird die Landingpage für WordPress/Elementor erzeugt, und zwar mit dem kla
 | Landingpage | `/` | Startseite mit Anmeldeformular |
 | Bestätigungsseite | `/tesekkurler/` | Nach dem Absenden des Formulars: „E-Mail prüfen und bestätigen“ |
 | Dankeseite | `/kayit-onaylandi/` | Nach dem Klick auf den Bestätigungslink: E-Book zum Download |
-| Rechtsseiten | `/yasal-bilgiler/` (Impressum), `/gizlilik-politikasi/` (Datenschutz), `/cerez-politikasi/` (Cookies) | Texte in `legal.py` |
+| Rechtsseiten | `/yasal-bilgiler/` (Impressum), `/gizlilik-politikasi/` (Datenschutz), `/kvkk-aydinlatma-metni/` (Informationstext nach türkischem KVKK), `/cerez-politikasi/` (Cookies) | Texte in `legal.py` |
 
 Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm und sind auf
 „noindex“ gestellt. Das E-Book-PDF liegt in der Mediathek unter
@@ -43,6 +43,12 @@ Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm un
   gemeinsamer Verantwortung für Insights), 6. Analyse und Werbung (Meta Pixel), 7. Newsletter mit
   Double-Opt-in über Brevo, 8. Änderungen. WP Statistics und Shariff aus der Vorlage fehlen bewusst, weil sie
   nicht installiert sind.
+- Für Besucher in der Türkei gibt es einen eigenen Informationstext nach KVKK Art. 10 (`kvkk_html`), verlinkt im
+  Footer, unter dem Formular und im Cookie-Banner. Er informiert nur und fragt keine Einwilligung ab
+  (KVKK-Grundsatzbeschluss 2026/347: Informations- und Einwilligungstext getrennt). Wird ein Vertreter in der
+  Türkei bestellt, trägt man ihn in `lmp_operator` als `kvkkrep` ein, dann erscheint er im Text.
+  Offen (Stand 14.10.2026, Anwalt): VERBIS/Vertreter, İYS für Werbe-Mails, KVKK Art. 9 (Auslandsübermittlung),
+  Kopplung E-Book/Newsletter (separate Newsletter-Checkbox braucht ein Feld im Brevo-Formular).
 - Brevo läuft mit Double-Opt-in; die Datenschutzerklärung beschreibt die Messung von Öffnungen und
   Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
 - **Tracking-Schalter** in `lmp_operator`: `tracking` (Cookie-Banner aktiv) und je Werkzeug `meta`, `ga`,
