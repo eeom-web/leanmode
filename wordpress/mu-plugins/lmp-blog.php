@@ -91,6 +91,20 @@ add_action(
 	1
 );
 
+/** Keep the noindex pages (thank-you, welcome) out of the WordPress sitemap. */
+add_filter(
+	'wp_sitemaps_posts_query_args',
+	static function ( $args, $post_type ) {
+		if ( 'page' === $post_type ) {
+			$ids = array_filter( array_map( static fn( $slug ) => get_page_by_path( $slug )?->ID, array( 'thank-you', 'welcome' ) ) );
+			$args['post__not_in'] = array_merge( $args['post__not_in'] ?? array(), $ids );
+		}
+		return $args;
+	},
+	10,
+	2
+);
+
 /** No comments anywhere (nothing to moderate, no comment data in the privacy policy). */
 add_filter( 'comments_open', '__return_false', 20 );
 add_filter( 'pings_open', '__return_false', 20 );
