@@ -6,7 +6,7 @@
 | `mu-plugins/lmp-privacy.php` | Schaltet das WordPress-Emoji-Skript ab (kein Browser-Speicher, keine Anfragen an s.w.org) |
 | `mu-plugins/lmp-site-icon.php` | Vollflächiges Apple-Touch-Icon statt des abgerundeten Website-Icons |
 | `mu-plugins/lmp-closed.php` | Wartungsseite (HTTP 503), war vom 14.10.2026 bis zur englischen Neueröffnung aktiv. Liegt nicht mehr auf dem Server; zum Schließen der Seite wieder nach `wp-content/mu-plugins/` kopieren |
-| `mu-plugins/lmp-blog.php`, `mu-plugins/lmp-blog/template.php` | Blog im Lean-Mode-Pro-Design: Beiträge, `/blog/` und Archive mit eigenem Template statt Block-Theme; jeder Beitrag bekommt oben einen Affiliate-Hinweis, unten Gesundheitshinweis und Anmeldebox; Open-Graph-Tags für Pinterest Rich Pins; Kommentare aus; 301-Weiterleitungen der alten türkischen Adressen. CSS/JS, Formular und Cover kommen aus der Option `lmp_blog` (`elementor/dist/blog.json`) |
+| `mu-plugins/lmp-blog.php`, `mu-plugins/lmp-blog/template.php` | Blog im Lean-Mode-Pro-Design: Beiträge, `/blog/` und Archive mit eigenem Template statt Block-Theme; jeder Beitrag bekommt oben einen Affiliate-Hinweis, unten Gesundheitshinweis und Anmeldebox; Open-Graph-Tags für Pinterest Rich Pins; Kommentare aus; Danke- und Willkommensseite nicht in der Sitemap; 301-Weiterleitungen der alten türkischen Adressen. CSS/JS, Formular und Cover kommen aus der Option `lmp_blog` (`elementor/dist/blog.json`) |
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
