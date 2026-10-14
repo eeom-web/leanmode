@@ -303,7 +303,7 @@ def header(prefix, cta_url=None):
     """Sticky header. Without cta_url (e.g. on the confirmation page) it shows the logo only."""
     items = [logo(f"{prefix}-logo")]
     if cta_url:
-        items.append(button(f"{prefix}-header-cta", "Ücretsiz Rehberi Al", cta_url, dark=True, small=True,
+        items.append(button(f"{prefix}-header-cta", "Get the Free Guide", cta_url, dark=True, small=True,
                             cls="lmp-header-cta"))
     return section(f"{prefix}-header", [
         html(f"{prefix}-assets", assets.assets_html(), cls="lmp-assets"),
@@ -313,7 +313,7 @@ def header(prefix, cta_url=None):
 
 def footer(prefix, legal, compact=False):
     """Site footer. The compact variant is a single row (copyright + legal links) for one-screen pages."""
-    copyright_ = "<p>© 2026 Lean Mode Pro. Tüm hakları saklıdır.</p>"
+    copyright_ = "<p>© 2026 Lean Mode Pro. All rights reserved.</p>"
     if compact:
         return section(f"{prefix}-footer", [
             row(f"{prefix}-footer-row", [
@@ -336,9 +336,8 @@ def footer(prefix, legal, compact=False):
         border_color="#E3E2DB")
 
 
-LEGAL = [("Gizlilik Politikası", "/gizlilik-politikasi/"), ("KVKK Aydınlatma Metni", "/kvkk-aydinlatma-metni/"),
-         ("Çerez Politikası", "/cerez-politikasi/"), ("Yasal Bilgiler", "/yasal-bilgiler/"),
-         ("Çerez ayarları", "#cerez-ayarlari")]
+LEGAL = [("Blog", "/blog/"), ("Privacy Policy", "/privacy-policy/"), ("Legal Notice", "/legal-notice/"),
+         ("Disclaimer", "/disclaimer/")]
 
 
 # ---------------------------------------------------------------- landing page
@@ -346,7 +345,7 @@ def landing():
     p = "home"
     hero = section(f"{p}-hero", [row(f"{p}-hero-row", [
         col(f"{p}-hero-copy", [
-            heading(f"{p}-hero-badge", "Ücretsiz e-kitap · 30 günlük plan", tag="p", color="lmpinksoft",
+            heading(f"{p}-hero-badge", "Free e-book · 30-day plan", tag="p", color="lmpinksoft",
                     cls="lmp-badge", _element_width="auto", hide_mobile="hidden-mobile",
                     **merge(local_typo("", size=13, weight=600, lh=1.3),
                             {"_background_background": "classic", "_background_color": "#FFFFFF",
@@ -354,19 +353,19 @@ def landing():
                              "_border_radius": dims(999), "_padding": dims(7, 14, 7, 12),
                              "_margin": dims(0, 0, 24, 0)})),
             heading(f"{p}-hero-title",
-                    '30 Günde Kilo Vermek İçin <span class="lmp-accent-word">Adım Adım</span> Bir Plan',
+                    'Your <span class="lmp-accent-word">Step-by-Step</span> 30-Day Weight Loss Plan',
                     tag="h1", typo="lmpdisplay", cls="lmp-hero-title", _margin=dims(0, 0, 24, 0),
                     _margin_mobile=dims(0)),
-            text(f"{p}-hero-lead", "<p>Beslenme, antrenman, günlük hareket ve pratik kilo verme stratejileri "
-                                   "tek bir 30 günlük planda.</p>", color="lmpinksoft", typo="lmplead",
+            text(f"{p}-hero-lead", "<p>Nutrition, workouts, daily movement and practical weight loss strategies "
+                                   "in one 30-day plan.</p>", color="lmpinksoft", typo="lmplead",
                  _element_width="initial", _element_custom_width=px(600), _element_custom_width_mobile=px(100, "%"),
                  _element_custom_width_tablet=px(640), hide_mobile="hidden-mobile"),
-            text(f"{p}-hero-text", "<p>Her gün ne yapacağını düşünmek yerine, sadece bir sonraki adıma "
-                                   "odaklan.</p>", color="lmpmuted", _margin=dims(14, 0, 0, 0), hide_mobile="hidden-mobile"),
-            button(f"{p}-hero-cta", "Ücretsiz 30 Günlük Planı Al", "#kayit", full_mobile=True,
+            text(f"{p}-hero-text", "<p>Instead of figuring out what to do every day, just focus on the "
+                                   "next step.</p>", color="lmpmuted", _margin=dims(14, 0, 0, 0), hide_mobile="hidden-mobile"),
+            button(f"{p}-hero-cta", "Get the Free 30-Day Plan", "#signup", full_mobile=True,
                    _margin=dims(36, 0, 0, 0), _element_width_mobile="inherit", hide_mobile="hidden-mobile"),
-            icon_list(f"{p}-hero-facts", [("Tamamen ücretsiz", "check", None), ("Her gün net bir adım", "check", None),
-                                          ("E-posta ile teslim", "check", None)],
+            icon_list(f"{p}-hero-facts", [("Completely free", "check", None), ("One clear step every day", "check", None),
+                                          ("Delivered by email", "check", None)],
                       gap=24, _margin=dims(24, 0, 0, 0), hide_mobile="hidden-mobile"),
         ], width=54, width_m=57, flex_align_items="flex-start"),
         col(f"{p}-hero-visual", [html(f"{p}-hero-mockup", assets.mockup_html(
@@ -382,51 +381,51 @@ def landing():
 
     signup = section(f"{p}-signup", [row(f"{p}-signup-card", [
         col(f"{p}-signup-intro", [
-            label(f"{p}-signup-label", "Ücretsiz rehber"),
-            heading(f"{p}-signup-title", "30 Günlük Planını Ücretsiz Al", tag="h2",
+            label(f"{p}-signup-label", "Free guide"),
+            heading(f"{p}-signup-title", "Get Your Free 30-Day Plan", tag="h2",
                     **local_typo("", size=38, weight=600, lh=1.1, ls=-0.024, size_t=34, size_m=28)),
-            icon_list(f"{p}-signup-chips", [("Beslenme", "apple-alt", None), ("Antrenman", "dumbbell", None),
-                                             ("Günlük hareket", "walking", None), ("Alışkanlıklar", "redo-alt", None)],
+            icon_list(f"{p}-signup-chips", [("Nutrition", "apple-alt", None), ("Workouts", "dumbbell", None),
+                                             ("Daily movement", "walking", None), ("Habits", "redo-alt", None)],
                       cls="lmp-chips", text_color="lmpinksoft", gap=8, _margin=dims(4, 0, 0, 0)),
         ], width=42, gap=16, hide_mobile="hidden-mobile"),
-        col(f"{p}-signup-form-col", [html(f"{p}-signup-form", assets.form_html("kayit", "hero", "Ücretsiz Planı Al"))],
+        col(f"{p}-signup-form-col", [html(f"{p}-signup-form", assets.form_html("signup", "hero", "Get the Free Plan"))],
             width=54),
     ], gap=56, **card_style(pad=(48, 20), radius=32, deep=True), padding_tablet=dims(40))],
-        pad=(0, 0, 0), _element_id="kayit")
+        pad=(0, 0, 0), _element_id="signup")
 
     contents_items = [
-        ("apple-alt", "Beslenme Planları", "Günlük beslenmeni daha kolay yönetebilmen için sade ve uygulanabilir bir yapı."),
-        ("dumbbell", "Antrenman Planları", "Günlük programına uyarlayabileceğin temel antrenman düzeni."),
-        ("walking", "Günlük Hareket", "Spor dışında gün boyunca daha aktif olmanı destekleyen basit hareket hedefleri."),
-        ("lightbulb", "Kilo Verme Tüyoları", "Günlük hayatında uygulayabileceğin pratik ve kolay anlaşılır stratejiler."),
-        ("redo-alt", "Alışkanlıklar", "30 gün boyunca daha düzenli bir yaşam tarzı oluşturmanı destekleyen küçük adımlar."),
-        ("th-large", "Heves Değil, Sistem", "Sadece motivasyona bağlı kalmadan süreci gün gün takip edebilmen için net bir yapı."),
+        ("apple-alt", "Meal Plans", "A simple, doable structure that makes your daily eating easier to manage."),
+        ("dumbbell", "Workout Plans", "A basic training routine you can fit into your daily schedule."),
+        ("walking", "Daily Movement", "Simple movement goals that help you stay more active throughout the day, beyond workouts."),
+        ("lightbulb", "Weight Loss Tips", "Practical, easy-to-understand strategies you can use in everyday life."),
+        ("redo-alt", "Habits", "Small steps that help you build a more structured lifestyle over 30 days."),
+        ("th-large", "A System, Not Willpower", "A clear structure, so you can follow the process day by day without relying on motivation alone."),
     ]
     contents = section(f"{p}-contents", [
         col(f"{p}-contents-head", [
-            heading(f"{p}-contents-title", "Bu 30 Günlük Planda Neler Var?", typo="lmph2"),
-            text(f"{p}-contents-intro", "<p>Bu rehber, kilo verme sürecini karmaşık hale getirmek yerine 30 güne "
-                                        "bölerek her gün ne yapacağını daha net görmeni sağlar.</p>", typo="lmplead"),
+            heading(f"{p}-contents-title", "What's Inside the 30-Day Plan?", typo="lmph2"),
+            text(f"{p}-contents-intro", "<p>Instead of making weight loss complicated, this guide breaks it into "
+                                        "30 days, so you can see clearly what to do each day.</p>", typo="lmplead"),
         ], gap=18, width=64, width_t=100, width_m=100),
         grid(f"{p}-contents-grid", [icon_box(f"{p}-contents-{i}", ic, t, d) for i, (ic, t, d) in
                                     enumerate(contents_items)], cols=(3, 2, 1), gap=20,
              margin=dims(56, 0, 0, 0), margin_mobile=dims(40, 0, 0, 0)),
     ])
 
-    steps = [(1, 3, "BAŞLA", "İlk adımı at."), (15, 50, "DEVAM ET", "Rutini güçlendir."),
-             (30, 100, "SİSTEMİ OTURT", "Öğrendiklerini günlük hayatına taşımaya başla.")]
+    steps = [(1, 3, "START", "Take the first step."), (15, 50, "KEEP GOING", "Strengthen your routine."),
+             (30, 100, "MAKE IT STICK", "Start bringing what you've learned into everyday life.")]
     roadmap = section(f"{p}-roadmap", [
         col(f"{p}-roadmap-head", [
-            heading(f"{p}-roadmap-title", "Sadece Bilgi Değil. Bir Yol Haritası.", typo="lmph2"),
+            heading(f"{p}-roadmap-title", "Not Just Information. A Roadmap.", typo="lmph2"),
             text(f"{p}-roadmap-body",
-                 '<p>İnternette kilo vermek hakkında binlerce bilgi bulabilirsin. Sorun çoğu zaman bilgi eksikliği '
-                 'değil, nereden başlayacağını ve ne yapacağını bilememektir.</p>'
-                 '<p>Bu yüzden 30 günlük plan, bilgileri tek bir sistem içinde adım adım ilerleyecek şekilde '
-                 'düzenlemek için tasarlanmıştır.</p>', typo="lmplead", color="lmpinksoft"),
+                 '<p>You can find thousands of tips about losing weight online. The problem usually isn\'t a lack '
+                 'of information. It\'s not knowing where to start and what to do.</p>'
+                 '<p>That\'s why the 30-day plan organizes everything into one system you follow step '
+                 'by step.</p>', typo="lmplead", color="lmpinksoft"),
         ], gap=20, width=64, width_t=100, width_m=100),
         grid(f"{p}-roadmap-steps", [
             con(f"{p}-roadmap-step-{d}", [
-                heading(f"{p}-roadmap-day-{d}", f"{d}. GÜN →", tag="p", color="lmpaccent", typo="lmplabel"),
+                heading(f"{p}-roadmap-day-{d}", f"DAY {d} →", tag="p", color="lmpaccent", typo="lmplabel"),
                 heading(f"{p}-roadmap-action-{d}", a, tag="h3",
                         **local_typo("", size=34, weight=600, lh=1.1, ls=-0.02, size_t=28, size_m=28),
                         _margin=dims(10, 0, 0, 0)),
@@ -437,31 +436,31 @@ def landing():
         ], cols=(3, 3, 1), gap=20, margin=dims(56, 0, 0, 0), margin_mobile=dims(40, 0, 0, 0)),
     ], bg="lmpbgalt")
 
-    blocks = [("bullseye", "BUGÜNÜN ODAĞI", "Bugün en önemli olan ne?"),
-              ("apple-alt", "BESLENME", "Bugün beslenmende nelere dikkat etmelisin?"),
-              ("walking", "HAREKET", "Bugün hangi hareket hedefi var?"),
-              ("dumbbell", "ANTRENMAN", "Bugün hangi antrenman planlandı?"),
-              ("lightbulb", "BUGÜNÜN İPUCU", "Kolayca uygulayabileceğin bir kilo verme ipucu."),
-              ("flag", "GÜNÜN GÖREVİ", "Gün içinde tamamlayacağın küçük bir görev.")]
+    blocks = [("bullseye", "TODAY'S FOCUS", "What matters most today?"),
+              ("apple-alt", "NUTRITION", "What to pay attention to in your meals today."),
+              ("walking", "MOVEMENT", "Today's movement goal."),
+              ("dumbbell", "WORKOUT", "Today's planned workout."),
+              ("lightbulb", "TIP OF THE DAY", "A weight loss tip that's easy to apply."),
+              ("flag", "TASK OF THE DAY", "A small task to complete during the day.")]
     daily = section(f"{p}-daily", [row(f"{p}-daily-row", [
         col(f"{p}-daily-copy", [
-            label(f"{p}-daily-label", "Nasıl çalışır?"),
-            heading(f"{p}-daily-title", "Her Gün Sadece Bir Sonraki Adıma Odaklan.", typo="lmph2"),
-            text(f"{p}-daily-lead", "<p>Plan, 30 günün her biri için aynı sade yapıyı kullanır. O günün sayfasını "
-                                    "açarsın ve neye odaklanman gerektiğini tek bakışta görürsün.</p>",
+            label(f"{p}-daily-label", "How it works"),
+            heading(f"{p}-daily-title", "Every Day, Just Focus on the Next Step.", typo="lmph2"),
+            text(f"{p}-daily-lead", "<p>The plan uses the same simple structure for each of the 30 days. You open "
+                                    "the day's page and see at a glance what to focus on.</p>",
                  typo="lmplead", color="lmpinksoft"),
-            text(f"{p}-daily-text", "<p>Böylece her sabah yeniden plan yapmak zorunda kalmazsın. Sadece o günün "
-                                    "adımlarını uygularsın.</p>", color="lmpmuted"),
-            text(f"{p}-daily-steps", "<ol><li>Günün sayfasını aç.</li><li>Adımları sırayla uygula.</li>"
-                                     "<li>Günü tamamla, yarına hazır ol.</li></ol>", color="lmpinksoft",
+            text(f"{p}-daily-text", "<p>So you don't have to make a new plan every morning. You just follow the "
+                                    "day's steps.</p>", color="lmpmuted"),
+            text(f"{p}-daily-steps", "<ol><li>Open the day's page.</li><li>Follow the steps in order.</li>"
+                                     "<li>Finish the day, ready for tomorrow.</li></ol>", color="lmpinksoft",
                  cls="lmp-steps", **local_typo("", size=17, weight=500, lh=1.4)),
         ], width=42, gap=18),
         col(f"{p}-daily-visual", [
             con(f"{p}-daypage", [
                 row(f"{p}-daypage-head", [
-                    heading(f"{p}-daypage-day", 'GÜN <span class="lmp-daynum">01</span> / 30', tag="p",
+                    heading(f"{p}-daypage-day", 'DAY <span class="lmp-daynum">01</span> / 30', tag="p",
                             color="lmpmuted", **local_typo("", size=14, weight=600, lh=1.2, ls=0.12)),
-                    heading(f"{p}-daypage-tag", "Örnek sayfa yapısı", tag="p", color="lmpmuted",
+                    heading(f"{p}-daypage-tag", "Sample page layout", tag="p", color="lmpmuted",
                             _element_width="auto",
                             **merge(local_typo("", size=12, weight=600, lh=1.2),
                                     {"_border_border": "dashed", "_border_width": dims(1), "_border_color": "#D2D1C9",
@@ -476,27 +475,27 @@ def landing():
                     for i, (ic, t, d) in enumerate(blocks)
                 ], cols=(2, 2, 1), gap=24, row_gap=0, margin=dims(8, 0, 0, 0)),
             ], flex_gap=gaps(16), **card_style(pad=(32, 20), radius=32, deep=True)),
-            text(f"{p}-daily-caption", "<p>Bu görsel yalnızca günlük sayfaların yapısını gösterir. Her günün "
-                                       "içeriği e-kitapta yer alır.</p>", color="lmpmuted", typo="lmpsmall",
+            text(f"{p}-daily-caption", "<p>This image only shows the layout of the daily pages. Each day's "
+                                       "content is in the e-book.</p>", color="lmpmuted", typo="lmpsmall",
                  align="center"),
         ], width=54, gap=16),
     ], gap=64)])
 
-    principles = [("Basit", "Gereksiz karmaşa yok."), ("Adım Adım", "Her gün net bir sonraki adım."),
-                  ("Günlük Hayata Uygun", "Planın sürdürülebilir olması hedefleniyor.")]
+    principles = [("Simple", "No unnecessary complexity."), ("Step by Step", "A clear next step every day."),
+                  ("Fits Everyday Life", "Built to be sustainable.")]
     line = "rgba(238,242,239,0.12)"
     simplicity = section(f"{p}-simplicity", [con(f"{p}-simplicity-panel", [
         row(f"{p}-simplicity-top", [
             col(f"{p}-simplicity-copy", [
-                heading(f"{p}-simplicity-title", "Kilo Vermeyi Karmaşıklaştırma.", color="lmpondark",
+                heading(f"{p}-simplicity-title", "Don't Overcomplicate Weight Loss.", color="lmpondark",
                         **merge(local_typo("", size=68, weight=600, lh=1.0, ls=-0.034, size_t=52),
                                 {"typography_font_size": {"unit": "custom", "size": "min(4.8vw, 68px)", "sizes": []},
                                  "typography_font_size_mobile": px(9, "vw")})),
-                text(f"{p}-simplicity-text", "<p>Her gün yeni bir diyet aramak, yüzlerce kural ezberlemek veya "
-                                             "mükemmel olmaya çalışmak zorunda değilsin.</p>", color="lmpondarkmuted",
+                text(f"{p}-simplicity-text", "<p>You don't have to hunt for a new diet every day, memorize hundreds of "
+                                             "rules or try to be perfect.</p>", color="lmpondarkmuted",
                      typo="lmplead"),
-                text(f"{p}-simplicity-goal", "<p>Amaç, 30 gün boyunca uygulanabilecek basit bir sistem "
-                                             "oluşturmak.</p>", color="lmpondark", typo="lmplead"),
+                text(f"{p}-simplicity-goal", "<p>The goal is a simple system you can follow for "
+                                             "30 days.</p>", color="lmpondark", typo="lmplead"),
             ], width=56, gap=20),
             col(f"{p}-simplicity-visual", [html(f"{p}-simplicity-shift", assets.shift_html())], width=40),
         ], gap=56),
@@ -521,9 +520,9 @@ def landing():
 
     audience = section(f"{p}-audience", [row(f"{p}-audience-row", [
         col(f"{p}-audience-head", [
-            heading(f"{p}-audience-title", "Bu Plan Kimler İçin?", typo="lmph2"),
-            text(f"{p}-audience-text", "<p>Kilo vermek isteyen, nereden başlayacağını bilmeyen veya başladığı "
-                                       "planları sürdürme konusunda zorlanan kişiler için tasarlanmıştır.</p>",
+            heading(f"{p}-audience-title", "Who Is This Plan For?", typo="lmph2"),
+            text(f"{p}-audience-text", "<p>It's designed for people who want to lose weight, don't know where to "
+                                       "start, or find it hard to stick with the plans they begin.</p>",
                  typo="lmplead"),
         ], width=40, gap=18, css_classes="lmp-sticky"),
         grid(f"{p}-audience-grid", [
@@ -532,26 +531,26 @@ def landing():
                      position_mobile="inline-start", content_vertical_alignment="middle",
                      **merge(local_typo("title", size=20, weight=600, lh=1.3, ls=-0.015, size_m=17),
                              {"title_bottom_space": px(0)}))
-            for i, t in enumerate(["Yeni başlayanlar", "Daha düzenli beslenmek isteyenler",
-                                   "Hareket ve antrenmanı rutinine eklemek isteyenler",
-                                   "Kilo verme sürecini daha basit hale getirmek isteyenler"])
+            for i, t in enumerate(["Beginners", "Anyone who wants to eat more regularly",
+                                   "Anyone who wants to add movement and workouts to their routine",
+                                   "Anyone who wants to make losing weight simpler"])
         ], cols=(2, 2, 1), gap=20, width=px(56, "%"), width_tablet=px(100, "%"), width_mobile=px(100, "%")),
     ], gap=64, align="flex-start")])
     # icon boxes with a global title typography must not also carry the local one
     for ib in audience["elements"][0]["elements"][1]["elements"]:
         ib["settings"]["__globals__"].pop("title_typography_typography", None)
 
-    milestones = [("01", "BAŞLA"), ("07", "RUTİN OLUŞTUR"), ("14", "DEVAM ET"),
-                  ("21", "ALIŞKANLIKLARI GÜÇLENDİR"), ("30", "YENİ RUTİNİNİ OLUŞTUR")]
+    milestones = [("01", "START"), ("07", "BUILD A ROUTINE"), ("14", "KEEP GOING"),
+                  ("21", "STRENGTHEN YOUR HABITS"), ("30", "OWN YOUR NEW ROUTINE")]
     timeline = section(f"{p}-timeline", [
         col(f"{p}-timeline-head", [
-            heading(f"{p}-timeline-title", "30 Gün", typo="lmph2"),
-            text(f"{p}-timeline-text", "<p>Bu görünüm, 30 günlük sürecin genel akışını temsil eder.</p>",
+            heading(f"{p}-timeline-title", "30 Days", typo="lmph2"),
+            text(f"{p}-timeline-text", "<p>An overview of how the 30 days flow.</p>",
                  typo="lmplead"),
         ], gap=16),
         grid(f"{p}-timeline-track", [
             con(f"{p}-milestone-{n}", [
-                heading(f"{p}-milestone-num-{n}", f'<span class="screen-reader-text">Gün </span>{n}', tag="p",
+                heading(f"{p}-milestone-num-{n}", f'<span class="screen-reader-text">Day </span>{n}', tag="p",
                         **local_typo("", size=52, weight=600, lh=1.05, ls=-0.03, size_t=40, size_m=36)),
                 heading(f"{p}-milestone-label-{n}", lab, tag="p", color="lmpinksoft",
                         **local_typo("", size=14, weight=600, lh=1.4, ls=0.1)),
@@ -564,11 +563,11 @@ def landing():
 
     final = section(f"{p}-final", [row(f"{p}-final-panel", [
         col(f"{p}-final-copy", [
-            label(f"{p}-final-label", "Ücretsiz 30 günlük plan"),
-            heading(f"{p}-final-title", "30 Günlük Yolculuğuna Bugün Başla.", typo="lmph2"),
-            text(f"{p}-final-text", "<p>Ne yapacağını düşünmek yerine, ilk adımdan başla.</p>", typo="lmplead",
+            label(f"{p}-final-label", "Free 30-day plan"),
+            heading(f"{p}-final-title", "Start Your 30-Day Journey Today.", typo="lmph2"),
+            text(f"{p}-final-text", "<p>Instead of overthinking it, start with the first step.</p>", typo="lmplead",
                  color="lmpinksoft"),
-            html(f"{p}-final-form", assets.form_html("final", "final-cta", "Ücretsiz 30 Günlük Planı Al"),
+            html(f"{p}-final-form", assets.form_html("final", "final-cta", "Get the Free 30-Day Plan"),
                  _margin=dims(16, 0, 0, 0), _element_width="initial", _element_custom_width=px(580),
                  _element_custom_width_mobile=px(100, "%")),
         ], width=62, gap=18),
@@ -580,17 +579,17 @@ def landing():
         **merge({"background_background": "classic", "background_color": "#E3EDE7"},
                 G(background_color="lmpaccentsoft")))])
 
-    return [header(p, "#kayit"), hero, signup, contents, roadmap, daily, simplicity, audience, timeline, final,
+    return [header(p, "#signup"), hero, signup, contents, roadmap, daily, simplicity, audience, timeline, final,
             footer(p, LEGAL)]
 
 
 # ---------------------------------------------------------------- one-screen pages (after the signup)
-EBOOK_PDF = "/wp-content/uploads/2026/09/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf?v=3"  # ?v= bumps caches
-EBOOK_PDF_NAME = "lean-mode-pro-30-gunluk-kilo-verme-plani.pdf"
+EBOOK_PDF = "/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan.pdf"  # add ?v=2 etc. after a re-upload
+EBOOK_PDF_NAME = "lean-mode-pro-30-day-weight-loss-plan.pdf"
 
 
 def status_badge(key, text_):
-    """White pill with a green check, e.g. "Kaydın alındı"."""
+    """White pill with a green check, e.g. "You're signed up"."""
     return heading(key, text_, tag="p", color="lmpinksoft", cls="lmp-badge lmp-badge--check", _element_width="auto",
                    **merge(local_typo("", size=13, weight=600, lh=1.3),
                            {"_background_background": "classic", "_background_color": "#FFFFFF",
@@ -620,33 +619,33 @@ def fit_page(p, left, right):
 
 
 def thanks_page():
-    """Confirmation page shown after a signup (/tesekkurler/). On desktop it fits one screen, without scrolling."""
+    """Confirmation page shown after a signup (/thank-you/). On desktop it fits one screen, without scrolling."""
     p = "thanks"
     copy = col(f"{p}-copy", [
-        status_badge(f"{p}-badge", "Kaydın alındı"),
-        fit_title(f"{p}-title", 'Teşekkürler!<br>30 günlük planın <span class="lmp-accent-word">yolda.</span>'),
-        text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı e-posta adresine gönderiyoruz.</p>",
+        status_badge(f"{p}-badge", "You're signed up"),
+        fit_title(f"{p}-title", 'Thank you!<br>Your 30-day plan is <span class="lmp-accent-word">on its way.</span>'),
+        text(f"{p}-lead", "<p>We're sending the 30-Day Weight Loss Plan to your email address.</p>",
              typo="lmplead", color="lmpinksoft"),
-        heading(f"{p}-steps-title", "Şimdi ne yapmalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
+        heading(f"{p}-steps-title", "What to do now", typo="lmph3", _margin=dims(14, 0, 0, 0)),
         step_list(f"{p}-steps", [
-            ("E-postanı kontrol et.",
-             "LEAN MODE PRO'dan gelen e-postayı aç. Göremiyorsan spam veya promosyonlar klasörüne de bak."),
-            ("Kaydını onayla.",
-             "Bir onay e-postası aldıysan içindeki bağlantıya tıkla. Planın, onaydan sonra gönderilir."),
-            ("1. günü planla.",
-             "Planı açacağın günü ve saati şimdiden belirle. Başlamak için mükemmel bir gün beklemene gerek yok."),
+            ("Check your email.",
+             "Open the email from LEAN MODE PRO. If you can't see it, check your spam or promotions folder."),
+            ("Confirm your signup.",
+             "Click the link in the confirmation email. You'll get your plan right after you confirm."),
+            ("Plan day 1.",
+             "Pick the day and time you'll open the plan. You don't need to wait for a perfect day to start."),
         ]),
     ], width=56, gap=16, flex_align_items="flex-start")
 
     prep = col(f"{p}-prep", [
-        heading(f"{p}-prep-title", "1. güne hazırlan", **local_typo("", size=26, weight=600, lh=1.15, ls=-0.02,
+        heading(f"{p}-prep-title", "Get ready for day 1", **local_typo("", size=26, weight=600, lh=1.15, ls=-0.02,
                                                                      size_m=24)),
-        text(f"{p}-prep-text", "<p>Planın gelene kadar bu üç küçük hazırlığı yapabilirsin:</p>", color="lmpinksoft",
+        text(f"{p}-prep-text", "<p>While you wait for your plan, you can get these three things ready:</p>", color="lmpinksoft",
              **local_typo("", size=16, weight=400, lh=1.55)),
         icon_list(f"{p}-prep-list", [
-            ("Bir mezura: 1. gün bel çevreni ölçeceksin.", "check", None),
-            ("Bir su şişesi: 2. günün odağı su.", "check", None),
-            ("Bir not defteri veya telefonunda bir not: yediklerini ve adımlarını yazmak için.", "check", None),
+            ("A tape measure: you'll measure your waist on day 1.", "check", None),
+            ("A water bottle: day 2 is all about water.", "check", None),
+            ("A notebook or a note on your phone: to write down what you eat and your steps.", "check", None),
         ], inline=False, text_color="lmpinksoft", size=14, gap=12, icon_self_vertical_align="flex-start",
             icon_vertical_offset=px(5), **local_typo("icon", size=16, weight=500, lh=1.5)),
     ], width=40, gap=14, padding=dims(36), padding_tablet=dims(32), padding_mobile=dims(24, 20, 24, 20),
@@ -657,25 +656,25 @@ def thanks_page():
 
 
 def welcome_page():
-    """Thank-you page after the email confirmation (double opt-in, /kayit-onaylandi/): the e-book download."""
+    """Thank-you page after the email confirmation (double opt-in, /welcome/): the e-book download."""
     p = "welcome"
     copy = col(f"{p}-copy", [
-        status_badge(f"{p}-badge", "Kaydın onaylandı"),
-        fit_title(f"{p}-title", 'Hoş geldin!<br>Planın <span class="lmp-accent-word">hazır.</span>'),
-        text(f"{p}-lead", "<p>30 Günlük Kilo Verme Planı'nı şimdi indirebilirsin.</p>",
+        status_badge(f"{p}-badge", "Signup confirmed"),
+        fit_title(f"{p}-title", 'Welcome!<br>Your plan is <span class="lmp-accent-word">ready.</span>'),
+        text(f"{p}-lead", "<p>You can download the 30-Day Weight Loss Plan now.</p>",
              typo="lmplead", color="lmpinksoft"),
         row(f"{p}-download", [
-            button(f"{p}-download-btn", "Planı indir", EBOOK_PDF, full_mobile=True, selected_icon=icon("arrow-down"),
+            button(f"{p}-download-btn", "Download the plan", EBOOK_PDF, full_mobile=True, selected_icon=icon("arrow-down"),
                    link={"url": EBOOK_PDF, "is_external": "", "nofollow": "on",
                          "custom_attributes": f"download|{EBOOK_PDF_NAME}"}),
-            text(f"{p}-download-meta", "<p>PDF · 53 sayfa · 0,8 MB</p>", color="lmpmuted", typo="lmpsmall"),
+            text(f"{p}-download-meta", "<p>PDF · 53 pages · 0.7 MB</p>", color="lmpmuted", typo="lmpsmall"),
         ], gap=20, stack="mobile", flex_gap_mobile=gaps(12), flex_align_items_mobile="stretch",
             _margin=dims(6, 0, 0, 0)),
-        heading(f"{p}-steps-title", "Nasıl başlamalısın?", typo="lmph3", _margin=dims(14, 0, 0, 0)),
+        heading(f"{p}-steps-title", "How to get started", typo="lmph3", _margin=dims(14, 0, 0, 0)),
         step_list(f"{p}-steps", [
-            ("Planı kaydet.", "Telefonuna veya bilgisayarına indir, her gün kolayca aç."),
-            ("Önce temel bilgileri oku.", "Tabak modeli, alışveriş listesi ve hareketler ilk sayfalarda."),
-            ("Her sabah günün sayfasını aç.", "Her gün tek bir sayfa, birkaç dakikada okunur."),
+            ("Save the plan.", "Download it to your phone or computer so you can open it easily every day."),
+            ("Read the basics first.", "The plate method, the shopping list and the exercises are on the first pages."),
+            ("Open the day's page every morning.", "One page a day, read in a few minutes."),
         ]),
     ], width=56, gap=16, flex_align_items="flex-start", css_classes="lmp-fit-copy")
     visual = col(f"{p}-visual", [html(f"{p}-mockup", assets.mockup_html(
@@ -687,19 +686,18 @@ def welcome_page():
 def legal_page(slug, title, home_url):
     p = f"legal-{slug}"
     main = section(f"{p}-main", [
-        heading(f"{p}-back", f'<a href="{home_url}">← Ana sayfaya dön</a>', tag="p", color="lmpmuted",
+        heading(f"{p}-back", f'<a href="{home_url}">← Back to home</a>', tag="p", color="lmpmuted",
                 typo="lmpsmall"),
         heading(f"{p}-title", title, tag="h1", **local_typo("", size=52, weight=600, lh=1.08, ls=-0.026,
                                                             size_t=42, size_m=34)),
         text(f"{p}-body", legal.BODIES[slug](), cls="lmp-prose"),
     ], gap=24, pad=(96, 72, 56), boxed_width=px(760), min_height=px(60, "vh"))
-    return [header(p, f"{home_url}#kayit"), main, footer(p, LEGAL)]
+    return [header(p, f"{home_url}#signup"), main, footer(p, LEGAL)]
 
 
 # Slugs of the WordPress pages this build targets. The landing page is the site's front page.
-LANDING_SLUG = "ucretsiz-30-gunluk-plan"
-LEGAL_PAGES = [("gizlilik-politikasi", "Gizlilik Politikası"), ("kvkk-aydinlatma-metni", "KVKK Aydınlatma Metni"),
-               ("cerez-politikasi", "Çerez Politikası"), ("yasal-bilgiler", "Yasal Bilgiler")]
+LANDING_SLUG = "free-30-day-plan"
+LEGAL_PAGES = [("privacy-policy", "Privacy Policy"), ("legal-notice", "Legal Notice"), ("disclaimer", "Disclaimer")]
 
 if __name__ == "__main__":
     import os
@@ -712,10 +710,16 @@ if __name__ == "__main__":
             json.dump(data, fh, ensure_ascii=False, separators=(",", ":"))
 
     write("landing.json", landing())
-    write("tesekkurler.json", thanks_page())
-    write("kayit-onaylandi.json", welcome_page())
+    write("thank-you.json", thanks_page())
+    write("welcome.json", welcome_page())
     for slug, title in LEGAL_PAGES:
         write(f"{slug}.json", legal_page(slug, title, "/"))
+
+    # Snippets for the blog template (mu-plugin lmp-blog): brand CSS/JS, signup form and cover, stored in the
+    # WordPress option `lmp_blog` on deploy.
+    write("blog.json", {"assets": assets.assets_html(),
+                        "form": assets.form_html("post", "blog-post", "Get the Free Plan"),
+                        "mockup": assets.mockup_html(small=True, daycard=False, sizes="130px")})
 
     from kit import settings as kit_settings
     write("kit.json", kit_settings)

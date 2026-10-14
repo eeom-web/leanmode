@@ -5,8 +5,8 @@ ARROW_DOWN = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke
 CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
 CAL = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>'
 
-CONSENT = ("Kayıt olarak ücretsiz planı almayı ve LEAN MODE PRO'dan e-posta yoluyla faydalı içerikler ve teklifler "
-           "almayı kabul ediyorum. İstediğim zaman abonelikten çıkabilirim.")
+CONSENT = ("By signing up, I agree to receive the free plan and helpful tips and offers from LEAN MODE PRO by email. "
+           "I can unsubscribe at any time.")
 
 LOGO_MASK = (
     "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E"
@@ -131,16 +131,6 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .lmp-milestone::before{top:12px;left:-36px}
 }
 
-/* Cookie banner (consent before the Meta Pixel loads) */
-.lmp-consent{position:fixed;z-index:60;left:16px;right:16px;bottom:16px;max-width:520px;margin:0 auto;padding:20px 22px;border:1px solid #E3E2DB;border-radius:20px;background:#fff;box-shadow:0 2px 6px rgba(16,22,20,.05),0 24px 60px -24px rgba(16,22,20,.35);color:#414B46;font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;line-height:1.55}
-@media (min-width:768px){.lmp-consent{left:24px;right:auto;bottom:24px;margin:0}}
-.lmp-consent__title{margin:0 0 6px;color:#101614;font-size:16px;font-weight:600;line-height:1.3}
-.lmp-consent__text{margin:0 0 16px}
-.lmp-consent__text a{color:#1D5A48;text-decoration:underline;text-underline-offset:2px}
-.lmp-consent__actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.lmp-consent__btn{appearance:none;margin:0;padding:12px 16px;border:1px solid #1D5A48;border-radius:999px;background:#1D5A48;color:#fff;font:inherit;font-size:15px;font-weight:600;line-height:1.2;cursor:pointer;transition:background-color .2s ease}
-.lmp-consent__btn:hover{background:#164A3B}
-.lmp-consent__btn:focus-visible{outline:2px solid #1D5A48;outline-offset:3px}
 
 /* Signup form */
 .lmp-signup{container-type:inline-size;width:100%}
@@ -202,27 +192,27 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 .elementor .e-con .lmp-hero-title .elementor-heading-title{font-size:clamp(22px,7vw,30px);line-height:1.12}
 .lmp-hero-visual .lmp-mockup{--book-w:min(33vw,160px);padding:4px 4px 8px}
 .lmp-hero-visual .lmp-daycard{display:none}
-#kayit .lmp-signup__label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#signup .lmp-signup__label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 }
 """.replace("MASK", LOGO_MASK).replace("CHECK_BG", CHECK_BG)
 
 JS = r"""
 (function(){
-  /* Formular-Einstellungen.
-     brevoFormUrl: öffentliche Adresse des Brevo-Anmeldeformulars (action aus dem Brevo-Einbettungscode).
-     Das ist kein Geheimnis und kein API-Schlüssel. Leer = Demo-Modus, es wird nichts gesendet.
-     Double-Opt-in, Liste, Bestätigungs-Mail und die Weiterleitung nach der Bestätigung stellt Brevo im Formular ein. */
+  /* Form settings.
+     brevoFormUrl: public address of the Brevo signup form (action from Brevo's embed code).
+     It is not a secret and not an API key. Empty = demo mode, nothing is sent.
+     Double opt-in, list, confirmation email and the redirect after confirming are set in the Brevo form. */
   var CONFIG = {
     brevoFormUrl: 'https://7c905345.sibforms.com/serve/MUIFADIq3Y7ilkUefu0VUgSDY6zbPkBfj1elhcMDMOW47P1yy0u4b310TIrfOyMpe89fyMLw3rLnEwhF2hQJAGQs0x4USC_ByNsT-UM0mH4jdE_S96lJ4Dr3tAYm7mgz82PEsY4OzdXCtgqY7hORkFuVqZ_hq_6XiqOk-wvvGNgIdBWDv8oxlcw62jvp1NFSy0tzL4FV3hZHzKfRMA==',
-    brevoLocale: 'de',
-    successUrl: '/tesekkurler/',
+    brevoLocale: 'en',
+    successUrl: '/thank-you/',
     timeoutMs: 15000
   };
   var TEXT = {
-    empty: 'Lütfen e-posta adresini gir.',
-    invalid: 'Lütfen geçerli bir e-posta adresi gir.',
-    failed: 'Şu anda kaydını alamadık. Lütfen birazdan tekrar dene.',
-    loading: 'Gönderiliyor…'
+    empty: 'Please enter your email address.',
+    invalid: 'Please enter a valid email address.',
+    failed: "We couldn't sign you up right now. Please try again in a moment.",
+    loading: 'Sending…'
   };
   var EMAIL = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[^\s@.]{2,}$/;
   function isValid(v){ return v.length <= 254 && EMAIL.test(v); }
@@ -269,86 +259,7 @@ JS = r"""
         });
       }, function(err){ clearTimeout(t); throw err; });
   }
-  /* Cookie banner + Meta Pixel. The pixel loads only after "Kabul et"; the choice is kept in the
-     necessary cookie lmp_consent (12 months). "Çerez ayarları" in the footer (#cerez-ayarlari) reopens it. */
-  var PIXEL_ID = '2362284981222890';
-  var CONSENT = {
-    cookie: 'lmp_consent', maxAge: 31536000,
-    title: 'Çerez tercihin',
-    text: 'Onay verirsen, reklamlarımızın etkisini ölçmek ve Facebook ile Instagram\'da sana uygun reklamlar gösterebilmek için Meta Pixel\'i kullanırız. Bunun için çerezler kullanılır ve veriler Meta\'ya (ABD dahil) aktarılır. Onay vermesen de site eksiksiz çalışır. Seçimini istediğin zaman sayfanın altındaki “Çerez ayarları” bağlantısından değiştirebilirsin.',
-    links: '<a href="/cerez-politikasi/">Çerez Politikası</a> · <a href="/gizlilik-politikasi/">Gizlilik Politikası</a> · <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a>',
-    deny: 'Reddet', accept: 'Kabul et'
-  };
-  function getConsent(){
-    var m = document.cookie.match(/(?:^|; )lmp_consent=(granted|denied)/);
-    return m ? m[1] : null;
-  }
-  function setConsent(value){
-    document.cookie = CONSENT.cookie + '=' + value + '; Max-Age=' + CONSENT.maxAge + '; Path=/; SameSite=Lax' +
-      (location.protocol === 'https:' ? '; Secure' : '');
-  }
-  function loadPixel(){
-    if (!PIXEL_ID || window.fbq) return;
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;
-    n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    window.fbq('init', PIXEL_ID);
-    window.fbq('track', 'PageView');
-  }
-  function clearMetaCookies(){
-    var host = location.hostname.replace(/^www\./, '');
-    ['_fbp', '_fbc'].forEach(function(name){
-      ['', '; Domain=' + host, '; Domain=.' + host].forEach(function(domain){
-        document.cookie = name + '=; Max-Age=0; Path=/' + domain;
-      });
-    });
-  }
-  function closeBanner(){
-    var el = document.getElementById('lmp-consent');
-    if (el) el.parentNode.removeChild(el);
-  }
-  function decide(value){
-    setConsent(value);
-    closeBanner();
-    if (value === 'granted') { loadPixel(); return; }
-    if (window.fbq) window.fbq('consent', 'revoke');
-    clearMetaCookies();
-  }
-  function showBanner(){
-    if (document.getElementById('lmp-consent')) return;
-    var el = document.createElement('div');
-    el.id = 'lmp-consent';
-    el.className = 'lmp-consent';
-    el.setAttribute('role', 'dialog');
-    el.setAttribute('aria-labelledby', 'lmp-consent-title');
-    el.innerHTML = '<p class="lmp-consent__title" id="lmp-consent-title">' + CONSENT.title + '</p>' +
-      '<p class="lmp-consent__text">' + CONSENT.text + ' ' + CONSENT.links + '</p>' +
-      '<div class="lmp-consent__actions">' +
-      '<button type="button" class="lmp-consent__btn" data-consent="denied">' + CONSENT.deny + '</button>' +
-      '<button type="button" class="lmp-consent__btn" data-consent="granted">' + CONSENT.accept + '</button></div>';
-    el.addEventListener('click', function(e){
-      var btn = e.target.closest('[data-consent]');
-      if (btn) decide(btn.getAttribute('data-consent'));
-    });
-    document.body.appendChild(el);
-  }
-  function initConsent(){
-    var choice = getConsent();
-    if (choice === 'granted') loadPixel();
-    else if (!choice) showBanner();
-    document.addEventListener('click', function(e){
-      var link = e.target.closest && e.target.closest('a[href$="#cerez-ayarlari"]');
-      if (!link) return;
-      e.preventDefault();
-      showBanner();
-      var first = document.querySelector('#lmp-consent [data-consent]');
-      if (first) first.focus({ preventScroll: true });
-    });
-  }
-
   function init(){
-    initConsent();
     var header = document.querySelector('.lmp-header');
     if (header) {
       var upd = function(){ header.classList.toggle('is-scrolled', window.scrollY > 8); };
@@ -391,28 +302,28 @@ def assets_html():
 def form_html(uid, source, button_label):
     return f"""<div class="lmp-signup" data-lmp-root>
 <form class="lmp-signup__form" method="post" novalidate data-lmp-signup>
-<label class="lmp-signup__label" for="{uid}-email">E-posta adresin</label>
+<label class="lmp-signup__label" for="{uid}-email">Your email address</label>
 <div class="lmp-signup__field">
-<input class="lmp-signup__input" id="{uid}-email" type="email" name="email" placeholder="E-posta adresini gir" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" maxlength="254" required aria-describedby="{uid}-error {uid}-consent">
+<input class="lmp-signup__input" id="{uid}-email" type="email" name="email" placeholder="Enter your email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" enterkeyhint="send" maxlength="254" required aria-describedby="{uid}-error {uid}-consent">
 <button class="lmp-signup__button" type="submit"><span data-label>{button_label}</span>{ARROW}</button>
 </div>
 <p class="lmp-signup__error" id="{uid}-error" aria-live="polite" data-error></p>
-<p class="lmp-signup__consent" id="{uid}-consent">{CONSENT} <a href="/gizlilik-politikasi/">Gizlilik Politikası</a> · <a href="/kvkk-aydinlatma-metni/">KVKK Aydınlatma Metni</a></p>
+<p class="lmp-signup__consent" id="{uid}-consent">{CONSENT} <a href="/privacy-policy/">Privacy Policy</a></p>
 <input type="hidden" name="source" value="{source}">
-<div class="lmp-signup__hp" aria-hidden="true"><label>Web sitesi <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+<div class="lmp-signup__hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 </form>
 <div class="lmp-signup__success" role="status" tabindex="-1" hidden data-success>
 <span class="lmp-signup__success-icon">{CHECK}</span>
-<div><p class="lmp-signup__success-title">Teşekkürler, kaydın alındı.</p>
-<p class="lmp-signup__success-text">30 günlük planı e-posta adresine gönderiyoruz. Gelen kutunu kontrol et; e-postayı göremezsen spam klasörüne de göz at.</p></div>
+<div><p class="lmp-signup__success-title">Thank you, you're signed up.</p>
+<p class="lmp-signup__success-text">We're sending the 30-day plan to your email address. Check your inbox; if you can't see the email, look in your spam folder too.</p></div>
 </div>
 </div>"""
 
 
-# E-book cover (operator's Canva design, see ../brand/ebook-cover-*.webp), uploaded to the media library.
-COVER = "/wp-content/uploads/2026/10/lean-mode-pro-e-kitap-kapak-{}.webp"
+# E-book cover (operator's Canva photos with an English title band, see ../brand/ebook-cover-en-*.webp), in the media library.
+COVER = "/wp-content/uploads/2026/10/lean-mode-pro-ebook-cover-{}.webp"
 COVER_WIDTHS = (360, 540, 720)
-COVER_ALT = "30 Günlük Kilo Verme Planı e-kitap kapağı"
+COVER_ALT = "The 30-Day Weight Loss Plan e-book cover"
 
 
 def mockup_html(small=False, daycard=True, sizes="(max-width:767px) 66vw, 360px", eager=False):
@@ -421,8 +332,8 @@ def mockup_html(small=False, daycard=True, sizes="(max-width:767px) 66vw, 360px"
     bar = "".join('<i class="is-done"></i>' if i == 0 else "<i></i>" for i in range(30))
     card = ""
     if daycard:
-        card = (f'<div class="lmp-daycard"><div class="lmp-daycard__head">{CAL}<span>GÜN <strong>01</strong> / 30</span></div>'
-                f'<div class="lmp-daycard__bar">{bar}</div><span class="lmp-daycard__text">Her gün bir sonraki adım</span></div>')
+        card = (f'<div class="lmp-daycard"><div class="lmp-daycard__head">{CAL}<span>DAY <strong>01</strong> / 30</span></div>'
+                f'<div class="lmp-daycard__bar">{bar}</div><span class="lmp-daycard__text">The next step, every day</span></div>')
     srcset = ", ".join(f"{COVER.format(w)} {w}w" for w in COVER_WIDTHS)
     loading = 'loading="eager" fetchpriority="high"' if eager else 'loading="lazy"'
     img = (f'<img src="{COVER.format(540)}" srcset="{srcset}" sizes="{sizes}" width="720" height="1080" '
@@ -433,8 +344,8 @@ def mockup_html(small=False, daycard=True, sizes="(max-width:767px) 66vw, 360px"
 
 
 def shift_html():
-    noise = ["Her gün yeni bir diyet", "Yüzlerce kural", "Mükemmel olma baskısı", "Çelişen bilgiler", "Karmaşık tablolar"]
+    noise = ["A new diet every day", "Hundreds of rules", "Pressure to be perfect", "Conflicting advice", "Complicated charts"]
     items = "".join(f"<li>{n}</li>" for n in noise)
     return (f'<div class="lmp-shift" aria-hidden="true"><ul class="lmp-shift__noise">{items}</ul>'
             f'<span class="lmp-shift__arrow">{ARROW_DOWN}</span>'
-            f'<p class="lmp-shift__one">{CHECK}Bugünün adımı</p></div>')
+            f'<p class="lmp-shift__one">{CHECK}Today&#39;s step</p></div>')

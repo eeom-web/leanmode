@@ -14,50 +14,45 @@ Hier wird die Landingpage für WordPress/Elementor erzeugt, und zwar mit dem kla
 
 ## Seiten
 
+Die Website ist seit 14.10.2026 englisch (vorher türkisch, siehe Git-Historie).
+
 | Seite | Adresse | Zweck |
 | ----- | ------- | ----- |
-| Landingpage | `/` | Startseite mit Anmeldeformular |
-| Bestätigungsseite | `/tesekkurler/` | Nach dem Absenden des Formulars: „E-Mail prüfen und bestätigen“ |
-| Dankeseite | `/kayit-onaylandi/` | Nach dem Klick auf den Bestätigungslink: E-Book zum Download |
-| Rechtsseiten | `/yasal-bilgiler/` (Impressum), `/gizlilik-politikasi/` (Datenschutz), `/kvkk-aydinlatma-metni/` (Informationstext nach türkischem KVKK), `/cerez-politikasi/` (Cookies) | Texte in `legal.py` |
+| Landingpage | `/` | Startseite mit Anmeldeformular (`#signup`) |
+| Bestätigungsseite | `/thank-you/` | Nach dem Absenden des Formulars: „E-Mail prüfen und bestätigen“ |
+| Dankeseite | `/welcome/` | Nach dem Klick auf den Bestätigungslink: E-Book zum Download |
+| Rechtsseiten | `/legal-notice/` (Impressum), `/privacy-policy/` (Datenschutz), `/disclaimer/` (Gesundheitshinweis und Affiliate-Offenlegung) | Texte in `legal.py` |
+| Blog | `/blog/` und Beiträge | Eigenes Template im Must-use-Plugin `lmp-blog` (siehe `../README.md`) |
 
 Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm und sind auf
 „noindex“ gestellt. Das E-Book-PDF liegt in der Mediathek unter
-`/wp-content/uploads/2026/09/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf`. In Brevo gehört
-`https://leanmodepro.com/kayit-onaylandi/` als Weiterleitung nach der Double-Opt-in-Bestätigung eingetragen.
+`/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan.pdf`. In Brevo gehört
+`https://leanmodepro.com/welcome/` als Weiterleitung nach der Double-Opt-in-Bestätigung eingetragen
+(die alte Adresse `/kayit-onaylandi/` leitet per 301 weiter).
 
 ## Rechtstexte
 
 - Name, Anschrift, E-Mail, Telefon und USt-IdNr. stehen **nicht** im Repository. Die Texte enthalten
   Platzhalter wie `{{lmp:name}}`; beim Import auf WordPress werden sie aus der Option `lmp_operator`
-  ersetzt. Leere optionale Felder (USt-IdNr., Telefon, zuständige Aufsichtsbehörde) fallen samt
+  ersetzt. Leere optionale Felder (USt-IdNr., Telefon, zuständige Aufsichtsbehörde, `amazon`) fallen samt
   ihrem Block weg, z. B. alles zwischen `<!--lmp:vat-->` und `<!--/lmp:vat-->`.
-- Die Datenschutzerklärung beschreibt den Stand vom 24.09.2026: keine Cookies, kein Browser-Speicher,
-  keine externen Verbindungen für Besucher. Dafür ist „Hostinger Reach“ deaktiviert und das
-  Must-use-Plugin `wordpress/mu-plugins/lmp-privacy.php` schaltet das WordPress-Emoji-Skript ab.
-  Wer neue Plugins, Einbettungen, Statistik-Tools oder Ähnliches einbaut, muss die Texte anpassen.
-- Die Datenschutzerklärung (Stand 11.10.2026) folgt im Aufbau der e-recht24-Vorlage (übersetzt und an die Seite
-  angepasst, Quellenhinweis am Ende): 1. Überblick, 2. Hosting (Hostinger International Ltd. laut AVV,
-  Domain-Registrar HOSTINGER operations, UAB), 3. Pflichtinformationen und Rechte, 4. Datenerfassung (Cookies,
-  Banner, Server-Logs, E-Mail-Kontakt), 5. Social Media (keine Plugins, Facebook-/Instagram-Seite mit
-  gemeinsamer Verantwortung für Insights), 6. Analyse und Werbung (Meta Pixel), 7. Newsletter mit
-  Double-Opt-in über Brevo, 8. Änderungen. WP Statistics und Shariff aus der Vorlage fehlen bewusst, weil sie
-  nicht installiert sind.
-- Für Besucher in der Türkei gibt es einen eigenen Informationstext nach KVKK Art. 10 (`kvkk_html`), verlinkt im
-  Footer, unter dem Formular und im Cookie-Banner. Er informiert nur und fragt keine Einwilligung ab
-  (KVKK-Grundsatzbeschluss 2026/347: Informations- und Einwilligungstext getrennt). Wird ein Vertreter in der
-  Türkei bestellt, trägt man ihn in `lmp_operator` als `kvkkrep` ein, dann erscheint er im Text.
-  Offen (Stand 14.10.2026, Anwalt): VERBIS/Vertreter, İYS für Werbe-Mails, KVKK Art. 9 (Auslandsübermittlung),
-  Kopplung E-Book/Newsletter (separate Newsletter-Checkbox braucht ein Feld im Brevo-Formular).
-- Brevo läuft mit Double-Opt-in; die Datenschutzerklärung beschreibt die Messung von Öffnungen und
-  Klicks (Brevo-Standard). Wird das Tracking in Brevo abgeschaltet, kann der Abschnitt wieder raus.
-- **Tracking-Schalter** in `lmp_operator`: `tracking` (Cookie-Banner aktiv) und je Werkzeug `meta`, `ga`,
-  `gads`, `google` (= ga oder gads). Nur gesetzte Werkzeuge erscheinen in Datenschutz- und Cookie-Seite.
-  Stand 06.10.2026: `tracking` und `meta` gesetzt (Meta Pixel 2362284981222890).
-- **Cookie-Banner** im gemeinsamen Assets-Skript: Der Meta Pixel lädt erst nach „Kabul et“, die Wahl steht
-  im notwendigen Cookie `lmp_consent` (12 Monate). Footer-Link „Çerez ayarları“ (`#cerez-ayarlari`) öffnet
-  den Banner erneut; beim Widerruf werden `_fbp`/`_fbc` gelöscht. Kein `<noscript>`-Pixel (der würde ohne
-  Einwilligung senden). Weitere Werkzeuge (Google) müssen ebenfalls über diesen Banner laufen.
+- Stand 14.10.2026: keine Cookies, kein Browser-Speicher, kein Pixel, keine Analyse, keine externen
+  Verbindungen für Besucher (deshalb auch kein Cookie-Banner und keine Cookie-Seite). „Hostinger Reach“ ist
+  deaktiviert und `wordpress/mu-plugins/lmp-privacy.php` schaltet das Emoji-Skript ab. Wer Pixel, Analyse,
+  Einbettungen oder neue Plugins einbaut, braucht wieder Banner und angepasste Texte (der frühere Meta-Pixel-
+  Banner steht in der Git-Historie, Commit 3582b2f).
+- Die Privacy Policy folgt im Aufbau der e-recht24-Vorlage (übersetzt und angepasst, Quellenhinweis am Ende):
+  1. Überblick, 2. Hosting (Hostinger International Ltd. laut AVV, Registrar HOSTINGER operations, UAB),
+  3. Pflichtinformationen und Rechte, 4. Datenerfassung (keine Cookies, Server-Logs, E-Mail-Kontakt, Schrift,
+  Download, Affiliate-Links), 5. Social Media (keine Plugins; Profile auf Pinterest, Instagram, TikTok, YouTube),
+  6. Newsletter mit Double-Opt-in über Brevo, 7. Änderungen.
+- Der Disclaimer enthält Gesundheitshinweis (18+, keine Ergebnisgarantie) und Affiliate-Offenlegung. Sobald der
+  Betreiber im Amazon-Partnerprogramm ist, `amazon` in `lmp_operator` setzen und die Rechtsseiten neu
+  befüllen: Dann erscheinen der Pflichtsatz „As an Amazon Associate I earn from qualifying purchases“ und der
+  Amazon-Abschnitt (der Blog-Hinweis über jedem Beitrag liest die Option direkt).
+- Brevo läuft mit Double-Opt-in; die Privacy Policy beschreibt die Messung von Öffnungen und Klicks
+  (Brevo-Standard). Der Einwilligungstext am Formular erwähnt sie nicht (Entscheidung des Betreibers);
+  alternativ das Tracking in Brevo abschalten.
 
 ## Wichtig
 

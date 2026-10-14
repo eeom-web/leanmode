@@ -5,12 +5,13 @@
 | `elementor/` | Seitenaufbau für Elementor, Rechtstexte, gemeinsames CSS/JS (siehe dortige README) |
 | `mu-plugins/lmp-privacy.php` | Schaltet das WordPress-Emoji-Skript ab (kein Browser-Speicher, keine Anfragen an s.w.org) |
 | `mu-plugins/lmp-site-icon.php` | Vollflächiges Apple-Touch-Icon statt des abgerundeten Website-Icons |
-| `mu-plugins/lmp-closed.php` | **Seite geschlossen** (seit 14.10.2026): Besucher sehen eine Hinweisseite (HTTP 503), offen bleiben nur Rechtsseiten und Download-Seite. Zum Wiedereröffnen die Datei auf dem Server löschen |
+| `mu-plugins/lmp-closed.php` | Wartungsseite (HTTP 503), war vom 14.10.2026 bis zur englischen Neueröffnung aktiv. Liegt nicht mehr auf dem Server; zum Schließen der Seite wieder nach `wp-content/mu-plugins/` kopieren |
+| `mu-plugins/lmp-blog.php`, `mu-plugins/lmp-blog/template.php` | Blog im Lean-Mode-Pro-Design: Beiträge, `/blog/` und Archive mit eigenem Template statt Block-Theme; jeder Beitrag bekommt oben einen Affiliate-Hinweis, unten Gesundheitshinweis und Anmeldebox; Open-Graph-Tags für Pinterest Rich Pins; Kommentare aus; 301-Weiterleitungen der alten türkischen Adressen. CSS/JS, Formular und Cover kommen aus der Option `lmp_blog` (`elementor/dist/blog.json`) |
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
-| `brand/ebook-cover-{360,540,720}.webp` | E-Book-Cover für die Website (Canva-Vorlage des Betreibers, schwarzer Rand entfernt, auf 2:3 zugeschnitten), Mediathek „Lean Mode Pro – E-Kitap Kapağı“ |
-| `brevo/doi-tr.html` | Entwurf einer Bestätigungs-Mail (Double-Opt-in, Türkisch), nicht verbunden |
+| `brand/ebook-cover-en-{360,540,720}.webp` | E-Book-Cover für die Website: Fotos aus der Canva-Vorlage des Betreibers, englisches Titelband, 2:3; Mediathek „Lean Mode Pro – E-Book Cover“ |
+| `brevo/doi-en.html` | Entwurf der Bestätigungs-Mail (Double-Opt-in, Englisch) zum Einfügen in Brevo |
 
 Die Must-use-Plugins liegen auf dem Server in `wp-content/mu-plugins/`.
 
@@ -23,13 +24,14 @@ dem Server ist keiner gespeichert.
 
 Ablauf: Eintragen → das Skript schickt `EMAIL`, das leere Spam-Schutzfeld `email_address_check` und `locale`
 per POST an `<brevoFormUrl>?isAjax=1` (wie Brevos eigenes Einbettungsskript, ohne Cookies) → bei
-`success: true` Weiterleitung auf `/tesekkurler/` → Brevo schickt die Bestätigungs-Mail → nach dem Klick
-leitet Brevo auf die im Formular eingestellte Seite weiter (`/kayit-onaylandi/`, Download).
+`success: true` Weiterleitung auf `/thank-you/` → Brevo schickt die Bestätigungs-Mail → nach dem Klick
+leitet Brevo auf die im Formular eingestellte Seite weiter (`/welcome/`, Download; die alte Adresse
+`/kayit-onaylandi/` leitet per 301 dorthin weiter).
 
 Liste, Bestätigungs-Mail, Weiterleitung nach der Bestätigung und Captcha (aus) werden in Brevo im Formular
 eingestellt, nicht hier. Brevo-Skripte, -Styles oder -Schriften werden nicht geladen; Brevo wird erst beim
 Absenden kontaktiert. Leeres `brevoFormUrl` = Demo-Modus.
 
-`brevo/doi-tr.html` ist ein Entwurf für die Bestätigungs-Mail; die Platzhalter `{{lmp:name}}` usw. müssen vor
+`brevo/doi-en.html` ist ein Entwurf für die Bestätigungs-Mail; die Platzhalter `{{lmp:name}}` usw. müssen vor
 der Verwendung durch die Angaben aus dem Impressum ersetzt werden, `{{ doubleoptin }}` ist Brevos Platzhalter
 für den Bestätigungslink.
