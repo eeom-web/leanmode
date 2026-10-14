@@ -33,25 +33,10 @@ def icon(name, size=14):
 
 
 def esc(text):
-    # Keep ranges such as "1–10" or "8.000–10.000" on one line.
+    # Keep ranges such as "1–10" or "8,000–10,000" on one line.
     text = re.sub(r"(\S*\d–\d\S*)", r"<x-nw>\1</x-nw>", html.escape(text, quote=False))
-    # Ordinals such as "16. gün" stay together.
-    return re.sub(r"(\d)\. (?=[a-zçğıöşü])", "\\1.\u00a0", text)
-
-
-# Turkish case suffixes after numerals follow the pronunciation of the last number word,
-# e.g. 3'ten (üç), 6'dan (altı), 10'da (on), 12'de (on iki).
-_UNITS = {1: (False, False), 2: (False, False), 3: (False, True), 4: (False, True), 5: (False, True),
-          6: (True, False), 7: (False, False), 8: (False, False), 9: (True, False)}
-_TENS = {10: (True, False), 20: (False, False), 30: (True, False), 40: (True, True), 50: (False, False),
-         60: (True, True), 70: (False, True), 80: (False, False), 90: (True, False)}
-
-
-def with_suffix(n, kind):
-    """kind: 'de' (locative), 'den' (ablative) or 'deki'."""
-    back, hard = _UNITS[n % 10] if n % 10 else _TENS.get(n % 100, (False, True))
-    stem = ("t" if hard else "d") + ("a" if back else "e")
-    return f"{n}'" + {"de": stem, "den": stem + "n", "deki": stem + "ki"}[kind]
+    # "p. 12" (page references) stays together.
+    return re.sub(r"\bp\. (?=\d)", "p.\u00a0", text)
 
 
 def label(text, ic=None):
@@ -83,7 +68,7 @@ def add(key, html_, toc=None):
 
 
 def page(inner, cls="", footer=True):
-    foot = ('<footer class="foot"><span>LEAN MODE PRO</span><span>30 Günlük Kilo Verme Planı</span>'
+    foot = ('<footer class="foot"><span>LEAN MODE PRO</span><span>The 30-Day Weight Loss Plan</span>'
             '<span class="pn">{pageno}</span></footer>') if footer else ""
     return f'<section class="page {cls}">{inner}{foot}</section>'
 
@@ -97,25 +82,25 @@ def cover():
 
 
 def toc_page():
-    add("toc", page('<h2 class="h2">İçindekiler</h2><div class="toc">{toc}</div>', "plain"))
+    add("toc", page('<h2 class="h2">Contents</h2><div class="toc">{toc}</div>', "plain"))
 
 
 def how_to():
     steps = "".join(f'<li><strong>{esc(a)}</strong><span>{esc(b)}</span></li>' for a, b in B.HOW_TO_USE)
-    legend = [("focus", "BUGÜNÜN ODAĞI", "Günün tek konusu"), ("nutrition", "BESLENME", "Öğün önerileri"),
-              ("movement", "HAREKET", "Adım veya yürüyüş hedefi"), ("training", "ANTRENMAN", "Kuvvet veya toparlanma"),
-              ("tips", "BUGÜNÜN İPUCU", "Pratik bir bilgi"), ("task", "GÜNÜN GÖREVİ", "Bugün yapacağın küçük adım")]
+    legend = [("focus", "TODAY'S FOCUS", "The one topic of the day"), ("nutrition", "NUTRITION", "Meal ideas"),
+              ("movement", "MOVEMENT", "Step or walking goal"), ("training", "WORKOUT", "Strength or recovery"),
+              ("tips", "TIP OF THE DAY", "A practical tip"), ("task", "TASK OF THE DAY", "The small step you take today")]
     leg = "".join(f'<div class="leg">{icon(i, 16)}<div><b>{a}</b><span>{b}</span></div></div>' for i, a, b in legend)
     inner = f"""
-    <p class="eyebrow">Başlamadan önce</p>
-    <h2 class="h2">Bu rehber nasıl kullanılır?</h2>
+    <p class="eyebrow">Before you start</p>
+    <h2 class="h2">How to use this guide</h2>
     <ol class="steps">{steps}</ol>
     <div class="callout tint"><p>{esc(B.MISSED_DAY)}</p></div>
-    <h3 class="h3">Her günün sayfasında</h3>
+    <h3 class="h3">On every daily page</h3>
     <div class="legend">{leg}</div>
-    <div class="callout warn"><p class="label"><span>ÖNEMLİ NOT</span></p><p>{esc(B.DISCLAIMER)}</p></div>
+    <div class="callout warn"><p class="label"><span>IMPORTANT</span></p><p>{esc(B.DISCLAIMER)}</p></div>
     """
-    add("kullanim", page(inner, "plain"), toc="Bu rehber nasıl kullanılır?")
+    add("kullanim", page(inner, "plain"), toc="How to use this guide")
 
 
 def intro():
@@ -123,48 +108,48 @@ def intro():
     paras = "".join(f"<p>{esc(p)}</p>" for p in I["paragraphs"])
     pts = "".join(f'<li>{icon("check", 14)}<div><b>{esc(a)}</b> {esc(b)}</div></li>' for a, b in I["points"])
     phases = "".join(
-        f'<div class="phase-mini"><span>FAZ {ph["n"]}</span><b>{esc(ph["name"])}</b><em>Gün {ph["days"][0]}–{ph["days"][1]}</em></div>'
+        f'<div class="phase-mini"><span>PHASE {ph["n"]}</span><b>{esc(ph["name"])}</b><em>Days {ph["days"][0]}–{ph["days"][1]}</em></div>'
         for ph in P.PHASES)
     inner = f"""
-    <p class="eyebrow">Giriş</p>
+    <p class="eyebrow">Introduction</p>
     <h2 class="h2">{esc(I["title"])}</h2>
     <div class="prose">{paras}</div>
     <ul class="points">{pts}</ul>
     <p class="lead">{esc(I["closing"])}</p>
-    <h3 class="h3">30 gün, 4 faz</h3>
+    <h3 class="h3">30 days, 4 phases</h3>
     <div class="phase-row">{phases}</div>
-    <p class="caption">Her faz bir öncekinin üzerine kurulur. Yeni alışkanlıklar tek tek eklenir.</p>
-    <div class="callout tint"><p class="label"><span>GERÇEKÇİ BEKLENTİ</span></p><p>{esc(I["expectation"])}</p></div>
+    <p class="caption">Each phase builds on the one before. New habits are added one at a time.</p>
+    <div class="callout tint"><p class="label"><span>REALISTIC EXPECTATIONS</span></p><p>{esc(I["expectation"])}</p></div>
     """
-    add("giris", page(inner, "plain"), toc="Giriş: Neden 30 günlük bir plan?")
+    add("giris", page(inner, "plain"), toc="Introduction: Why a 30-day plan?")
 
 
 def basics():
-    cards = [f'<div class="card"><h3>{esc(t)}</h3><p>{esc(x)}</p><p class="plan-line"><b>Planda:</b> {esc(pl)}</p></div>'
+    cards = [f'<div class="card"><h3>{esc(t)}</h3><p>{esc(x)}</p><p class="plan-line"><b>In the plan:</b> {esc(pl)}</p></div>'
              for t, x, pl in B.BASICS]
     no = "".join(f"<li>{esc(x)}</li>" for x in B.NOT_IN_PLAN)
-    roadmap = "".join(f"<li><span>Gün {n}</span>{esc(t)}</li>" for n, t in B.HABIT_ROADMAP)
+    roadmap = "".join(f"<li><span>Day {n}</span>{esc(t)}</li>" for n, t in B.HABIT_ROADMAP)
     p1 = f"""
-    <p class="eyebrow">1. günden önce</p>
-    <h2 class="h2">Bilmen gereken 7 temel</h2>
-    <p class="lead">Kısa ve sade: Plan boyunca yapacağın her şeyin arkasındaki mantık.</p>
+    <p class="eyebrow">Before day 1</p>
+    <h2 class="h2">7 basics you should know</h2>
+    <p class="lead">Short and simple: the reasoning behind everything you'll do in this plan.</p>
     <div class="cards">{"".join(cards[:4])}</div>
     """
     p2 = f"""
-    <p class="eyebrow">1. günden önce</p>
+    <p class="eyebrow">Before day 1</p>
     <div class="cards">{"".join(cards[4:])}
-      <div class="card dark-card"><p class="label light"><span>BU PLANDA NELER YOK?</span></p><ul class="nolist">{no}</ul></div>
+      <div class="card dark-card"><p class="label light"><span>WHAT THIS PLAN DOESN'T HAVE</span></p><ul class="nolist">{no}</ul></div>
     </div>
-    <h3 class="h3">{icon("habits", 16)} Alışkanlıklar tek tek eklenir</h3>
-    <p class="note">Her şeyi aynı anda değiştirmiyorsun. Yeni bir alışkanlık, bir öncekinin üzerine eklenir.</p>
+    <h3 class="h3">{icon("habits", 16)} Habits are added one at a time</h3>
+    <p class="note">You don't change everything at once. Each new habit builds on the one before.</p>
     <ol class="roadmap">{roadmap}</ol>
     """
-    add("temel", page(p1, "plain"), toc="Bilmen gereken 7 temel")
+    add("temel", page(p1, "plain"), toc="7 basics you should know")
     add("temel2", page(p2, "plain"))
 
 
 def plate_svg():
-    """Plate model as vector pie: sebze 50 %, protein 25 %, karbonhidrat 22 %, yağ 3 %."""
+    """Plate model as vector pie: vegetables 50 %, protein 25 %, carbs 22 %, fat 3 %."""
     import math
     parts = [(0.50, "#8fc3a8"), (0.25, "#1d5a48"), (0.22, "#d8cba8"), (0.03, "#b9a676")]
     cx = cy = 50
@@ -188,17 +173,17 @@ def plate():
     rows = "".join(f'<tr><th>{esc(a)}</th><td class="hand">{esc(b)}</td><td>{esc(c)}</td></tr>' for a, b, c in T["hand"])
     legend = "".join(f'<li class="pl-{i}"><i></i><b>{esc(a)}</b><span>{esc(b)}</span></li>' for i, (a, b) in enumerate(T["parts"]))
     inner = f"""
-    <p class="eyebrow">Beslenme</p>
+    <p class="eyebrow">Nutrition</p>
     <h2 class="h2">{esc(T["title"])}</h2>
     <p class="lead">{esc(T["lead"])}</p>
     <div class="plate-wrap"><div class="plate">{plate_svg()}</div><ul class="plate-legend">{legend}</ul></div>
-    <h3 class="h3">El ölçüsü (her ana öğün için)</h3>
-    <table class="tbl hand-tbl"><thead><tr><th>Grup</th><th>Ölçü</th><th>Yaklaşık karşılığı</th></tr></thead><tbody>{rows}</tbody></table>
+    <h3 class="h3">Hand portions (per main meal)</h3>
+    <table class="tbl hand-tbl"><thead><tr><th>Group</th><th>Portion</th><th>About the same as</th></tr></thead><tbody>{rows}</tbody></table>
     <div class="callout tint"><p>{esc(T["adjust"])}</p></div>
     <p class="note">{esc(T["rhythm"])}</p>
     <p class="caption">{esc(T["units"])}</p>
     """
-    add("tabak", page(inner, "plain"), toc="Tabak modeli ve el ölçüsü")
+    add("tabak", page(inner, "plain"), toc="The plate method and hand portions")
 
 
 def shopping():
@@ -206,13 +191,13 @@ def shopping():
         f'<div class="shop"><h3>{esc(cat)}</h3><ul>{"".join(f"<li>{box()}{esc(x)}</li>" for x in items)}</ul></div>'
         for cat, items in B.SHOPPING)
     inner = f"""
-    <p class="eyebrow">Hazırlık</p>
-    <h2 class="h2">Temel alışveriş listesi</h2>
-    <p class="lead">Plandaki öğünlerin neredeyse tamamı bu listedeki yiyeceklerle hazırlanır. Hepsini aynı anda almana gerek yok.</p>
+    <p class="eyebrow">Preparation</p>
+    <h2 class="h2">Basic shopping list</h2>
+    <p class="lead">Almost every meal in the plan is made with foods from this list. You don't need to buy everything at once.</p>
     <div class="shop-grid">{cols}</div>
     <div class="callout tint"><p>{esc(B.SHOPPING_TIP)}</p></div>
     """
-    add("alisveris", page(inner, "plain"), toc="Temel alışveriş listesi")
+    add("alisveris", page(inner, "plain"), toc="Basic shopping list")
 
 
 def warmup():
@@ -220,42 +205,42 @@ def warmup():
     mob = "".join(f"<tr><td><b>{esc(a)}</b><span class='sub'>{esc(c)}</span></td><td class='r'>{esc(b)}</td></tr>"
                   for a, b, c in B.MOBILITY)
     inner = f"""
-    <p class="eyebrow">Hareket</p>
-    <h2 class="h2">Isınma, mobilite ve tempolu yürüyüş</h2>
+    <p class="eyebrow">Movement</p>
+    <h2 class="h2">Warm-up, mobility and brisk walking</h2>
     <div class="split">
-      <div><h3 class="h3">{icon("training", 16)} Isınma · 5 dakika</h3>
-        <p class="note">Her antrenmandan önce.</p>
+      <div><h3 class="h3">{icon("training", 16)} Warm-up · 5 minutes</h3>
+        <p class="note">Before every workout.</p>
         <table class="tbl">{wu}</table></div>
-      <div><h3 class="h3">{icon("movement", 16)} Tempolu yürüyüş</h3>
+      <div><h3 class="h3">{icon("movement", 16)} Brisk walk</h3>
         <p class="note">{esc(B.INTERVAL_WALK)}</p>
-        <div class="walk"><span class="w1">Rahat</span><span class="w2">2 dk tempolu</span><span class="w3">2 dk rahat</span><span class="w2">2 dk tempolu</span><span class="w3">…</span></div></div>
+        <div class="walk"><span class="w1">Easy</span><span class="w2">2 min brisk</span><span class="w3">2 min easy</span><span class="w2">2 min brisk</span><span class="w3">…</span></div></div>
     </div>
-    <h3 class="h3">{icon("habits", 16)} Mobilite rutini · 10 dakika</h3>
-    <p class="note">Aktif toparlanma günlerinde ve istediğin her akşam.</p>
+    <h3 class="h3">{icon("habits", 16)} Mobility routine · 10 minutes</h3>
+    <p class="note">On active recovery days and any evening you like.</p>
     <table class="tbl mob">{mob}</table>
     """
-    add("isinma", page(inner, "plain"), toc="Isınma, mobilite ve tempolu yürüyüş")
+    add("isinma", page(inner, "plain"), toc="Warm-up, mobility and brisk walking")
 
 
 def exercises():
     def card(e):
         how = "".join(f"<li>{esc(x)}</li>" for x in e["how"])
         return (f'<div class="ex"><h3>{esc(e["name"])}</h3><ol>{how}</ol>'
-                f'<p class="alt"><b>Kolay versiyon:</b> {esc(e["easy"])}</p>'
-                f'<p class="alt"><b>Zorlaştırmak için:</b> {esc(e["hard"])}</p></div>')
+                f'<p class="alt"><b>Easier:</b> {esc(e["easy"])}</p>'
+                f'<p class="alt"><b>Harder:</b> {esc(e["hard"])}</p></div>')
 
     rules = "".join(f"<li>{icon('check', 12)}<span>{esc(r)}</span></li>" for r in B.TRAINING_RULES)
     p1 = f"""
-    <p class="eyebrow">Antrenman</p>
-    <h2 class="h2">Egzersiz rehberi</h2>
-    <p class="lead">Plandaki bütün antrenmanlar bu 8 hareketten oluşur. Ekipman gerekmez; çekiş için bir lastik bant veya sırt çantası yeterli.</p>
+    <p class="eyebrow">Training</p>
+    <h2 class="h2">Exercise guide</h2>
+    <p class="lead">Every workout in the plan is made up of these 8 exercises. No equipment needed; for rows, a resistance band or a backpack is enough.</p>
     <div class="ex-grid">{"".join(card(e) for e in B.EXERCISES[:4])}</div>
     """
     p2 = f"""
     <div class="ex-grid">{"".join(card(e) for e in B.EXERCISES[4:])}</div>
-    <div class="callout dark"><p class="label light"><span>ANTRENMAN KURALLARI</span></p><ul class="rules">{rules}</ul></div>
+    <div class="callout dark"><p class="label light"><span>TRAINING RULES</span></p><ul class="rules">{rules}</ul></div>
     """
-    add("egzersiz", page(p1, "plain"), toc="Egzersiz rehberi")
+    add("egzersiz", page(p1, "plain"), toc="Exercise guide")
     add("egzersiz2", page(p2, "plain"))
 
 
@@ -264,15 +249,15 @@ def progress():
     body = "".join(f"<tr><th>{esc(r)}</th>{'<td></td>' * len(B.PROGRESS_COLS)}</tr>" for r in B.PROGRESS_ROWS)
     how = "".join(f"<li><b>{esc(a)}:</b> {esc(b)}</li>" for a, b in B.MEASURE_HOW)
     inner = f"""
-    <p class="eyebrow">İlerleme</p>
-    <h2 class="h2">İlerleme tablosu</h2>
+    <p class="eyebrow">Progress</p>
+    <h2 class="h2">Progress tracker</h2>
     <ul class="how">{how}</ul>
     <table class="tbl grid-tbl"><thead><tr><th></th>{head}</tr></thead><tbody>{body}</tbody></table>
-    <p class="label"><span>NOTLAR VE OLUMLU DEĞİŞİKLİKLER</span></p>
+    <p class="label"><span>NOTES AND POSITIVE CHANGES</span></p>
     {lines(4)}
-    <div class="callout tint"><p class="label"><span>KİLO NEDEN DALGALANIR?</span></p><p>{esc(B.FLUCTUATION)}</p></div>
+    <div class="callout tint"><p class="label"><span>WHY DOES WEIGHT FLUCTUATE?</span></p><p>{esc(B.FLUCTUATION)}</p></div>
     """
-    add("ilerleme", page(inner, "plain"), toc="İlerleme tablosu")
+    add("ilerleme", page(inner, "plain"), toc="Progress tracker")
 
 
 def habit_tracker():
@@ -280,22 +265,22 @@ def habit_tracker():
     rows = ""
     for name, start in B.HABITS:
         cells = "".join(f'<td class="{"off" if d < start else ""}"></td>' for d in range(1, 31))
-        rows += f'<tr><th><b>{esc(name)}</b><span>Gün {with_suffix(start, "den")} itibaren</span></th>{cells}</tr>'
+        rows += f'<tr><th><b>{esc(name)}</b><span>From day {start}</span></th>{cells}</tr>'
     inner = f"""
-    <p class="eyebrow">Alışkanlıklar</p>
-    <h2 class="h2">30 günlük alışkanlık takibi</h2>
-    <p class="lead">Alışkanlıklar plan boyunca tek tek eklenir. Her akşam tamamladıklarını işaretle; gri kutular henüz başlamayan alışkanlıklar.</p>
+    <p class="eyebrow">Habits</p>
+    <h2 class="h2">30-day habit tracker</h2>
+    <p class="lead">Habits are added one at a time throughout the plan. Every evening, tick the ones you completed; gray boxes are habits that haven't started yet.</p>
     <table class="tracker"><thead><tr><th></th>{head}</tr></thead><tbody>{rows}</tbody></table>
-    <div class="callout tint"><p>Hepsini her gün tamamlaman gerekmiyor. Amaç, satırların zamanla dolduğunu görmek. Boş bir kutu, bir sonraki günün kutusunu işaretlemene engel değil.</p></div>
+    <div class="callout tint"><p>You don't have to complete all of them every day. The goal is to see the rows fill up over time. An empty box doesn't stop you from ticking the next day's box.</p></div>
     """
-    add("aliskanlik", page(inner, "plain"), toc="Alışkanlık takibi")
+    add("aliskanlik", page(inner, "plain"), toc="Habit tracker")
 
 
-def tr_title(text):
-    """Title case with Turkish dotted/dotless i rules ("TEMELLERİ OLUŞTUR" -> "Temelleri Oluştur")."""
-    def low(w):
-        return w.replace("I", "ı").replace("İ", "i").lower()
-    return " ".join(w[0] + low(w[1:]) for w in text.split())
+def title_case(text):
+    """"BUILD THE FOUNDATION" -> "Build the Foundation" (short words stay lowercase)."""
+    small = {"a", "an", "and", "as", "at", "for", "in", "of", "on", "or", "the", "to"}
+    words = text.lower().split()
+    return " ".join(w if i and w in small else w[0].upper() + w[1:] for i, w in enumerate(words))
 
 
 def phase_page(ph):
@@ -303,25 +288,25 @@ def phase_page(ph):
     chips = "".join(f"<span class='chip'>{esc(h)}</span>" for h in ph["habits"])
     days = [d for d in P.DAYS if ph["days"][0] <= d["n"] <= ph["days"][1]]
     if ph["n"] == 4:
-        days = days + [{"n": 30, "title": "Buradan sonra ne olacak?", "training": {"kind": "recovery", "name": "Kutlama yürüyüşü"}}]
+        days = days + [{"n": 30, "title": "What comes next?", "training": {"kind": "recovery", "name": "Celebration walk"}}]
     sched = "".join(
-        f"<tr><td class='dn'>Gün {d['n']}</td><td>{esc(d['title'])}</td>"
+        f"<tr><td class='dn'>Day {d['n']}</td><td>{esc(d['title'])}</td>"
         f"<td class='r {'st' if d['training']['kind'] == 'strength' else ''}'>{esc(d['training']['name'])}</td></tr>"
         for d in days)
     inner = f"""
-    <p class="phase-kicker">FAZ {ph["n"]} · GÜN {ph["days"][0]}–{ph["days"][1]}</p>
+    <p class="phase-kicker">PHASE {ph["n"]} · DAYS {ph["days"][0]}–{ph["days"][1]}</p>
     <h2 class="phase-title">{esc(ph["name"])}</h2>
     <p class="lead">{esc(ph["lead"])}</p>
     <div class="split">
-      <div><p class="label"><span>BU FAZDA</span></p><ul class="goals">{goals}</ul></div>
-      <div><p class="label"><span>YENİ ALIŞKANLIKLAR</span></p><div class="chips">{chips}</div>
+      <div><p class="label"><span>IN THIS PHASE</span></p><ul class="goals">{goals}</ul></div>
+      <div><p class="label"><span>NEW HABITS</span></p><div class="chips">{chips}</div>
         <div class="callout white"><p>{esc(ph["note"])}</p></div></div>
     </div>
-    <p class="label"><span>BU FAZIN PROGRAMI</span></p>
+    <p class="label"><span>THIS PHASE AT A GLANCE</span></p>
     <table class="tbl sched">{sched}</table>
     """
     add(f"faz{ph['n']}", page(inner, "phase"),
-        toc=f"Faz {ph['n']} · {tr_title(ph['name'])} (Gün {ph['days'][0]}–{ph['days'][1]})")
+        toc=f"Phase {ph['n']} · {title_case(ph['name'])} (Days {ph['days'][0]}–{ph['days'][1]})")
 
 
 def phase_of(n):
@@ -329,23 +314,23 @@ def phase_of(n):
 
 
 def checkin(training_day=True):
-    items = ["Görev tamamlandı", "Hareket hedefi tamamlandı", "Beslenme planına uyuldu",
-             "Antrenman tamamlandı" if training_day else "Antrenman (bugün yok)"]
+    items = ["Task done", "Movement goal done", "Followed the nutrition plan",
+             "Workout done" if training_day else "Workout (none today)"]
     checks = "".join(f"<li class='{'' if training_day or i < 3 else 'muted'}'>{box()}{esc(t)}</li>" for i, t in enumerate(items))
     water = "".join("<i></i>" for _ in range(10))
     energy = "".join(f"<i>{i}</i>" for i in range(1, 6))
     return f"""
     <section class="checkin">
-      <p class="label">{icon("check")}<span>GÜN SONU KONTROLÜ</span></p>
+      <p class="label">{icon("check")}<span>END-OF-DAY CHECK-IN</span></p>
       <div class="checkin-row"><ul class="checks">{checks}</ul>
-        <div class="trackers"><div><span>Su</span><div class="water">{water}</div></div>
-        <div><span>Enerji</span><div class="energy">{energy}</div></div></div></div>
+        <div class="trackers"><div><span>Water</span><div class="water">{water}</div></div>
+        <div><span>Energy</span><div class="energy">{energy}</div></div></div></div>
     </section>"""
 
 
 def notes():
     # Real lines (not a CSS pattern): patterns make PDF viewers slow. Extra lines are clipped.
-    return ('<section class="notes"><p class="label muted-label"><span>NOTLARIM</span></p>'
+    return ('<section class="notes"><p class="label muted-label"><span>MY NOTES</span></p>'
             '<div class="note-lines">' + "<span></span>" * 18 + "</div></section>")
 
 
@@ -356,7 +341,7 @@ def training_block(t):
         extra = f"<p class='extra'>{esc(t['extra'])}</p>" if t.get("extra") else ""
         return f"""
         <p class="t-name">{esc(t["name"])} <span>· {esc(t["type"])}</span></p>
-        <p class="t-meta">Önce 5 dk ısınma · Setler arası {esc(t["rest"])} dinlenme</p>
+        <p class="t-meta">5-min warm-up first · Rest {esc(t["rest"])} between sets</p>
         <table class="tbl ex-tbl">{rows}</table>{note}{extra}"""
     return f"""<p class="t-name">{esc(t["name"])}</p><p class="t-text">{esc(t["text"])}</p>"""
 
@@ -367,33 +352,33 @@ def day_page(d):
     t = d["training"]
     inner = f"""
     <header class="day-head">
-      <div class="day-num"><span>GÜN</span><strong>{two(d["n"])}</strong><em>/ 30</em></div>
-      <div class="day-meta"><p>FAZ {ph["n"]} · {esc(ph["name"])}</p>{bar(d["n"])}</div>
+      <div class="day-num"><span>DAY</span><strong>{two(d["n"])}</strong><em>/ 30</em></div>
+      <div class="day-meta"><p>PHASE {ph["n"]} · {esc(ph["name"])}</p>{bar(d["n"])}</div>
     </header>
     <section class="focus">
-      {label("BUGÜNÜN ODAĞI", "focus")}
+      {label("TODAY'S FOCUS", "focus")}
       <h2>{esc(d["title"])}</h2>
       <p>{esc(d["focus"])}</p>
     </section>
     <section class="block">
-      {label("BESLENME", "nutrition")}
+      {label("NUTRITION", "nutrition")}
       <p class="rule">{esc(d["nutrition"])}</p>
       <table class="meals">{meals}</table>
     </section>
     <div class="cols">
       <section class="block move">
-        {label("HAREKET", "movement")}
+        {label("MOVEMENT", "movement")}
         <p class="goal">{esc(d["movement"][0])}</p>
         <p class="t-text">{esc(d["movement"][1])}</p>
       </section>
       <section class="block train {'rest' if t['kind'] != 'strength' else ''}">
-        {label("ANTRENMAN", "training")}
+        {label("WORKOUT", "training")}
         {training_block(t)}
       </section>
     </div>
     <div class="cols">
-      <section class="tip">{label("BUGÜNÜN İPUCU", "tips")}<p>{esc(d["tip"])}</p></section>
-      <section class="task">{label("GÜNÜN GÖREVİ", "task")}<p>{esc(d["task"])}</p></section>
+      <section class="tip">{label("TIP OF THE DAY", "tips")}<p>{esc(d["tip"])}</p></section>
+      <section class="task">{label("TASK OF THE DAY", "task")}<p>{esc(d["task"])}</p></section>
     </div>
     {notes()}
     {checkin(t["kind"] == "strength")}
@@ -405,26 +390,26 @@ def day_page(d):
 def week_review(w):
     rows = ""
     for h in P.WEEK_HABITS:
-        n = 3 if h.startswith("Antrenman") else 7
+        n = 3 if h.startswith("Workout") else 7
         rows += f"<tr><th>{esc(h)}</th><td>{box() * n}</td></tr>"
     days = {1: (1, 7), 2: (8, 14), 3: (15, 21)}[w]
     meas = "".join(f"<div class='field'><span>{esc(x)}</span><i></i></div>"
-                   for x in ["Kilo", "Bel çevresi", "Enerji (1–5)", "Ortalama uyku"])
-    qs = [("Bu hafta en iyi giden şey neydi?", 2), ("En çok nerede zorlandım?", 2),
-          ("Gelecek hafta tek odak noktam:", 1)]
+                   for x in ["Weight", "Waist", "Energy (1–5)", "Average sleep"])
+    qs = [("What went best this week?", 2), ("Where did I struggle most?", 2),
+          ("My one focus for next week:", 1)]
     q = "".join(f"<p class='q'>{esc(a)}</p>{lines(n)}" for a, n in qs)
     inner = f"""
-    <p class="eyebrow">Gün {days[0]}–{days[1]}</p>
-    <h2 class="h2">{w}. hafta değerlendirmesi</h2>
+    <p class="eyebrow">Days {days[0]}–{days[1]}</p>
+    <h2 class="h2">Week {w} review</h2>
     <p class="lead">{esc(P.WEEK_REVIEWS[w])}</p>
-    <p class="label"><span>BU HAFTA KAÇ GÜN?</span></p>
+    <p class="label"><span>HOW MANY DAYS THIS WEEK?</span></p>
     <table class="tbl week">{rows}</table>
-    <p class="label"><span>ÖLÇÜMLER</span></p>
+    <p class="label"><span>MEASUREMENTS</span></p>
     <div class="fields">{meas}</div>
-    <p class="caption">Değerleri İlerleme Tablosu'na (s. {{p:ilerleme}}) da yaz.</p>
+    <p class="caption">Also write the values in the Progress Tracker (p. {{p:ilerleme}}).</p>
     {q}
     """
-    add(f"hafta{w}", page(inner, "plain"), toc=f"{w}. hafta değerlendirmesi")
+    add(f"hafta{w}", page(inner, "plain"), toc=f"Week {w} review")
 
 
 def day30():
@@ -432,34 +417,34 @@ def day30():
     meals = "".join(f"<tr><th>{esc(a)}</th><td>{esc(b)}</td></tr>" for a, b in D["meals"])
     inner = f"""
     <header class="day-head">
-      <div class="day-num"><span>GÜN</span><strong>30</strong><em>/ 30</em></div>
-      <div class="day-meta"><p>FAZ 4 · SİSTEMİ OTURT</p>{bar(30)}</div>
+      <div class="day-num"><span>DAY</span><strong>30</strong><em>/ 30</em></div>
+      <div class="day-meta"><p>PHASE 4 · {esc(P.PHASES[3]["name"])}</p>{bar(30)}</div>
     </header>
     <section class="focus final">
-      {label("BUGÜNÜN ODAĞI", "focus")}
+      {label("TODAY'S FOCUS", "focus")}
       <h2>{esc(D["title"])}</h2>
       <p>{esc(D["focus"])}</p>
     </section>
     <section class="block">
-      {label("BESLENME", "nutrition")}
+      {label("NUTRITION", "nutrition")}
       <p class="rule">{esc(D["nutrition"])}</p>
       <table class="meals">{meals}</table>
     </section>
     <div class="cols">
-      <section class="block move">{label("HAREKET", "movement")}<p class="goal">{esc(D["movement"][0])}</p><p class="t-text">{esc(D["movement"][1])}</p></section>
-      <section class="block train rest">{label("ANTRENMAN", "training")}<p class="t-text">{esc(D["training"])}</p></section>
+      <section class="block move">{label("MOVEMENT", "movement")}<p class="goal">{esc(D["movement"][0])}</p><p class="t-text">{esc(D["movement"][1])}</p></section>
+      <section class="block train rest">{label("WORKOUT", "training")}<p class="t-text">{esc(D["training"])}</p></section>
     </div>
-    <section class="task wide">{label("GÜNÜN GÖREVİ", "task")}<p>{esc(D["task"])}</p></section>
+    <section class="task wide">{label("TASK OF THE DAY", "task")}<p>{esc(D["task"])}</p></section>
     {notes()}
     {checkin(False)}
     """
-    add("gun30", page(inner, "day"), toc="30. gün: Buradan sonra ne olacak?")
+    add("gun30", page(inner, "day"), toc="Day 30: What comes next?")
     qs = "".join(f"<p class='q'>{i}. {esc(q)}</p>{lines(3)}" for i, q in enumerate(D["questions"], 1))
     add("geriye", page(f"""
-    <p class="eyebrow">30. gün</p>
-    <h2 class="h2">Geriye bak</h2>
-    <p class="lead">Kısa cevaplar yeterli. Bu sayfa, 30 günün sana ne kattığını görmen için.</p>
-    {qs}""", "plain"), toc="Geriye bak")
+    <p class="eyebrow">Day 30</p>
+    <h2 class="h2">Look back</h2>
+    <p class="lead">Short answers are enough. This page is for seeing what the 30 days gave you.</p>
+    {qs}""", "plain"), toc="Look back")
 
 
 def continue_page():
@@ -467,18 +452,18 @@ def continue_page():
     rules = "".join(f"<li><b>{esc(a)}</b> {esc(b)}</li>" for a, b in C["rules"])
     prog = "".join(f"<tr><th>{esc(a)}</th><td>{esc(b)}</td></tr>" for a, b in C["progression"])
     head = "".join(f"<th>{esc(c)}</th>" for c in C["template_cols"])
-    body = "".join(f"<tr><th>Hafta {i}</th>{'<td></td>' * len(C['template_cols'])}</tr>" for i in range(1, 5))
+    body = "".join(f"<tr><th>Week {i}</th>{'<td></td>' * len(C['template_cols'])}</tr>" for i in range(1, 5))
     inner = f"""
     <h2 class="h2">{esc(C["title"])}</h2>
     <p class="lead">{esc(C["lead"])}</p>
-    <p class="label"><span>DEVAM İÇİN 5 KURAL</span></p>
+    <p class="label"><span>5 RULES FOR WHAT COMES NEXT</span></p>
     <ol class="rules-num">{rules}</ol>
-    <p class="label"><span>ANTRENMANI ADIM ADIM ZORLAŞTIR</span></p>
+    <p class="label"><span>MAKE YOUR WORKOUTS HARDER STEP BY STEP</span></p>
     <table class="tbl">{prog}</table>
-    <p class="label"><span>SONRAKİ 4 HAFTA</span></p>
+    <p class="label"><span>THE NEXT 4 WEEKS</span></p>
     <table class="tbl grid-tbl tpl"><thead><tr><th></th>{head}</tr></thead><tbody>{body}</tbody></table>
     """
-    add("devam", page(inner, "plain"), toc="Sonraki 4 hafta: Devam planı")
+    add("devam", page(inner, "plain"), toc="The next 4 weeks: your plan")
 
 
 def closing():
@@ -492,7 +477,7 @@ def closing():
       <p class="signoff">{esc(C["signoff"])}</p>
       <div class="brand"><span>LEAN MODE PRO</span><em>leanmodepro.com</em></div>
     </div>"""
-    add("kapanis", page(inner, "cover closing-page", footer=False), toc="Kapanış")
+    add("kapanis", page(inner, "cover closing-page", footer=False), toc="Closing")
 
 
 def build():
@@ -527,7 +512,7 @@ def build():
         if p["key"].startswith("faz"):
             ph = P.PHASES[int(p["key"][3:]) - 1]
             first, last = ph["days"]
-            toc_items.append((f"Gün {first}–{last}", numbers[f"gun{first}"], None))
+            toc_items.append((f"Days {first}–{last}", numbers[f"gun{first}"], None))
     toc_html = "".join(
         f'<div class="toc-row {"toc-phase" if strong else ""} {"toc-sub" if strong is None else ""}">'
         f'<span>{esc(t)}</span><i></i><b>{n}</b></div>' for t, n, strong in toc_items)
@@ -535,8 +520,7 @@ def build():
     out = []
     for p in pages:
         h = p["html"].replace("{toc}", toc_html).replace("{pageno}", str(numbers[p["key"]]))
-        h = re.sub(r"\{p:(\w+)(?::(\w+))?\}",
-                   lambda m: with_suffix(numbers[m.group(1)], m.group(2)) if m.group(2) else str(numbers[m.group(1)]), h)
+        h = re.sub(r"\{p:(\w+)\}", lambda m: str(numbers[m.group(1)]), h)
         out.append(h)
     return "".join(out), len(pages)
 
@@ -546,7 +530,7 @@ def font_face():
 
     - Static instead of variable: variable fonts end up as slow Type 3 glyph drawings in the PDF.
     - One file per weight with Latin and Latin Extended merged: split subsets would switch fonts
-      inside Turkish words (ğ, ş, İ), which breaks search and copy in PDF viewers.
+      inside words with accented letters, which breaks search and copy in PDF viewers.
     """
     faces = []
     for weight in (400, 500, 600, 700):
@@ -562,8 +546,8 @@ if __name__ == "__main__":
     with open(os.path.join(ROOT, "style.css"), encoding="utf-8") as fh:
         css = fh.read()
     doc = f"""<!doctype html>
-<html lang="tr"><head><meta charset="utf-8">
-<title>LEAN MODE PRO · 30 Günlük Kilo Verme Planı</title>
+<html lang="en"><head><meta charset="utf-8">
+<title>LEAN MODE PRO · The 30-Day Weight Loss Plan</title>
 <meta name="author" content="LEAN MODE PRO">
 <style>{font_face()}
 {css}</style></head><body>{body}</body></html>"""

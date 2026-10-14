@@ -1,23 +1,28 @@
-# E-Book: 30 Günlük Kilo Verme Planı
+# E-Book: The 30-Day Weight Loss Plan
 
-Kostenloses LEAN MODE PRO E-Book (Türkisch), A4-PDF mit 53 Seiten, rund 0,8 MB.
-Fertige Datei: [`dist/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf`](dist/lean-mode-pro-30-gunluk-kilo-verme-plani.pdf)
+Kostenloses LEAN MODE PRO E-Book (Englisch, US-Schreibweise, metrische Angaben mit US-Einheiten), A4-PDF mit
+53 Seiten, rund 0,7 MB. Fertige Datei:
+[`dist/lean-mode-pro-30-day-weight-loss-plan.pdf`](dist/lean-mode-pro-30-day-weight-loss-plan.pdf)
+
+Bis 14.10.2026 war das E-Book türkisch („30 Günlük Kilo Verme Planı“); die türkische Fassung liegt in der
+Git-Historie.
 
 ## Aufbau
 
 | Seiten | Inhalt |
 | ------ | ------ |
 | 1–4 | Cover, Inhaltsverzeichnis, Anleitung und Hinweis, Einleitung |
-
-Das Cover ist das Canva-Design des Betreibers als ganzseitiges Bild: `assets/cover.jpg` (1120 × 1584 px,
-rund 135 dpi, JPEG 76 %, 290 KB), der schwarze Rand auf A4 gleichmäßig gemacht. Für ein neues Cover die Datei
-ersetzen (gleiches Format) und neu erzeugen. Chromium übernimmt das JPEG unverändert ins PDF.
 | 5–13 | Grundlagen, Tellermodell und Handportionen, Einkaufsliste, Aufwärmen und Mobilität, Übungen, Fortschritts- und Gewohnheitstabelle |
 | 14–52 | 4 Phasen (je eine Einstiegsseite), 30 Tagesseiten, 3 Wochen-Checks, Tag 30 mit Rückblick, Plan für die Zeit danach |
 | 53 | Abschluss |
 
-Jeder Tag hat genau eine Seite mit derselben Struktur: Bugünün odağı, Beslenme,
-Hareket, Antrenman, Bugünün ipucu, Günün görevi, Notlarım, Gün sonu kontrolü.
+Jeder Tag hat genau eine Seite mit derselben Struktur: Today's focus, Nutrition, Movement, Workout,
+Tip of the day, Task of the day, My notes, End-of-day check-in.
+
+Das Cover ist ein ganzseitiges Bild: `assets/cover.jpg` (1120 × 1584 px, rund 135 dpi, JPEG 76 %). Es basiert auf
+dem Canva-Design des Betreibers (seine Fotos, schwarzer Rand auf A4 gleichmäßig gemacht); der türkische Titel ist
+durch ein schwarzes Titelband mit englischem Titel in Instrument Sans ersetzt. Für ein neues Cover die Datei
+ersetzen (gleiches Format) und neu erzeugen. Chromium übernimmt das JPEG unverändert ins PDF.
 
 ## Texte ändern und neu erzeugen
 
@@ -30,11 +35,10 @@ node ebook/render.mjs       # erzeugt das PDF, prüft jede Seite auf Überlauf u
 ```
 
 `render.mjs` braucht Playwright mit Chromium und für den letzten Schritt Python mit `pikepdf`
-(`pip install pikepdf`). Seitenverweise („s. 12“) und die
-türkischen Endungen danach („s. 10'da“) werden automatisch berechnet.
+(`pip install pikepdf`). Seitenverweise („p. 12“) werden automatisch berechnet.
 
 Für ein flüssiges PDF gilt:
-- Die Schriften liegen in `fonts/` als statische Schnitte, eine Datei pro Schnitt mit allen türkischen Zeichen.
+- Die Schriften liegen in `fonts/` als statische Schnitte, eine Datei pro Schnitt mit Latin und Latin Extended.
 - Chromium läuft ohne Font-Hinting.
 - Im CSS keine Muster-Verläufe, Schatten oder transparenten Verläufe. Chromium macht daraus Bilder, und das PDF würde wieder langsam.
 

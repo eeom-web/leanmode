@@ -11,7 +11,7 @@ const { chromium } = require(pwPath);
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.join(here, 'dist');
-const out = path.join(dist, 'lean-mode-pro-30-gunluk-kilo-verme-plani.pdf');
+const out = path.join(dist, 'lean-mode-pro-30-day-weight-loss-plan.pdf');
 
 // Without hinting, glyph positions are not snapped to whole pixels: even letter spacing in the
 // PDF, and word spaces that PDF viewers recognise (search and copy work).

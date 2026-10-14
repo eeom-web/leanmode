@@ -1,276 +1,277 @@
-"""Front matter and reference pages of the e-book (Turkish copy)."""
+"""Front matter and reference pages of the e-book (English copy, US spelling, metric with US units)."""
 
-TITLE = "30 GÜNLÜK KİLO VERME PLANI"
+TITLE = "THE 30-DAY WEIGHT LOSS PLAN"
 
 HOW_TO_USE = [
-    ("Her sabah günün sayfasını aç.",
-     "Her gün tek bir sayfadır ve birkaç dakikada okunur."),
-    ("Önce günün odağına bak.",
-     "Her gün tek bir konuya odaklanıyorsun. Gerisi zaten tanıdık."),
-    ("Beslenme önerilerini uygula.",
-     "Öğünler birer örnektir. Benzer bir öğünle değiştirebilirsin."),
-    ("Hareket hedefini tamamla.",
-     "Antrenman günüyse antrenmanı da yap. Hareketler s. {p:egzersiz:de} anlatılıyor."),
-    ("Günün görevini yap.", "Küçük ama o güne özel bir adım."),
-    ("Akşam kontrol kutularını işaretle.",
-     "İşaretlediğin her kutu, ilerlemeni görünür kılar."),
+    ("Open the day's page every morning.",
+     "Each day is a single page you can read in a few minutes."),
+    ("Look at the focus of the day first.",
+     "Every day you focus on one thing. The rest will soon feel familiar."),
+    ("Follow the nutrition tips.",
+     "The meals are examples. Swap them for something similar whenever you like."),
+    ("Hit your movement goal.",
+     "On training days, do the workout too. The exercises are explained on p. {p:egzersiz}."),
+    ("Do the task of the day.", "One small step that belongs to that day."),
+    ("Tick the boxes in the evening.",
+     "Every box you tick makes your progress visible."),
 ]
 
-MISSED_DAY = ("Bir günü kaçırırsan planı baştan başlatma. Kaldığın yerden devam et. "
-              "30 gün, 30 ardışık mükemmel gün demek değildir.")
+MISSED_DAY = ("If you miss a day, don't start over. Just pick up where you left off. "
+              "30 days doesn't mean 30 perfect days in a row.")
 
 DISCLAIMER = (
-    "Bu rehber genel bilgilendirme amaçlıdır; tıbbi tavsiye, teşhis veya tedavinin yerini tutmaz. "
-    "Kronik bir hastalığın varsa, düzenli ilaç kullanıyorsan, hamile ya da emziriyorsan veya "
-    "yeme bozukluğu geçmişin varsa beslenme ve egzersiz düzenini değiştirmeden önce doktoruna "
-    "veya bir diyetisyene danış. Egzersiz sırasında ağrı, baş dönmesi, göğüs ağrısı ya da "
-    "nefes darlığı hissedersen hemen dur. Sonuçlar kişiden kişiye farklılık gösterir."
+    "This guide is for general information only and does not replace medical advice, diagnosis or treatment. "
+    "If you have a chronic condition, take medication regularly, are pregnant or breastfeeding, or have a "
+    "history of eating disorders, talk to your doctor or a registered dietitian before changing how you eat "
+    "or exercise. Stop right away if you feel pain, dizziness, chest pain or shortness of breath during "
+    "exercise. Results vary from person to person."
 )
 
 INTRO = {
-    "title": "Neden 30 günlük bir plan?",
+    "title": "Why a 30-day plan?",
     "paragraphs": [
-        "Kilo vermek hakkında o kadar çok bilgi var ki çoğu zaman sorun bilgi eksikliği değil. "
-        "Asıl zorluk, nereden başlayacağını ve bugün ne yapacağını bilmek. Bir gün yeni bir diyet, "
-        "ertesi gün başka bir kural... Bir süre sonra yorulup bırakmak çok kolay.",
-        "Bu plan farklı bir yol izliyor:",
+        "There is so much information about losing weight that a lack of knowledge is rarely the problem. "
+        "The hard part is knowing where to start and what to do today. A new diet one day, another rule "
+        "the next... After a while it's easy to get tired and give up.",
+        "This plan takes a different approach:",
     ],
     "points": [
-        ("Her gün yeni bir diyet yok.", "Marketten kolayca alabileceğin, tanıdık yiyecekler var."),
-        ("Her şeyi aynı anda değiştirmiyorsun.", "Her gün küçük bir adım ekliyorsun."),
-        ("Mükemmel olmak zorunda değilsin.", "Planın büyük kısmını uygulaman yeterli."),
+        ("No new diet every day.", "Just familiar foods you can easily find at the grocery store."),
+        ("You don't change everything at once.", "You add one small step each day."),
+        ("You don't have to be perfect.", "Following most of the plan is enough."),
     ],
     "closing": (
-        "30 günün sonunda amaç geçici bir diyeti bitirmek değil; beslenme, hareket ve antrenman "
-        "için sana uyan bir düzen kurmuş olmak."
+        "At the end of the 30 days, the goal isn't to finish a temporary diet. It's to have built a routine "
+        "for eating, moving and training that works for you."
     ),
     "expectation": (
-        "Herkesin başlangıç noktası, vücudu ve günlük hayatı farklıdır; bu yüzden sonuçlar da "
-        "kişiden kişiye değişir. Kilo, özellikle ilk günlerde su ve sindirim nedeniyle "
-        "dalgalanabilir. Bu planın amacı hızlı bir değişim değil, sürdürülebilir bir başlangıç."
+        "Everyone starts from a different place, with a different body and a different daily life, so "
+        "results vary too. Your weight can fluctuate, especially in the first days, because of water and "
+        "digestion. This plan isn't about a quick change. It's about a start you can keep up."
     ),
 }
 
 BASICS = [
-    ("Kalori açığı",
-     "Vücudun gün boyunca enerji harcar. Kilo vermenin temelinde, bir süre boyunca harcadığından "
-     "biraz daha az enerji almak yatar. Buna kalori açığı denir. Önemli olan “biraz”: Çok az yemek; "
-     "yorgunluk, yoğun açlık ve bırakma isteği getirir. Bu planda kalori saymak zorunda değilsin. "
-     "Tabak modeli, porsiyon ölçüleri ve daha fazla hareketle ılımlı bir açık oluşturmayı hedefliyoruz.",
-     "Tabak modeli, el ölçüsü ve her gün biraz daha fazla hareket."),
+    ("Calorie deficit",
+     "Your body uses energy all day long. Losing weight comes down to taking in a little less energy than "
+     "you use, over a period of time. This is called a calorie deficit. The key word is “little”: eating "
+     "too little brings tiredness, strong hunger and the urge to quit. You don't have to count calories in "
+     "this plan. We aim for a moderate deficit with the plate method, hand portions and more movement.",
+     "The plate method, hand portions and a bit more movement every day."),
     ("Protein",
-     "Yumurta, yoğurt, peynir, tavuk, balık, et ve baklagiller protein kaynaklarıdır. Protein uzun "
-     "süre tok kalmana yardımcı olabilir ve kilo verirken kaslarının korunmasını destekler. Plan "
-     "boyunca her ana öğünde bir protein kaynağı olmasına dikkat edeceğiz.",
-     "3. günden itibaren her ana öğünde 1 avuç içi protein."),
-    ("Lif",
-     "Sebze, meyve, baklagiller ve tam tahıllar lif içerir. Lifli yiyecekler hacimlidir, sindirimi "
-     "destekler ve tokluk hissine katkı sağlar. Basit hedef: tabağının yarısı sebze.",
-     "5. günden itibaren öğle ve akşam yemeğinde tabağın yarısı sebze."),
-    ("Su",
-     "Yeterli sıvı almak enerjin ve genel sağlığın için önemlidir; susuzluk bazen açlıkla karışabilir. "
-     "Çoğu yetişkin için günde yaklaşık 8–10 bardak (2–2,5 litre) iyi bir başlangıçtır. Sıcak havada "
-     "ve spor yaptığında ihtiyacın artar. Sağlık nedeniyle sıvı kısıtlaman varsa doktorunun önerisine uy.",
-     "2. günden itibaren günde 8–10 bardak su."),
-    ("Günlük hareket",
-     "Antrenman kadar gün içindeki adımlar da önemlidir. Yürümek, merdiven çıkmak, ayakta telefon "
-     "görüşmesi yapmak... Günlük hareket enerji harcamanı artırır ve çoğu kişi için başlamanın en "
-     "kolay yoludur.",
-     "Her gün yürüyüş; hedef adım adım artar."),
-    ("Kuvvet antrenmanı",
-     "Kilo verirken sadece yağ değil, kas da kaybedilebilir. Düzenli kuvvet antrenmanı kaslarını "
-     "korumaya ve güçlenmene yardımcı olabilir. Bu planda haftada 3 kez, evde yapılabilen kısa "
-     "tüm vücut antrenmanları var.",
-     "Haftada 3 kısa antrenman, 30 günde toplam 13 antrenman."),
-    ("Uyku ve toparlanma",
-     "Yetersiz uyku iştahı, enerjiyi ve motivasyonu olumsuz etkileyebilir. Çoğu yetişkin için "
-     "7–9 saat uyku önerilir. Dinlenme günleri de planın bir parçasıdır: Kaslar antrenmanlar "
-     "arasında toparlanır.",
-     "Haftada en az 1 dinlenme günü ve 16. günden itibaren bir uyku rutini."),
+     "Eggs, yogurt, cheese, chicken, fish, meat and legumes are sources of protein. Protein can help you "
+     "stay full for longer and helps protect your muscles while you lose weight. Throughout the plan, "
+     "every main meal will include a source of protein.",
+     "From day 3: one palm of protein with every main meal."),
+    ("Fiber",
+     "Vegetables, fruit, legumes and whole grains contain fiber. High-fiber foods are filling, support "
+     "digestion and help you feel satisfied. A simple goal: half your plate vegetables.",
+     "From day 5: half your plate vegetables at lunch and dinner."),
+    ("Water",
+     "Drinking enough matters for your energy and your overall health, and thirst is sometimes mistaken "
+     "for hunger. For most adults, about 8–10 glasses a day (2–2.5 liters, about 70–85 fl oz) is a good "
+     "start. You need more in hot weather and when you exercise. If you have to limit fluids for health "
+     "reasons, follow your doctor's advice.",
+     "From day 2: 8–10 glasses of water a day."),
+    ("Daily movement",
+     "The steps you take during the day matter as much as your workouts. Walking, taking the stairs, "
+     "standing during phone calls... Daily movement increases the energy you use, and for most people "
+     "it's the easiest way to start.",
+     "A walk every day; the step goal grows step by step."),
+    ("Strength training",
+     "When you lose weight, you can lose muscle as well as fat. Regular strength training can help you "
+     "keep your muscles and get stronger. This plan includes short full-body workouts three times a week "
+     "that you can do at home.",
+     "3 short workouts a week, 13 workouts in 30 days."),
+    ("Sleep and recovery",
+     "Too little sleep can affect your appetite, your energy and your motivation. Most adults are advised "
+     "to get 7–9 hours of sleep. Rest days are part of the plan too: your muscles recover between "
+     "workouts.",
+     "At least 1 rest day a week and a sleep routine from day 16."),
 ]
 
 HABIT_ROADMAP = [
-    (1, "Günlük hareket"), (2, "Su ve ilk antrenman"), (3, "Her ana öğünde protein"),
-    (5, "Tabağın yarısı sebze"), (6, "Tabak modeli"), (8, "El ölçüsüyle porsiyon"),
-    (9, "Sıvı kalorilere dikkat"), (10, "Yavaş yemek"), (11, "Alışveriş listesi"),
-    (12, "Önceden hazırlık"), (15, "10 dakika kuralı"), (16, "Uyku rutini"),
-    (22, "Alışkanlık zinciri"), (24, "Açlık-tokluk ölçeği"),
+    (1, "Daily movement"), (2, "Water and first workout"), (3, "Protein with every main meal"),
+    (5, "Half your plate vegetables"), (6, "The plate method"), (8, "Hand portions"),
+    (9, "Watch liquid calories"), (10, "Eat slowly"), (11, "Shopping list"),
+    (12, "Prepare ahead"), (15, "The 10-minute rule"), (16, "Sleep routine"),
+    (22, "Habit stacking"), (24, "The hunger scale"),
 ]
 
 NOT_IN_PLAN = [
-    "Aç kalmak yok.",
-    "Yasak yiyecekler listesi yok.",
-    "Günlerce aynı şeyi yemek yok.",
-    "Detoks, “mucize” çaylar veya “yağ yakan” ürünler yok.",
+    "No starving.",
+    "No list of forbidden foods.",
+    "No eating the same thing for days.",
+    "No detoxes, “miracle” teas or “fat-burning” products.",
 ]
 
 PLATE = {
-    "title": "Tabağını nasıl kurarsın?",
-    "lead": ("Kalori saymadan porsiyonlarını dengelemenin en kolay yolu: tabak modeli ve el ölçüsü. "
-             "Elin her zaman yanında ve vücut ölçünle orantılı."),
+    "title": "How to build your plate",
+    "lead": ("The easiest way to balance your portions without counting calories: the plate method and hand "
+             "portions. Your hand is always with you, and it's in proportion to your body."),
     "parts": [
-        ("Sebze", "tabağın yarısı"),
-        ("Protein", "tabağın çeyreği"),
-        ("Karbonhidrat", "tabağın çeyreği"),
-        ("Yağ", "az miktarda"),
+        ("Vegetables", "half your plate"),
+        ("Protein", "a quarter of your plate"),
+        ("Carbs", "a quarter of your plate"),
+        ("Fat", "a small amount"),
     ],
     "hand": [
-        ("Protein", "1 avuç içi",
-         "100–150 g pişmiş tavuk, et veya balık · 2–3 yumurta · 1 kase (200 g) yoğurt"),
-        ("Karbonhidrat", "1 yumruk",
-         "3/4 su bardağı pişmiş pilav, bulgur veya makarna · 1 orta boy patates · 1–2 ince dilim tam buğday ekmeği"),
-        ("Sebze", "2 avuç",
-         "Salata, haşlanmış veya fırında sebze, zeytinyağlı sebze yemeği"),
-        ("Yağ", "1 başparmak",
-         "1 yemek kaşığı zeytinyağı · 10–12 badem · 5–6 zeytin"),
+        ("Protein", "1 palm",
+         "100–150 g (3.5–5 oz) cooked chicken, meat or fish · 2–3 eggs · 1 bowl (200 g, about 3/4 cup) yogurt"),
+        ("Carbs", "1 fist",
+         "3/4 cup cooked rice, quinoa or pasta · 1 medium potato · 1–2 thin slices of whole-grain bread"),
+        ("Vegetables", "2 handfuls",
+         "Salad, steamed or roasted vegetables, a vegetable stew"),
+        ("Fat", "1 thumb",
+         "1 tablespoon olive oil · 10–12 almonds · 5–6 olives"),
     ],
     "adjust": (
-        "Bu ölçüler bir başlangıç noktasıdır. Daha iri yapılıysan, fiziksel olarak çok aktifsen ya da "
-        "öğünden kısa süre sonra yine çok acıkıyorsan protein ve karbonhidrat porsiyonunu biraz artır. "
-        "Genellikle erkekler ve çok aktif kişiler, protein ve karbonhidrat porsiyonunu yaklaşık 1,5–2 katına çıkarabilir."
+        "These portions are a starting point. If you're larger, very physically active, or get very hungry "
+        "again soon after a meal, increase your protein and carb portions a little. Men and very active "
+        "people can often go up to about 1.5–2 times the protein and carb portions."
     ),
-    "rhythm": ("Günlük düzen: 3 ana öğün ve gerçekten acıktığında 1 ara öğün. "
-               "Ara öğün zorunlu değil."),
-    "units": "Plandaki ölçüler: 1 kase yoğurt: yaklaşık 200 g · 1 su bardağı: yaklaşık 200 ml · 1 kibrit kutusu peynir: yaklaşık 30 g",
+    "rhythm": ("Daily rhythm: 3 main meals and 1 snack when you're really hungry. "
+               "The snack is optional."),
+    "units": "Measures used in this plan: 1 bowl of yogurt: about 200 g (3/4 cup) · 1 glass: about 200 ml (7 fl oz) · "
+             "1 matchbox-sized piece of cheese: about 30 g (1 oz)",
 }
 
 SHOPPING = [
-    ("Protein", ["Yumurta", "Tavuk göğsü / but", "Hindi", "Az yağlı kıyma", "Balık (somon, levrek, hamsi)",
-                 "Ton balığı konservesi", "Yoğurt, kefir, ayran", "Süzme yoğurt veya skyr",
-                 "Beyaz peynir, lor"]),
-    ("Karbonhidrat", ["Yulaf", "Bulgur", "Pirinç", "Tam buğday ekmeği / lavaş", "Tam buğday makarna",
-                      "Patates"]),
-    ("Baklagiller", ["Kırmızı mercimek", "Yeşil mercimek", "Nohut", "Kuru fasulye (konserve de olur)",
-                     "Leblebi"]),
-    ("Sebze", ["Domates, salatalık, biber", "Ispanak, marul, roka", "Brokoli, kabak, havuç",
-               "Soğan, sarımsak", "Dondurulmuş karışık sebze"]),
-    ("Meyve", ["Elma, armut", "Muz", "Mandalina / portakal", "Çilek veya yaban mersini (dondurulmuş da olur)"]),
-    ("Sağlıklı yağlar", ["Zeytinyağı", "Zeytin", "Ceviz, badem, fındık"]),
-    ("Diğer", ["Humus", "Limon", "Baharatlar (pul biber, kimyon, kekik, tarçın)", "Maden suyu"]),
+    ("Protein", ["Eggs", "Chicken breast / thighs", "Turkey", "Lean ground beef", "Fish (salmon, cod, sardines)",
+                 "Canned tuna", "Yogurt, kefir", "Greek yogurt or skyr", "Cottage cheese, feta"]),
+    ("Carbs", ["Oats", "Rice", "Quinoa or bulgur", "Whole-grain bread / wraps", "Whole-wheat pasta",
+               "Potatoes"]),
+    ("Legumes", ["Red lentils", "Green lentils", "Chickpeas", "Beans (canned is fine)",
+                 "Roasted chickpeas"]),
+    ("Vegetables", ["Tomatoes, cucumbers, peppers", "Spinach, lettuce, arugula", "Broccoli, zucchini, carrots",
+                    "Onions, garlic", "Frozen mixed vegetables"]),
+    ("Fruit", ["Apples, pears", "Bananas", "Oranges / clementines", "Strawberries or blueberries (frozen is fine)"]),
+    ("Healthy fats", ["Olive oil", "Olives", "Walnuts, almonds, hazelnuts"]),
+    ("Other", ["Hummus", "Lemons", "Spices (chili flakes, cumin, oregano, cinnamon)", "Sparkling water"]),
 ]
 
-SHOPPING_TIP = ("Dondurulmuş sebze ve meyve de taze kadar işine yarar: pratik, uzun ömürlü ve "
-                "hazırlaması kolay.")
+SHOPPING_TIP = ("Frozen vegetables and fruit are just as useful as fresh: practical, long-lasting and "
+                "easy to prepare.")
 
 WARMUP = [
-    ("Yerinde yürüyüş", "1 dakika"),
-    ("Kol çevirme (ileri ve geri)", "10 + 10"),
-    ("Kalça çevirme", "10 tekrar"),
-    ("Yavaş yarım squat", "10 tekrar"),
-    ("Kedi-inek (dört ayak üzerinde)", "8 tekrar"),
+    ("Marching in place", "1 minute"),
+    ("Arm circles (forward and back)", "10 + 10"),
+    ("Hip circles", "10 reps"),
+    ("Slow half squats", "10 reps"),
+    ("Cat-cow (on all fours)", "8 reps"),
 ]
 
 MOBILITY = [
-    ("Kedi-inek", "8 tekrar", "Dört ayak üzerinde sırtını yavaşça yuvarla ve çukurlaştır."),
-    ("Kalça esnetmesi", "30 sn her taraf", "Tek diz yerde, öne doğru hafifçe esne; belini çukurlaştırma."),
-    ("Göğüs açma", "8 tekrar her taraf", "Yan yatarken üstteki kolunu yay çizerek arkaya aç."),
-    ("Arka bacak esnetmesi", "30 sn her taraf", "Bir topuk önde, dizler hafif bükük; kalçadan öne eğil."),
-    ("Çocuk pozu", "45 sn", "Dizler yerde, kalçanı topuklara doğru götür, kolları öne uzat."),
-    ("Derin nefes", "1 dakika", "Burundan 4 sn nefes al, ağızdan 6 sn ver."),
+    ("Cat-cow", "8 reps", "On all fours, slowly round and then arch your back."),
+    ("Hip flexor stretch", "30 sec each side", "One knee on the floor, lean gently forward without arching your lower back."),
+    ("Chest opener", "8 reps each side", "Lying on your side, sweep your top arm back in an arc."),
+    ("Hamstring stretch", "30 sec each side", "One heel forward, knees slightly bent; hinge forward from the hips."),
+    ("Child's pose", "45 sec", "Knees on the floor, sit your hips back toward your heels, arms stretched forward."),
+    ("Deep breathing", "1 minute", "Breathe in through your nose for 4 seconds, out through your mouth for 6."),
 ]
 
-INTERVAL_WALK = ("Tempolu yürüyüş: Rahat bir tempoyla başla, sonra 2 dakika tempolu ve 2 dakika rahat "
-                 "yürüyüşü sırayla tekrarla. Tempolu kısımda konuşabilirsin ama şarkı söyleyemezsin.")
+INTERVAL_WALK = ("Brisk walk: Start at a comfortable pace, then alternate 2 minutes brisk and 2 minutes easy. "
+                 "On the brisk part you can still talk, but you couldn't sing.")
 
 TRAINING_RULES = [
-    "Her antrenmandan önce 5 dakika ısın.",
-    "Her setin sonunda 2–3 tekrar daha yapabilecek gücün kalsın.",
-    "Doğru teknik, tekrar sayısından daha önemli.",
-    "Keskin veya artan bir ağrı hissedersen dur.",
-    "Bir hareket zor geliyorsa kolay versiyonunu seç. Bu bir geri adım değil, doğru başlangıç.",
+    "Warm up for 5 minutes before every workout.",
+    "Finish every set with 2–3 reps left in the tank.",
+    "Good form matters more than the number of reps.",
+    "Stop if you feel sharp or increasing pain.",
+    "If an exercise feels too hard, choose the easier version. That's not a step back, it's the right start.",
 ]
 
 EXERCISES = [
     {
-        "name": "Squat (çömelme)",
-        "how": ["Ayaklar omuz genişliğinde, parmak uçları hafifçe dışa dönük.",
-                "Sandalyeye oturur gibi kalçanı geriye ve aşağı indir; göğüs dik, dizler ayak parmaklarıyla aynı yönde.",
-                "Topuklarından iterek kalk."],
-        "easy": "Arkandaki sandalyeye oturup kalk.",
-        "hard": "3 saniyede in veya sırt çantası tak.",
+        "name": "Squat",
+        "how": ["Feet shoulder-width apart, toes turned slightly out.",
+                "Push your hips back and down as if sitting on a chair; chest up, knees in line with your toes.",
+                "Push through your heels to stand up."],
+        "easy": "Sit down on a chair behind you and stand back up.",
+        "hard": "Take 3 seconds to lower or wear a backpack.",
     },
     {
-        "name": "Geriye adım lunge",
-        "how": ["Dik dur ve bir ayağınla geriye büyük bir adım at.",
-                "İki dizini de bükerek aşağı in; arka dizin yere yaklaşsın.",
-                "Öndeki topuğundan iterek başlangıca dön. Tekrarlar her bacak için."],
-        "easy": "Duvara veya sandalyeye tutun, daha az in.",
-        "hard": "Her elinde birer su şişesi tut.",
+        "name": "Reverse lunge",
+        "how": ["Stand tall and take a big step back with one foot.",
+                "Bend both knees and lower down; your back knee comes close to the floor.",
+                "Push through your front heel to return. Reps are per leg."],
+        "easy": "Hold on to a wall or chair and go down less.",
+        "hard": "Hold a water bottle in each hand.",
     },
     {
-        "name": "Şınav",
-        "how": ["Eller omuz hizasında; baştan topuğa düz bir çizgi.",
-                "Göğsünü kontrollü indir; dirsekler gövdeye yaklaşık 45 derece.",
-                "Avuçlarınla iterek yukarı çık."],
-        "easy": "Kolaydan zora: duvara şınav, masaya veya tezgâha eğimli şınav, diz üstü şınav.",
-        "hard": "Klasik şınav, 3 saniyede iniş.",
+        "name": "Push-up",
+        "how": ["Hands under your shoulders; a straight line from head to heels.",
+                "Lower your chest under control; elbows at about 45 degrees to your body.",
+                "Push through your palms to come back up."],
+        "easy": "From easy to hard: wall push-up, incline push-up on a table or counter, knee push-up.",
+        "hard": "Classic push-up, 3 seconds down.",
     },
     {
-        "name": "Çekiş (row)",
-        "how": ["Lastik bandı sağlam bir yere sabitle ya da içine kitap koyduğun bir sırt çantası kullan.",
-                "Çantayla: Dizler hafif bükük, sırt düz, öne eğil; çantayı karnına doğru çek.",
-                "Kürek kemiklerini birbirine yaklaştır, kontrollü bırak."],
-        "easy": "Daha hafif çanta veya daha gevşek bant.",
-        "hard": "Daha ağır çanta; üstte 2 saniye tut.",
+        "name": "Row",
+        "how": ["Anchor a resistance band securely, or use a backpack with books inside.",
+                "With the backpack: knees slightly bent, back flat, lean forward; pull the bag toward your belly.",
+                "Squeeze your shoulder blades together, then lower under control."],
+        "easy": "Lighter backpack or looser band.",
+        "hard": "Heavier backpack; hold for 2 seconds at the top.",
     },
     {
-        "name": "Kalça köprüsü",
-        "how": ["Sırtüstü uzan; dizler bükülü, ayaklar yerde, kalça genişliğinde.",
-                "Topuklarından iterek kalçanı kaldır; omuzdan dize düz bir çizgi oluşsun.",
-                "Üstte 1 saniye kalçanı sık, yavaşça in."],
-        "easy": "Kalçanı daha az kaldır.",
-        "hard": "Tek bacakla yap veya üstte 3 saniye bekle.",
+        "name": "Glute bridge",
+        "how": ["Lie on your back; knees bent, feet flat on the floor, hip-width apart.",
+                "Push through your heels to lift your hips; shoulders to knees in a straight line.",
+                "Squeeze your glutes for 1 second at the top, lower slowly."],
+        "easy": "Lift your hips less.",
+        "hard": "Do it on one leg or hold for 3 seconds at the top.",
     },
     {
         "name": "Plank",
-        "how": ["Dirsekler omuzların altında, önkollar yerde.",
-                "Vücudun baştan topuğa düz olsun; kalça ne yukarıda ne aşağıda.",
-                "Karnını hafifçe sık ve nefes almaya devam et."],
-        "easy": "Dizler yerde veya ellerin bir masada.",
-        "hard": "Süreyi 10 saniye uzat.",
+        "how": ["Elbows under your shoulders, forearms on the floor.",
+                "Your body is straight from head to heels; hips neither up nor down.",
+                "Brace your stomach lightly and keep breathing."],
+        "easy": "Knees on the floor or hands on a table.",
+        "hard": "Add 10 seconds.",
     },
     {
         "name": "Dead bug",
-        "how": ["Sırtüstü uzan; kollar tavana, dizler 90 derece bükülü ve havada.",
-                "Belini yere yakın tut; sağ kolunu ve sol bacağını yavaşça uzat, geri getir.",
-                "Karşı tarafla devam et. Tekrarlar her taraf için."],
-        "easy": "Sadece bacakları hareket ettir, topuğu yere dokundur.",
-        "hard": "Daha yavaş yap, uzattığın noktada 2 saniye bekle.",
+        "how": ["Lie on your back; arms toward the ceiling, knees bent at 90 degrees in the air.",
+                "Keep your lower back close to the floor; slowly extend your right arm and left leg, then return.",
+                "Continue with the other side. Reps are per side."],
+        "easy": "Move only your legs and tap your heel on the floor.",
+        "hard": "Go slower and pause for 2 seconds when extended.",
     },
     {
-        "name": "Duvar oturuşu",
-        "how": ["Sırtını duvara yasla, ayakların duvardan yaklaşık bir adım önde olsun.",
-                "Dizlerin yaklaşık 90 derece bükülene kadar aşağı kay.",
-                "Ağırlığın topuklarda; süre boyunca bekle."],
-        "easy": "Dizlerini daha az bük, daha yukarıda dur.",
-        "hard": "Süreyi 10–15 saniye uzat.",
+        "name": "Wall sit",
+        "how": ["Lean your back against a wall, feet about one step away from it.",
+                "Slide down until your knees are bent to about 90 degrees.",
+                "Weight in your heels; hold for the time given."],
+        "easy": "Bend your knees less and stay higher.",
+        "hard": "Add 10–15 seconds.",
     },
 ]
 
-PROGRESS_ROWS = ["Kilo (kg)", "Bel çevresi (cm)", "Kalça çevresi (cm)", "Ortalama günlük adım",
-                 "Bu hafta antrenman (sayı)", "Enerji (1–5)", "Uyku (ortalama saat)",
-                 "Kıyafetlerim nasıl oturuyor?"]
-PROGRESS_COLS = ["Gün 1", "Gün 7", "Gün 14", "Gün 21", "Gün 30"]
+PROGRESS_ROWS = ["Weight (kg / lb)", "Waist (cm / in)", "Hips (cm / in)", "Average daily steps",
+                 "Workouts this week (number)", "Energy (1–5)", "Sleep (average hours)",
+                 "How do my clothes fit?"]
+PROGRESS_COLS = ["Day 1", "Day 7", "Day 14", "Day 21", "Day 30"]
 
 MEASURE_HOW = [
-    ("Tartı", "Sabah, tuvaletten sonra ve kahvaltıdan önce; her seferinde aynı tartıyla."),
-    ("Bel çevresi", "Göbek hizasından, karnını içeri çekmeden ve nefesini tutmadan."),
-    ("Fotoğraf (isteğe bağlı)", "Aynı ışıkta, aynı kıyafetle; önden ve yandan."),
+    ("Scale", "In the morning, after using the bathroom and before breakfast; always on the same scale."),
+    ("Waist", "At belly-button height, without pulling your stomach in or holding your breath."),
+    ("Photo (optional)", "Same light, same clothes; from the front and the side."),
 ]
 
 FLUCTUATION = (
-    "Tuzlu bir akşam yemeği, içtiğin su miktarı, sindirim, hormonal döngü ve yoğun bir antrenman, "
-    "tartıdaki sayıyı bir günden diğerine 1–2 kilo kadar değiştirebilir. Bu, yağ kaybı ya da artışı "
-    "anlamına gelmez. Tek bir ölçüme değil, haftalar içindeki eğilime bak. Enerjin, uykun, gücün ve "
-    "kıyafetlerin de ilerlemenin parçası."
+    "A salty dinner, how much you drank, digestion, your hormonal cycle and a hard workout can change the "
+    "number on the scale by 1–2 kg (2–4 lb) from one day to the next. That doesn't mean you lost or gained "
+    "fat. Look at the trend over the weeks, not at a single weigh-in. Your energy, sleep, strength and how "
+    "your clothes fit are part of your progress too."
 )
 
 HABITS = [
-    ("Hareket hedefi", 1),
-    ("Su (8–10 bardak)", 2),
-    ("Antrenman (planlı günlerde)", 2),
-    ("Her ana öğünde protein", 3),
-    ("Tabağın yarısı sebze", 5),
-    ("Öğün planı / hazırlık", 11),
-    ("Uyku rutini", 16),
+    ("Movement goal", 1),
+    ("Water (8–10 glasses)", 2),
+    ("Workout (on planned days)", 2),
+    ("Protein with every main meal", 3),
+    ("Half your plate vegetables", 5),
+    ("Meal plan / prep", 11),
+    ("Sleep routine", 16),
 ]
