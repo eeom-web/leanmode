@@ -52,13 +52,15 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 .lmp-content h3{margin:1.5em 0 .5em;color:#101614;font-size:21px;font-weight:600;line-height:1.3}
 .lmp-content ul,.lmp-content ol{padding-left:1.3em}
 .lmp-content li{margin:0 0 .45em}
-.lmp-content strong{color:#101614}
+.lmp-content strong{color:#101614;font-weight:600}
 .lmp-content img{max-width:100%;height:auto;border-radius:16px}
 .lmp-content figure{margin-left:0;margin-right:0}
 .lmp-content figcaption{color:#5D6762;font-size:14px}
 .lmp-content blockquote{margin:1.6em 0;padding:4px 0 4px 20px;border-left:3px solid #1D5A48;color:#101614;font-size:20px}
 .lmp-content table{width:100%;border-collapse:collapse;font-size:16px}
-.lmp-content th,.lmp-content td{padding:10px 12px 10px 0;border-bottom:1px solid #E3E2DB;text-align:left}
+.lmp-content th,.lmp-content td,.lmp-content .wp-block-table th,.lmp-content .wp-block-table td{padding:10px 14px 10px 0;border:0;border-bottom:1px solid #E3E2DB;text-align:left;vertical-align:top}
+.lmp-content .wp-block-table thead{border-bottom:2px solid #101614}
+.lmp-content th{color:#101614;font-weight:600}
 .lmp-content a{text-decoration:underline;text-underline-offset:2px}
 .lmp-box{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center;margin:48px 0 0;padding:28px;border:1px solid #D5E4DA;border-radius:28px;background:#E3EDE7}
 .lmp-box__visual .lmp-mockup{--book-w:130px;padding:0}
