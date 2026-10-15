@@ -1,0 +1,23 @@
+{
+  "title": "The Plate Method for Weight Loss: How to Build a Filling Plate Without Counting Calories",
+  "slug": "plate-method-for-weight-loss",
+  "excerpt": "Learn the simple plate method for weight loss: half vegetables, a quarter protein, a quarter smart carbs. Filling meals, no calorie counting, with example plates.",
+  "category": "Nutrition",
+  "tags": ["plate method", "portion control", "weight loss tips"],
+  "featured_image": {"file": "featured.webp", "alt": "The Plate Method for Weight Loss: build a filling plate without counting calories"},
+  "images": {"plate-diagram": {"file": "plate-diagram.webp", "alt": "The plate method: half vegetables, a quarter protein, a quarter smart carbs"}},
+  "pins": [
+    {
+      "file": "pin-1.jpg",
+      "title": "The Plate Method for Weight Loss (No Calorie Counting)",
+      "description": "Lose weight without counting calories: fill half your plate with vegetables, a quarter with protein and a quarter with smart carbs. Easy portion control for every meal, with example plates for breakfast, lunch and dinner.",
+      "board": "Weight Loss Tips"
+    },
+    {
+      "file": "pin-2.jpg",
+      "title": "How to Lose Weight Without Counting Calories",
+      "description": "This simple plate rule makes healthy eating easy: half veggies, a quarter protein, a quarter carbs. A beginner-friendly portion control guide for weight loss with meal ideas.",
+      "board": "Healthy Eating for Weight Loss"
+    }
+  ]
+}
