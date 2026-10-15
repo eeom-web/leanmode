@@ -19,7 +19,9 @@ Facts the texts rely on (state 14.10.2026, English site):
 - Comments are closed on all posts (no comment data).
 - The signup form asks only for the email address. It posts to a Brevo signup form (Sendinblue SAS, Paris)
   with double opt-in. Brevo measures opens and clicks of the emails (tracking pixel, redirected links).
-- Blog posts may contain affiliate links; a disclosure line is added to every post automatically.
+- Blog posts may contain affiliate links; a disclosure line is added to every post automatically and each
+  affiliate link gets rel="sponsored" and a visible "(affiliate link)" label (mu-plugin lmp-blog).
+- The blog is an editorial offer, so the Legal Notice names the person responsible under Section 18(2) MStV.
 - The privacy policy follows the structure of the e-recht24 template the operator supplied (translated and
   adapted, source note at the end).
 """
@@ -63,6 +65,10 @@ def imprint_html():
         CONTACT,
         _if("vat", "<h2>VAT identification number</h2>"
                    "<p>VAT identification number pursuant to Section 27a of the German VAT Act (UStG): {{lmp:vat}}</p>"),
+        "<h2>Responsible for content</h2>",
+        "<p>Responsible for editorial content pursuant to Section 18(2) of the German Interstate Media Treaty "
+        "(Medienstaatsvertrag, MStV):</p>",
+        "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Germany</p>",
         "<h2>Important health notice</h2>",
         "<p>The information on this website, in our emails and in the free e-book is for general information only and "
         "does not replace medical advice, diagnosis or treatment. Please read our "
@@ -475,8 +481,8 @@ def disclaimer_html():
         _if("amazon", f"<p><strong>{AMAZON_STATEMENT}</strong></p>"),
         "<p>We only recommend products we consider useful, and a commission never influences what we write. We don't sell "
         "the products ourselves: your purchase contract is with the respective merchant, and prices and availability can "
-        "change. Articles that contain affiliate links say so at the top, and in social media posts we mark them as "
-        "advertising.</p>",
+        "change. Articles that contain affiliate links say so at the top, and each affiliate link in an article is "
+        "marked “(affiliate link)”. In our emails and social media posts we mark affiliate links as advertising.</p>",
 
         "<h2>External links</h2>",
         "<p>Our content contains links to websites of third parties. We have no influence on their content and accept no "
@@ -485,7 +491,7 @@ def disclaimer_html():
 
         "<h2>Contact</h2>",
         CONTACT,
-        _updated(),
+        _updated("October 15, 2026"),
     ])
 
 

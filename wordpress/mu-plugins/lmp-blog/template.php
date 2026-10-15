@@ -62,6 +62,7 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 .lmp-content .wp-block-table thead{border-bottom:2px solid #101614}
 .lmp-content th{color:#101614;font-weight:600}
 .lmp-content a{text-decoration:underline;text-underline-offset:2px}
+.lmp-content .lmp-aff{color:#5D6762;font-size:.8em;white-space:nowrap}
 .lmp-box{display:grid;grid-template-columns:150px 1fr;gap:28px;align-items:center;margin:48px 0 0;padding:28px;border:1px solid #D5E4DA;border-radius:28px;background:#E3EDE7}
 .lmp-box__visual .lmp-mockup{--book-w:130px;padding:0}
 .lmp-box__visual .lmp-mockup::before{display:none}

@@ -110,6 +110,61 @@ add_filter( 'comments_open', '__return_false', 20 );
 add_filter( 'pings_open', '__return_false', 20 );
 add_filter( 'comments_array', '__return_empty_array', 10 );
 
+/**
+ * Affiliate links in posts are marked automatically: rel="sponsored nofollow noopener" and a visible
+ * "(affiliate link)" label right after the link (FTC guides, German UWG: the advertising must be recognizable at
+ * the link itself). Detected by the link's host (Amazon and common networks) or by rel="sponsored" set by hand.
+ */
+function lmp_affiliate_hosts() {
+	return apply_filters(
+		'lmp_affiliate_hosts',
+		array( 'amzn.to', 'amzn.eu', 'amzn.com', 'a.co', 'awin1.com', 'shareasale.com', 'hop.clickbank.net', 'digistore24.com', 'go.skimresources.com' )
+	);
+}
+
+function lmp_is_affiliate_url( $url ) {
+	$host = preg_replace( '/^www\./', '', strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) ) );
+	if ( '' === $host ) {
+		return false;
+	}
+	if ( preg_match( '/^amazon\.[a-z.]+$/', $host ) ) {
+		return true;
+	}
+	foreach ( lmp_affiliate_hosts() as $aff ) {
+		if ( $host === $aff || str_ends_with( $host, '.' . $aff ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+add_filter(
+	'the_content',
+	static function ( $html ) {
+		if ( 'post' !== get_post_type() || false === stripos( $html, '<a ' ) ) {
+			return $html;
+		}
+		return preg_replace_callback(
+			'#(<a\s[^>]*>)(.*?)</a>#is',
+			static function ( $m ) {
+				$tag = new WP_HTML_Tag_Processor( $m[1] );
+				if ( ! $tag->next_tag( 'a' ) ) {
+					return $m[0];
+				}
+				$rel  = preg_split( '/\s+/', strtolower( trim( (string) $tag->get_attribute( 'rel' ) ) ) );
+				$href = html_entity_decode( (string) $tag->get_attribute( 'href' ) );
+				if ( ! in_array( 'sponsored', $rel, true ) && ! lmp_is_affiliate_url( $href ) ) {
+					return $m[0];
+				}
+				$tag->set_attribute( 'rel', implode( ' ', array_unique( array_filter( array_merge( $rel, array( 'sponsored', 'nofollow', 'noopener' ) ) ) ) ) );
+				return $tag->get_updated_html() . $m[2] . '</a><span class="lmp-aff"> (affiliate link)</span>';
+			},
+			$html
+		);
+	},
+	20
+);
+
 /** Text blocks the template adds around every post. */
 function lmp_affiliate_note() {
 	$op     = get_option( 'lmp_operator', array() );
