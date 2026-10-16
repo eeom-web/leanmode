@@ -1,7 +1,7 @@
 # E-Book: The 30-Day Weight Loss Plan
 
 Kostenloses LEAN MODE PRO E-Book (Englisch, US-Schreibweise, metrische Angaben mit US-Einheiten), A4-PDF mit
-53 Seiten, rund 0,7 MB. Fertige Datei:
+53 Seiten, rund 1,2 MB. Fertige Datei:
 [`dist/lean-mode-pro-30-day-weight-loss-plan.pdf`](dist/lean-mode-pro-30-day-weight-loss-plan.pdf)
 
 Bis 14.10.2026 war das E-Book türkisch („30 Günlük Kilo Verme Planı“); die türkische Fassung liegt in der
@@ -26,12 +26,25 @@ Turnschuh und Hantel für Ernährung, Bewegung, Workouts und Gewohnheiten. Quell
 Website (720 × 1080, daraus `wordpress/brand/ebook-cover-en-*.webp`). Chromium übernimmt das JPEG unverändert
 ins PDF.
 
+## Bilder
+
+- **Cover:** eigene Illustration (siehe oben).
+- **Übungsanleitung (S. 10–11):** zu jeder der 8 Übungen eine eigene Zeichnung mit Start- und Endposition, als
+  Vektorgrafik direkt im PDF (`content/exercise_art.py`; Posen werden über Punkte für Nacken, Hüfte, Hände und
+  Füße festgelegt, Ellbogen und Knie berechnet das Skript).
+- **Phasen-Seiten (S. 14, 23, 32, 41):** je ein echtes Foto von Pexels ohne Personen (Pexels-Lizenz: kostenlos,
+  auch kommerziell, ohne Namensnennung). Welche Fotos, steht in `photos.json` (Pexels-ID, Bildausschnitt, Alt-Text).
+  Die Originalfotos liegen nicht im Repository: `python3 ebook/build.py --fetch-photos` lädt sie nach
+  `assets/photos/`; `build.py` schneidet sie auf 2:1 zu und komprimiert sie (braucht Pillow). Fehlt ein Foto, wird die
+  Seite ohne gebaut und eine Warnung ausgegeben.
+
 ## Texte ändern und neu erzeugen
 
 - Texte: `content/basics.py` (Einleitung, Grundlagen, Übungen …) und `content/plan.py` (Phasen, Workouts, 30 Tage)
 - Layout: `build.py` und `style.css`
 
 ```bash
+python3 ebook/build.py --fetch-photos   # einmalig: Fotos für die Phasen-Seiten laden
 python3 ebook/build.py      # erzeugt dist/ebook.html
 node ebook/render.mjs       # erzeugt das PDF, prüft jede Seite auf Überlauf und verkleinert es
 ```

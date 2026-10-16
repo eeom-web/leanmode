@@ -5,11 +5,16 @@
 """
 import base64
 import html
+import io
+import json
 import os
 import re
+import sys
+import urllib.request
 
 from content import basics as B
 from content import plan as P
+from content import exercise_art as A
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 FONT_DIR = os.path.join(ROOT, "fonts")
@@ -225,7 +230,7 @@ def warmup():
 def exercises():
     def card(e):
         how = "".join(f"<li>{esc(x)}</li>" for x in e["how"])
-        return (f'<div class="ex"><h3>{esc(e["name"])}</h3><ol>{how}</ol>'
+        return (f'<div class="ex"><h3>{esc(e["name"])}</h3>{A.art(e["name"])}<ol>{how}</ol>'
                 f'<p class="alt"><b>Easier:</b> {esc(e["easy"])}</p>'
                 f'<p class="alt"><b>Harder:</b> {esc(e["hard"])}</p></div>')
 
@@ -283,6 +288,44 @@ def title_case(text):
     return " ".join(w if i and w in small else w[0].upper() + w[1:] for i, w in enumerate(words))
 
 
+PHOTO_DIR = os.path.join(ROOT, "assets", "photos")
+PHOTOS = json.load(open(os.path.join(ROOT, "photos.json"), encoding="utf-8"))
+PEXELS = "https://images.pexels.com/photos/{0}/pexels-photo-{0}.jpeg?auto=compress&cs=tinysrgb&w=1600"
+
+
+def fetch_photos():
+    """Downloads the phase photos from Pexels into assets/photos/ (not in git; Pexels license)."""
+    os.makedirs(PHOTO_DIR, exist_ok=True)
+    for ph in PHOTOS.values():
+        path = os.path.join(PHOTO_DIR, f"{ph['pexels']}.jpg")
+        if not os.path.exists(path):
+            req = urllib.request.Request(PEXELS.format(ph["pexels"]), headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=60) as r, open(path, "wb") as fh:
+                fh.write(r.read())
+        print("photo", path)
+
+
+def phase_photo(n):
+    """Real photo (Pexels, no people) at the bottom of a phase page, cropped to 2:1 and compressed (needs Pillow).
+    Without the photo file the page is built without it."""
+    ph = PHOTOS.get(str(n))
+    path = ph and os.path.join(PHOTO_DIR, f"{ph['pexels']}.jpg")
+    if not path or not os.path.exists(path):
+        print(f"warning: phase {n} photo missing ({path}); run: python3 ebook/build.py --fetch-photos")
+        return ""
+    from PIL import Image
+    im = Image.open(path).convert("RGB")
+    w, h = im.size
+    tw, th = (w, w // 2) if w / h < 2 else (h * 2, h)
+    px, py = ph.get("pos", [0.5, 0.5])
+    x0, y0 = round((w - tw) * px), round((h - th) * py)
+    im = im.crop((x0, y0, x0 + tw, y0 + th)).resize((1400, 700), Image.LANCZOS)
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=72, optimize=True, progressive=True)
+    src = "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+    return f'<div class="phase-photo"><img src="{src}" alt="{esc(ph["alt"])}"></div>'
+
+
 def phase_page(ph):
     goals = "".join(f"<li>{icon('check', 13)}<span>{esc(g)}</span></li>" for g in ph["goals"])
     chips = "".join(f"<span class='chip'>{esc(h)}</span>" for h in ph["habits"])
@@ -304,6 +347,7 @@ def phase_page(ph):
     </div>
     <p class="label"><span>THIS PHASE AT A GLANCE</span></p>
     <table class="tbl sched">{sched}</table>
+    {phase_photo(ph["n"])}
     """
     add(f"faz{ph['n']}", page(inner, "phase"),
         toc=f"Phase {ph['n']} · {title_case(ph['name'])} (Days {ph['days'][0]}–{ph['days'][1]})")
@@ -542,6 +586,9 @@ def font_face():
 
 
 if __name__ == "__main__":
+    if "--fetch-photos" in sys.argv:
+        fetch_photos()
+        sys.exit()
     body, count = build()
     with open(os.path.join(ROOT, "style.css"), encoding="utf-8") as fh:
         css = fh.read()

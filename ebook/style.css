@@ -143,6 +143,7 @@ x-nw { white-space: nowrap; }  /* keeps ranges like 1–10 together; own tag so 
 .ex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
 .ex { padding: 4.5mm 5mm; border: 1px solid var(--line); border-radius: 4mm; }
 .ex h3 { color: var(--ink); font-size: 12pt; font-weight: 600; margin-bottom: 2mm; }
+.ex-art { display: block; width: 100%; height: auto; max-height: 27mm; margin: 0 0 2.5mm; }
 .ex ol { padding-left: 4mm; display: grid; gap: 1mm; font-size: 9pt; margin-bottom: 2.5mm; }
 .ex .alt { font-size: 8.6pt; padding-top: 1.6mm; border-top: 1px solid var(--line); margin-top: 1.6mm; }
 .rules { list-style: none; display: grid; gap: 1.8mm; font-size: 9.2pt; }
@@ -178,6 +179,8 @@ x-nw { white-space: nowrap; }  /* keeps ranges like 1–10 together; own tag so 
 .sched td { padding: 2.2mm 3mm; }
 .sched .dn { width: 18mm; color: var(--muted); font-weight: 600; white-space: nowrap; }
 .sched .r { font-weight: 500; color: var(--muted); }
+.phase-photo { flex: 1 1 auto; min-height: 40mm; margin-top: 6mm; border-radius: 4mm; overflow: hidden; }
+.phase-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .sched .r.st { color: var(--accent); font-weight: 600; }
 
 /* ---------- day pages */
