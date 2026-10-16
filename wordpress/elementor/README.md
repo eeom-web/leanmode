@@ -26,9 +26,9 @@ Die Website ist seit 14.10.2026 englisch (vorher türkisch, siehe Git-Historie).
 
 Bestätigungs- und Dankeseite passen am PC ohne Scrollen auf einen Bildschirm und sind auf
 „noindex“ gestellt. Das E-Book-PDF liegt in der Mediathek unter
-`/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan-v2.pdf` (bei jeder Änderung ein neuer
-Dateiname, damit kein Cache Teile der alten Datei ausliefert; die alte Adresse ohne `-v2` liefert dieselbe
-Datei, damit ältere Links funktionieren). In Brevo gehört
+`/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan-v3.pdf` (bei jeder Änderung ein neuer
+Dateiname, damit kein Cache Teile der alten Datei ausliefert; die älteren Adressen ohne Endung und mit `-v2`
+liefern dieselbe Datei, damit ältere Links funktionieren). In Brevo gehört
 `https://leanmodepro.com/welcome/` als Weiterleitung nach der Double-Opt-in-Bestätigung eingetragen
 (die alte Adresse `/kayit-onaylandi/` leitet per 301 weiter).
 

@@ -2,10 +2,13 @@
 
 Chromium positions every glyph on its own (`10.6080475 0 Td <0033> Tj`), about 25 bytes per character.
 This rewrites each text run as one TJ array with the spacing adjustments PDF readers expect
-(`[<00150033>-12<0020>]`), rounds coordinates to 3 decimals (far below a pixel) and packs objects into
-object streams. The file is deliberately not linearized ("fast web view"): browsers then load the whole
-file (about 1 MB) at once instead of in byte ranges, which a CDN may serve partly from an older cached
-copy of the same address; that made the PDF hang without its images.
+(`[<00150033>-12<0020>]`) and rounds coordinates to 3 decimals (far below a pixel).
+
+For simple PDF viewers (built-in viewers of phone apps, older readers) the file stays plain:
+- no object streams (classic cross-reference table, readable by every viewer),
+- images in DeviceRGB instead of Chromium's embedded sRGB profile (same colors),
+- not linearized ("fast web view"): browsers load the whole file (about 1 MB) at once instead of in
+  byte ranges, which a CDN may serve partly from an older cached copy of the same address.
 
 Positions are kept exact: each adjustment is computed from the glyph widths in the embedded fonts and
 corrected against the running position, so rounding errors cannot add up along a line.
@@ -323,8 +326,15 @@ def optimize(src, dst):
             after += len(data)
             page.obj.Contents = pdf.make_stream(data)
         pdf.remove_unreferenced_resources()
+        for page in pdf.pages:
+            for _, xobj in (page.Resources.get("/XObject") or {}).items():
+                cs = xobj.get("/ColorSpace")
+                if (xobj.get("/Subtype") == "/Image" and isinstance(cs, pikepdf.Array) and len(cs) == 2
+                        and cs[0] == "/ICCBased" and int(cs[1].get("/N", 0)) == 3):
+                    xobj.ColorSpace = pikepdf.Name.DeviceRGB
+                    stats["images"] = stats.get("images", 0) + 1
         pdf.save(dst, compress_streams=True, recompress_flate=True,
-                 object_stream_mode=pikepdf.ObjectStreamMode.generate, linearize=False)
+                 object_stream_mode=pikepdf.ObjectStreamMode.disable, linearize=False)
     return before, after, stats
 
 
@@ -334,5 +344,5 @@ if __name__ == "__main__":
     size_in = os.path.getsize(src)
     before, after, stats = optimize(src, dst)
     print(f"text runs merged {stats['merged']}, left as they were {stats['kept']}; page blocks rebased "
-          f"{stats['rebased']}; corners simplified {stats['corners']}; content streams {before // 1024} KB -> {after // 1024} KB (uncompressed); "
+          f"{stats['rebased']}; corners simplified {stats['corners']}; images set to DeviceRGB {stats.get('images', 0)}; content streams {before // 1024} KB -> {after // 1024} KB (uncompressed); "
           f"file {size_in // 1024} KB -> {os.path.getsize(dst) // 1024} KB")

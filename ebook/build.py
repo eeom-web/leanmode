@@ -321,7 +321,7 @@ def phase_photo(n):
     x0, y0 = round((w - tw) * px), round((h - th) * py)
     im = im.crop((x0, y0, x0 + tw, y0 + th)).resize((1400, 700), Image.LANCZOS)
     buf = io.BytesIO()
-    im.save(buf, "JPEG", quality=72, optimize=True, progressive=True)
+    im.save(buf, "JPEG", quality=72, optimize=True)  # baseline JPEG: works in every PDF viewer
     src = "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
     return f'<div class="phase-photo"><img src="{src}" alt="{esc(ph["alt"])}"></div>'
 
