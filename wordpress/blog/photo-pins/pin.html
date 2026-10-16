@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<!-- Pinterest pin with a real photo, 1000 x 1500 px. render.mjs opens it as pin.html#<job as JSON>:
+     { layout: "A" | "B" | "C", photo: "<image url>", pos: "50% 50%", kicker, headline, hl, sub, card: "top" | "center" | "bottom" }
+     A = photo on top, green text panel, B = cream page with a rounded photo, C = full photo with a text card. -->
+<style>
+@font-face{font-family:IS;font-weight:500;src:url(../graphics/fonts/instrument-sans-latin-500-normal.woff2)}
+@font-face{font-family:IS;font-weight:600;src:url(../graphics/fonts/instrument-sans-latin-600-normal.woff2)}
+@font-face{font-family:IS;font-weight:700;src:url(../graphics/fonts/instrument-sans-latin-700-normal.woff2)}
+:root{--green:#1D5A48;--deep:#164A3B;--cream:#F6F5F1;--yellow:#F6D776;--grey:#5D6762;--soft:#E3EDE7;--ink:#101614}
+*{box-sizing:border-box}
+html,body{margin:0;width:1000px;height:1500px;overflow:hidden;background:var(--cream)}
+.pin{position:relative;width:1000px;height:1500px;overflow:hidden;font-family:IS,sans-serif;-webkit-font-smoothing:antialiased}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.kicker{margin:0;font-weight:700;font-size:26px;letter-spacing:.16em}
+h1{margin:18px 0 0;font-weight:700;line-height:1.03;letter-spacing:-.02em;text-wrap:balance}
+.nw{white-space:nowrap}
+.line{width:120px;height:8px;border-radius:99px;background:var(--yellow);margin:30px 0 26px}
+.sub{margin:0;font-weight:500;font-size:37px;line-height:1.25;text-wrap:balance}
+.domain{font-weight:700;font-size:29px;letter-spacing:.05em}
+
+/* A: photo on top, green panel with a rounded top edge, cream strip with the domain */
+.A{display:flex;flex-direction:column;background:var(--green)}
+.A .ph{flex:1 1 auto;min-height:0}
+.A .panel{position:relative;margin-top:-44px;padding:62px 72px 58px;border-radius:44px 44px 0 0;background:var(--green);color:#fff}
+.A .kicker{color:var(--yellow)}
+.A h1 .hl{color:var(--yellow)}
+.A .sub{color:var(--soft)}
+.A .strip{flex:none;height:100px;display:flex;align-items:center;justify-content:center;background:var(--cream);color:var(--green)}
+
+/* B: cream page, headline on top, rounded photo with a yellow blob, domain below */
+.B{display:flex;flex-direction:column;padding:88px 72px 0;background:var(--cream);color:var(--green)}
+.B .sub{color:var(--grey)}
+.B h1 .hl,.C h1 .hl{background:linear-gradient(transparent 64%,var(--yellow) 64%,var(--yellow) 92%,transparent 92%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.B .ph{position:relative;flex:1 1 auto;min-height:0;margin-top:56px}
+.B .ph::before{content:"";position:absolute;width:380px;height:380px;right:-56px;top:-40px;border-radius:50%;background:var(--yellow)}
+.B .ph img{position:relative;z-index:1;border-radius:40px;box-shadow:0 18px 40px rgba(16,22,20,.16)}
+.B .strip{flex:none;height:118px;display:flex;align-items:center;justify-content:center;color:var(--green)}
+
+/* C: full photo, centered cream card, green domain pill */
+.C .ph{position:absolute;inset:0}
+.C .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,22,20,.18),rgba(16,22,20,0) 30%,rgba(16,22,20,0) 70%,rgba(16,22,20,.28))}
+.C .card{position:absolute;left:76px;right:76px;padding:58px 60px 54px;border-radius:40px;background:var(--cream);color:var(--green);text-align:center;box-shadow:0 24px 60px rgba(16,22,20,.28)}
+.C .card.top{top:108px}.C .card.center{top:50%;transform:translateY(-50%)}.C .card.bottom{bottom:178px}
+.C .line{margin:30px auto 26px}
+.C .sub{color:var(--grey)}
+.C .pill{position:absolute;left:50%;bottom:66px;transform:translateX(-50%);padding:18px 38px;border-radius:999px;background:var(--green);color:var(--cream);box-shadow:0 10px 30px rgba(16,22,20,.25)}
+</style>
+</head><body>
+<div class="pin" id="pin"></div>
+<script>
+const job = JSON.parse(decodeURIComponent(location.hash.slice(1) || '{}'));
+const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// Highlight one phrase; keep hyphenated words like "30-Day" on one line.
+function headline(text, hl) {
+  let h = esc(text);
+  if (hl) h = h.replace(esc(hl), '\u0000' + esc(hl) + '\u0001');
+  h = h.replace(/(\S+-\S+)/g, '<span class="nw">$1</span>');
+  return h.replace('\u0000', '<span class="hl">').replace('\u0001', '</span>');
+}
+const L = job.layout || 'A';
+const img = `<div class="ph"><img id="img" src="${esc(job.photo)}" alt="" style="object-position:${esc(job.pos || '50% 50%')}"></div>`;
+const text = `<p class="kicker">${esc(job.kicker)}</p><h1 id="h">${headline(job.headline, job.hl)}</h1><div class="line"></div><p class="sub">${esc(job.sub)}</p>`;
+const pin = document.getElementById('pin');
+pin.className = 'pin ' + L;
+pin.innerHTML = L === 'A' ? `${img}<div class="panel">${text}</div><div class="strip domain">leanmodepro.com</div>`
+  : L === 'B' ? `${text}${img}<div class="strip domain">leanmodepro.com</div>`
+  : `${img}<div class="shade"></div><div class="card ${esc(job.card || 'center')}">${text}</div><div class="pill domain">leanmodepro.com</div>`;
+// Largest headline size that fits in max 3 lines (C: 3 lines in the narrower card).
+const h = document.getElementById('h');
+window.fit = () => {
+  let size = L === 'C' ? 84 : 92;
+  for (; size > 56; size -= 2) {
+    h.style.fontSize = size + 'px';
+    if (h.getBoundingClientRect().height <= size * 1.03 * 3 + 2) break;
+  }
+  return size;
+};
+</script>
+</body></html>

@@ -25,3 +25,6 @@ npm-debug.log*
 
 # python
 __pycache__/
+
+# photo pins: original Pexels photos stay local
+wordpress/blog/photo-pins/photos/
