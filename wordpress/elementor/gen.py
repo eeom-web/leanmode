@@ -584,7 +584,8 @@ def landing():
 
 
 # ---------------------------------------------------------------- one-screen pages (after the signup)
-EBOOK_PDF = "/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan.pdf"  # add ?v=2 etc. after a re-upload
+# New file name for every changed PDF, so no CDN or browser cache can serve parts of an older copy.
+EBOOK_PDF = "/wp-content/uploads/2026/10/lean-mode-pro-30-day-weight-loss-plan-v2.pdf"
 EBOOK_PDF_NAME = "lean-mode-pro-30-day-weight-loss-plan.pdf"
 
 

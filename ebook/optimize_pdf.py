@@ -2,8 +2,10 @@
 
 Chromium positions every glyph on its own (`10.6080475 0 Td <0033> Tj`), about 25 bytes per character.
 This rewrites each text run as one TJ array with the spacing adjustments PDF readers expect
-(`[<00150033>-12<0020>]`), rounds coordinates to 3 decimals (far below a pixel), packs objects into
-object streams and linearizes the file ("fast web view": browsers show page 1 before the rest has arrived).
+(`[<00150033>-12<0020>]`), rounds coordinates to 3 decimals (far below a pixel) and packs objects into
+object streams. The file is deliberately not linearized ("fast web view"): browsers then load the whole
+file (about 1 MB) at once instead of in byte ranges, which a CDN may serve partly from an older cached
+copy of the same address; that made the PDF hang without its images.
 
 Positions are kept exact: each adjustment is computed from the glyph widths in the embedded fonts and
 corrected against the running position, so rounding errors cannot add up along a line.
@@ -322,7 +324,7 @@ def optimize(src, dst):
             page.obj.Contents = pdf.make_stream(data)
         pdf.remove_unreferenced_resources()
         pdf.save(dst, compress_streams=True, recompress_flate=True,
-                 object_stream_mode=pikepdf.ObjectStreamMode.generate, linearize=True)
+                 object_stream_mode=pikepdf.ObjectStreamMode.generate, linearize=False)
     return before, after, stats
 
 
