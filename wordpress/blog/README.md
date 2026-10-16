@@ -1,15 +1,27 @@
 # Blogartikel
 
-Jeder Artikel hat einen eigenen Ordner unter `posts/<slug>/`:
+Jeder Artikel hat einen eigenen Ordner unter `posts/<slug>/`. Neue Artikel schreibt man als `post.md`
+(Kopfbereich mit Titel, Beschreibung, Kategorie, Bild- und Pin-Texten, darunter der Text in einfachem Markdown) und
+erzeugt den Rest mit:
+
+```
+PW_PATH=/pfad/zu/playwright python3 build.py            # alle Artikel
+PW_PATH=/pfad/zu/playwright python3 build.py <slug>     # nur einer
+python3 build.py --no-images                            # nur Text, keine Bilder
+```
 
 | Datei | Inhalt |
 |---|---|
-| `post.html` | Artikeltext im Block-Format von WordPress (Gutenberg). `{{img:<name>}}` wird beim Import durch die Adresse des hochgeladenen Bildes ersetzt |
-| `post.json` | Titel, Adresse (Slug), Textauszug (= Beschreibung für Google und Pinterest), Kategorie, Schlagwörter, Bilder und die Texte für die Pins |
-| `featured.webp` | Beitragsbild (1200 × 1500 px) |
-| `*.webp` | Bilder im Artikel |
-| `pin-*.jpg` | Pins für Pinterest (1000 × 1500 px), werden nicht auf die Website hochgeladen |
-| `graphics/` | Quelle der Grafiken (HTML + Playwright-Skript; Schrift Instrument Sans aus `@fontsource/instrument-sans` in `graphics/fonts/` legen) |
+| `post.md` | Quelle: Kopfbereich (`title`, `excerpt`, `category`, `tags`, `icon`, `img_title`, `img_sub`, `kicker`, `points`, `headline`, `pin1_*`, `pin2_*`) und Artikeltext |
+| `post.html` | Artikeltext im Block-Format von WordPress (Gutenberg), erzeugt |
+| `post.json` | Titel, Adresse (Slug), Textauszug (= Beschreibung für Google und Pinterest), Kategorie, Schlagwörter, Bilder und die Texte für die Pins, erzeugt |
+| `featured.webp` | Beitragsbild (1200 × 1500 px), erzeugt |
+| `pin-1.jpg`, `pin-2.jpg` | Pins für Pinterest (1000 × 1500 px), erzeugt; werden nicht auf die Website hochgeladen |
+| `posts/manifest.json` | SHA-256 der Dateien, die beim Einspielen hochgeladen werden |
+
+`graphics/` enthält die Vorlage für Beitragsbilder und Pins (`card.html`, Illustrationen in `icons.js`, Schrift
+Instrument Sans unter OFL in `fonts/`). Der Artikel `plate-method-for-weight-loss` ist von Hand gebaut (ohne
+`post.md`, eigene Grafiken in seinem Ordner).
 
 Design, Affiliate-Hinweis, Anmeldebox und Gesundheitshinweis kommen automatisch aus `mu-plugins/lmp-blog/template.php`;
-im Artikeltext steht nur der Inhalt.
+im Artikeltext steht nur der Inhalt. Ans Ende jedes Artikels hängt `build.py` einen Hinweis auf den kostenlosen Plan an.

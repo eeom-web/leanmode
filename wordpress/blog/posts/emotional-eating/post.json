@@ -1,0 +1,33 @@
+{
+  "title": "Emotional Eating: How to Recognize It and What to Do Instead",
+  "slug": "emotional-eating",
+  "excerpt": "How to tell emotional hunger from physical hunger, what triggers emotional eating and practical things to do instead of reaching for food.",
+  "category": "Habits",
+  "tags": [
+    "emotional eating",
+    "stress eating",
+    "mindful eating",
+    "healthy habits"
+  ],
+  "featured_image": {
+    "file": "featured.webp",
+    "alt": "Emotional Eating: How to Recognize It and What to Do Instead"
+  },
+  "images": {},
+  "pins": [
+    {
+      "file": "pin-1.jpg",
+      "title": "Emotional Eating: How to Recognize It and What to Do Instead",
+      "description": "Do you eat when you're stressed, bored or sad? Learn how to tell emotional hunger from real hunger, what triggers emotional eating and practical things to do instead.",
+      "board": "Healthy Habits",
+      "link": "https://leanmodepro.com/emotional-eating/"
+    },
+    {
+      "file": "pin-2.jpg",
+      "title": "Hungry or Just Stressed? How to Stop Emotional Eating",
+      "description": "Emotional eating is common and it's not about willpower. These simple steps help you recognize your triggers and find new ways to cope, without guilt.",
+      "board": "Weight Loss Tips",
+      "link": "https://leanmodepro.com/emotional-eating/"
+    }
+  ]
+}

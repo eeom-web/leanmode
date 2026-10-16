@@ -1,0 +1,102 @@
+{
+ "beginner-home-workout": {
+  "featured.webp": "cded72de0748c039e03018724eb9d5811cb6e5775c1991c09a01b316029055ca",
+  "post.html": "f30cb7889ca27a001cd3bd0b4ab1f0c5748abf9a3c80d06f20c417359939ff52",
+  "post.json": "492e2a1020e932f6bfc32cc19fea4ff13381c909533292dbd6fca37c317b6388"
+ },
+ "drink-more-water-for-weight-loss": {
+  "featured.webp": "84e8839d703422e0b8bb07310229d4f17a5661613b3b5c99c6096a61c1b953fd",
+  "post.html": "fe4295315072ab63080945aa549f4f5d6809d2aefa8b9dd4c7adaef76678dfe0",
+  "post.json": "eef5226b160cf0022c2f8b0a6ad20870444bea7dffe02c55610274f7e36666b5"
+ },
+ "eating-out-while-losing-weight": {
+  "featured.webp": "61f4c034f9251c9d968ba019c50eef009d29fa5affa1e40151754095d7b8010c",
+  "post.html": "71cfe21cc5586a08d8a5c00a143c1adf25c39676f21ff1270ec98d1cb955e44f",
+  "post.json": "eb5907a14caa49854a6e20952eb8a0ac7ff973afbb968c3bfd84cc255cdd8137"
+ },
+ "emotional-eating": {
+  "featured.webp": "0a8eadc693addf2e4c413bfcb66aa162530c502748f4e162a5c292b49a5b14d3",
+  "post.html": "dd50dbed87ad0c138026fbccb46c7d454145882d660b379028e8ce9eddd8ca3a",
+  "post.json": "6ab2ea5847908d81e048d874ee7c1f2354c11098a8f2f98c6e50bc008551820f"
+ },
+ "healthy-food-swaps": {
+  "featured.webp": "3be33b8e259c882492278e885ac89d6c4720de49030b4dfa2c4d6471b27d34d8",
+  "post.html": "7bbbec3df37d46e82be8b7b9428fc0d9eb31c4e3be5ef092b0e3502cff6a2e4d",
+  "post.json": "f7c032c987aec2cd4f58ef78901da8928676b3ec4ac87d3b2bebd33cd4c45c07"
+ },
+ "healthy-snacks-for-weight-loss": {
+  "featured.webp": "73a903915bc2b0742513bec4e9525e3e3acf052a1ba1d1044a015d218f76dc28",
+  "post.html": "51c37714a2a9e2186207937b3f8092f8643e5f132b543ab528e80abd2b712aa1",
+  "post.json": "58bc75a50dcc75f95e1065e146dc8de4df86c1f05bf24ed8ca4b1800bcfc6214"
+ },
+ "high-fiber-foods-for-weight-loss": {
+  "featured.webp": "50a8978d6c60a4c5582e77d4a1306154426d19b57401b0c2299d4976c9bb7d66",
+  "post.html": "b4c65d56552748935d2b509bb92ddfafd5221e102e642cd0432a724729e1e845",
+  "post.json": "604927cfd960b55ba04287087d2a938d3e374b3018716818228b9178d99209fc"
+ },
+ "high-protein-breakfast-ideas": {
+  "featured.webp": "d6c792d5efa563f55dc2565b19b96556ee91f5df116ba2d23b240c4f4f240fb5",
+  "post.html": "2c905444c9203820a395c92a7f1b757c7d3bff75de223f367da4de2f1978f812",
+  "post.json": "e53949fe9fda220fe5b3d8052f9e0fd880405e94f3882fe037284f9206276eb9"
+ },
+ "how-to-lose-belly-fat": {
+  "featured.webp": "137b387dace64cf90446c0555af4608a4ed38369e98e0a6351c71022ac69e6e2",
+  "post.html": "00f8ffe5a6581b0c04d27de1c476b2f03057bb0316c5b0b5f6481930824f6633",
+  "post.json": "9ac97158a717901bc917c479e40d1a243662d2d81efb0963d41476af0789cc0d"
+ },
+ "low-calorie-drinks": {
+  "featured.webp": "8333acf7867ab14fb186abff4a549b688050478fe9f0d0fa472ea90c52d63434",
+  "post.html": "ee1f243aa716c1d97d35ca5a8e32223328ceef5ee17cb4c8e5d3f047d8817cda",
+  "post.json": "0bd095f3a9a97583aa4fd28f51f2a39c0f2bc4313bea0e840b3062eae033ff41"
+ },
+ "meal-prep-for-weight-loss": {
+  "featured.webp": "4ea533eae6c14eee31da2883c1e6eb5e81c9f12d31d12208cd4a1ea7521c2d0b",
+  "post.html": "2a6f562dd5b9f7bc097183f1d2bca9705c3ca0a4f4c44070048f389d81b024f3",
+  "post.json": "2b96a37a2d51c7d779ef0fd1904e848de29b94a81ad47fe243335b57d0fe15a9"
+ },
+ "mindful-eating-tips": {
+  "featured.webp": "c15a76ac86abc79b934b27936dbb1e021e3bd627490a5d2340bd395a8807672a",
+  "post.html": "3b3828126ad6aa63ea316f8771715174f354b5a03475e44c99b53b6b287111b1",
+  "post.json": "bb426f9d51e5f7a004b9944e87660763b39547b561a6e46740ef64b1dc9ac0ef"
+ },
+ "sleep-and-weight-loss": {
+  "featured.webp": "d9b5861a39f78fd32c985e547b6f54cfdee9dc770d9fbd2cfbeb1643a54e99f2",
+  "post.html": "7010329aac313832e0656272cc37ee6521a674adae3fe107640d705e66ace682",
+  "post.json": "1fa5b38f22aadcaf23089400c87b3b79634279890a5f3fe9eef1dbbd25b98398"
+ },
+ "small-habits-for-weight-loss": {
+  "featured.webp": "563b91678701a4968beea4eac44b3ab2466f21c1b143a910961495a2e53d06b3",
+  "post.html": "0c4d979a855ea449c3a0d4b19310886bd7e6392c7936f6a4e37f6d8aa45b4e10",
+  "post.json": "04f4a09999a68656d4c9e862b14400cf8fc0d30c78c3a0249bf32e9b16ff5cfb"
+ },
+ "stop-late-night-snacking": {
+  "featured.webp": "c50c2aef52aab3a810fdd230b653bbeafe47980847b94e8ad1e5009f21e16291",
+  "post.html": "1de5e6bcc3eee064ec140066515a752e10bdaf20a1c388f8e2300257382eb71a",
+  "post.json": "17946b6535f7111500caa221bf42b6ea38eac07a80538adfeb96a48893da0103"
+ },
+ "stop-sugar-cravings": {
+  "featured.webp": "a6c4752a8db3c8320f4ffc833e86d546a73136719294f95b6599b12f236fa138",
+  "post.html": "e10b44d6199f746f1df290c88beb8e6320edbe6117cccfad4db6537ee05ae7f2",
+  "post.json": "4eadb841791bafd8b138ff0ec2c9ceb5a2d9f86c4e48f5f541ace93fd2347b6c"
+ },
+ "walking-for-weight-loss": {
+  "featured.webp": "da3c511ef0feaef284ecde6d5d04498eddb7eb98141e1f3f7a514dc1f37e6089",
+  "post.html": "0d5455579b96aeaf93dba938cee8e54e5588cf8d6df78b7b77fc2bf2000ff07a",
+  "post.json": "73c231fc8a78d1a368a2ba4dbf63d2ee72ed5a8c700dfb9f4993df0f104f06c2"
+ },
+ "weight-loss-grocery-list": {
+  "featured.webp": "8cc12a89d676fae0c6c428b73f82887f289a838f7580220473d3ea2e7c27fb02",
+  "post.html": "c3ccbd6314ee247f712e3b10d0470e133056acb14613b06078d5e936992f1020",
+  "post.json": "2fe9c13af239b74794b87b19fa6f524777bc8a4783793c5b337dde4456ad3c33"
+ },
+ "weight-loss-plateau": {
+  "featured.webp": "b55fbf3e498043077924a3f34eb8b9dcf9ef375d7449de65f8a673924b8ee5cb",
+  "post.html": "6fb9babd1ff3b5be79f9cbf6cc39263cd79ade22e7317d0e163a8337572cc348",
+  "post.json": "8802d9ccabb83400d1f734c9c36798da4f32f2375d32be1560650d188f04a1a5"
+ },
+ "why-am-i-not-losing-weight": {
+  "featured.webp": "cab26ed802020a4274760afff30b301005c2c5827d5c4640a21d38dc506035ea",
+  "post.html": "940027c5373bad8aa5741f5ec8197ae26c410e47c1cd8302790dcc661bee5373",
+  "post.json": "ba074f40f4e283843ec6087f8fd8b61a2a8861480c9601a8ca3f9468015fd82c"
+ }
+}

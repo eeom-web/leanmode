@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<!-- Template for blog graphics. render.mjs opens it with #<json> describing one image:
+     {type: "featured"|"pin1"|"pin2", category, icon, title, sub, kicker, points[], headline} -->
+<style>
+@font-face{font-family:IS;font-weight:400;src:url(fonts/instrument-sans-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-weight:500;src:url(fonts/instrument-sans-latin-500-normal.woff2)}
+@font-face{font-family:IS;font-weight:600;src:url(fonts/instrument-sans-latin-600-normal.woff2)}
+@font-face{font-family:IS;font-weight:700;src:url(fonts/instrument-sans-latin-700-normal.woff2)}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:IS,sans-serif;color:#101614;overflow:hidden}
+.c{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
+.brand{font-weight:700;letter-spacing:.16em;font-size:24px}
+.brand b{color:#1D5A48}
+.title{margin:0;font-weight:600;letter-spacing:-.035em;line-height:1.02}
+.circle{border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}
+.circle svg{width:88%;height:88%}
+.points{list-style:none;margin:0;padding:0;text-align:left;display:grid;gap:16px}
+.points li{display:flex;gap:16px;align-items:flex-start;font-weight:600;line-height:1.25}
+.points li i{flex:0 0 40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:-2px}
+.points li i svg{width:22px;height:22px}
+.domain{font-weight:600;letter-spacing:.04em}
+</style>
+<script src="icons.js"></script>
+</head><body>
+<div id="root"></div>
+<script>
+const THEMES = {
+  Nutrition: { accent: '#1D5A48', circle: '#E3EDE7', band: '#1D5A48', bandText: '#BFE0CF', soft: '#E9F1EA' },
+  Fitness: { accent: '#B4532F', circle: '#F8E1D6', band: '#B4532F', bandText: '#FBD9C8', soft: '#FBEDE6' },
+  Habits: { accent: '#1D5A48', circle: '#F5EAD0', band: '#101614', bandText: '#F6D776', soft: '#F5EEDC' },
+};
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+// "Line one|Line two": lines are kept, the last one is colored.
+const lines = (s, color) => { const p = String(s).split('|').map(esc); return p.map((l, i) => i === p.length - 1 && p.length > 1 ? `<span style="color:${color}">${l}</span>` : l).join('<br>'); };
+function fit(el, maxH, minSize) {
+  let size = parseFloat(getComputedStyle(el).fontSize);
+  while (el.scrollHeight > maxH && size > minSize) { size -= 2; el.style.fontSize = size + 'px'; }
+}
+const job = JSON.parse(decodeURIComponent(location.hash.slice(1)));
+const t = THEMES[job.category] || THEMES.Nutrition;
+const icon = (window.ICONS[job.icon] || window.ICONS.habits)();
+const root = document.getElementById('root');
+
+if (job.type === 'featured') {
+  root.innerHTML = `<div class="c" style="width:1200px;height:1500px;padding:92px 90px 70px;background:#F6F5F1">
+    <div class="brand">LEAN MODE <b>PRO</b></div>
+    <h1 class="title" id="t" style="margin-top:46px;font-size:104px;max-width:1020px">${lines(job.title, t.accent)}</h1>
+    <p id="s" style="margin:30px 0 0;font-size:40px;line-height:1.3;color:#414B46;font-weight:500;max-width:960px">${esc(job.sub)}</p>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;min-height:0;width:100%"><div class="circle" id="ic" style="background:${t.circle}">${icon}</div></div>
+  </div>`;
+  fit(document.getElementById('t'), 340, 60);
+  const ic = document.getElementById('ic'); const space = ic.parentElement.getBoundingClientRect();
+  const d = Math.min(space.height - 20, 760); ic.style.width = ic.style.height = d + 'px';
+} else if (job.type === 'pin1') {
+  root.innerHTML = `<div class="c" style="width:1000px;height:1500px;background:#F6F5F1">
+    <div style="width:100%;background:${t.band};color:#fff;padding:70px 64px 74px">
+      <div style="font-weight:700;letter-spacing:.2em;font-size:26px;color:${t.bandText}">${esc(job.kicker)}</div>
+      <div class="title" id="t" style="font-size:96px;font-weight:700;margin-top:24px;color:#fff">${lines(job.title, '#F6F5F1')}</div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;width:100%;padding:28px 64px 0;min-height:0">
+      <div class="circle" id="ic" style="background:${t.circle};width:520px;height:520px">${icon}</div>
+      <ul class="points" id="p" style="font-size:40px;background:#fff;border-radius:28px;padding:34px 40px;width:100%;box-shadow:0 10px 30px rgba(16,22,20,.06)">${job.points.map((x) => `<li><i style="background:${t.accent}">${CHECK}</i><span>${esc(x)}</span></li>`).join('')}</ul>
+    </div>
+    <div class="domain" style="padding:30px 0 52px;font-size:30px;color:${t.accent}">leanmodepro.com</div>
+  </div>`;
+  fit(document.getElementById('t'), 330, 56);
+  fit(document.getElementById('p'), 400, 26);
+} else {
+  root.innerHTML = `<div class="c" style="width:1000px;height:1500px;background:${t.soft};padding:84px 64px 54px">
+    <div style="background:#101614;color:#fff;font-weight:700;font-size:28px;letter-spacing:.12em;padding:14px 28px;border-radius:999px">${esc(job.kicker)}</div>
+    <div class="title" id="t" style="font-size:100px;font-weight:700;margin-top:40px;max-width:880px">${lines(job.headline, t.accent)}</div>
+    <div style="flex:1;display:flex;align-items:center;justify-content:center;min-height:0;width:100%"><div class="circle" id="ic" style="background:#FFFFFF">${icon}</div></div>
+    <div id="s" style="font-size:36px;font-weight:600;color:#414B46;max-width:860px;line-height:1.3">${esc(job.sub)}</div>
+    <div class="domain" style="margin-top:22px;font-size:28px;color:${t.accent}">leanmodepro.com</div>
+  </div>`;
+  fit(document.getElementById('t'), 460, 60);
+  const ic = document.getElementById('ic'); const space = ic.parentElement.getBoundingClientRect();
+  const d = Math.min(space.height - 40, 600); ic.style.width = ic.style.height = d + 'px';
+}
+</script></body></html>
