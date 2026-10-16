@@ -45,6 +45,7 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 .lmp-post__meta{margin:0 0 28px;color:#5D6762;font-size:14px}
 .lmp-post__image{margin:0 0 28px}
 .lmp-post__image img{display:block;width:100%;height:auto;border-radius:20px}
+.lmp-post__image--photo img{aspect-ratio:3/2;object-fit:cover}
 .lmp-post__disclosure,.lmp-post__health{margin:0 0 28px;padding:12px 16px;border-left:3px solid #1D5A48;border-radius:0 12px 12px 0;background:#EEF4F0;color:#414B46;font-size:14px;line-height:1.55}
 .lmp-post__health{margin:40px 0 0;border-left-color:#B9A676;background:#FFFFFF}
 .lmp-content{font-size:18px;line-height:1.72}
@@ -79,6 +80,7 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 .lmp-card:hover{transform:translateY(-2px);box-shadow:0 18px 40px -24px rgba(16,22,20,.35)}
 .lmp-card__img{aspect-ratio:4/5;background:#E3EDE7}
 .lmp-card__img img{display:block;width:100%;height:100%;object-fit:cover}
+.lmp-card__img--photo{aspect-ratio:3/2}
 .lmp-card__body{padding:20px 22px 24px}
 .lmp-card__title{margin:0 0 8px;color:#101614;font-size:20px;font-weight:600;line-height:1.25}
 .lmp-card__excerpt{margin:0;color:#5D6762;font-size:15px;line-height:1.55}
@@ -109,7 +111,10 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 		<p class="lmp-crumb"><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">← Blog</a></p>
 		<h1><?php the_title(); ?></h1>
 		<p class="lmp-post__meta"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></p>
-		<?php if ( has_post_thumbnail() ) : ?>
+		<?php $lmp_hero = lmp_hero_html( get_the_ID(), 'large', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(max-width: 760px) 100vw, 720px' ) ); ?>
+		<?php if ( $lmp_hero ) : ?>
+			<div class="lmp-post__image lmp-post__image--photo"><?php echo $lmp_hero; // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
+		<?php elseif ( has_post_thumbnail() ) : ?>
 			<div class="lmp-post__image"><?php the_post_thumbnail( 'large', array( 'loading' => 'eager', 'fetchpriority' => 'high' ) ); ?></div>
 		<?php endif; ?>
 		<?php echo lmp_affiliate_note(); // phpcs:ignore WordPress.Security.EscapeOutput ?>
@@ -139,7 +144,8 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 			<div class="lmp-cards">
 			<?php while ( have_posts() ) : the_post(); ?>
 				<a class="lmp-card" href="<?php the_permalink(); ?>">
-					<div class="lmp-card__img"><?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'medium_large' ); } ?></div>
+					<?php $lmp_hero = lmp_hero_html( get_the_ID(), 'medium_large', array( 'sizes' => '(max-width: 640px) 100vw, 380px' ) ); ?>
+					<div class="lmp-card__img<?php echo $lmp_hero ? ' lmp-card__img--photo' : ''; ?>"><?php echo $lmp_hero ? $lmp_hero : get_the_post_thumbnail( null, 'medium_large' ); // phpcs:ignore WordPress.Security.EscapeOutput ?></div>
 					<div class="lmp-card__body">
 						<h2 class="lmp-card__title"><?php the_title(); ?></h2>
 						<p class="lmp-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22, '…' ) ); ?></p>

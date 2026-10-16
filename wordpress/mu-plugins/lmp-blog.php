@@ -175,3 +175,20 @@ function lmp_affiliate_note() {
 function lmp_health_note() {
 	return '<p class="lmp-post__health">This article is for general information only and isn\'t medical advice. Talk to your doctor before changing how you eat or exercise. <a href="/disclaimer/">Disclaimer</a></p>';
 }
+
+/**
+ * Real photo at the top of a post and on its blog card (post meta `_lmp_hero` = attachment ID, optional
+ * `_lmp_hero_pos` = CSS object-position). The illustrated featured image stays the Open Graph / Pinterest image.
+ */
+function lmp_hero_html( $post_id, $size, $attr = array() ) {
+	$id = (int) get_post_meta( $post_id, '_lmp_hero', true );
+	if ( ! $id || ! wp_attachment_is_image( $id ) ) {
+		return '';
+	}
+	$pos = (string) get_post_meta( $post_id, '_lmp_hero_pos', true );
+	if ( '' !== $pos && preg_match( '/^\d{1,3}% \d{1,3}%$/', $pos ) ) {
+		$attr['style'] = 'object-position:' . $pos;
+	}
+	return wp_get_attachment_image( $id, $size, false, $attr );
+}
+

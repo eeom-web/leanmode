@@ -26,6 +26,14 @@ Instrument Sans unter OFL in `fonts/`). Der Artikel `plate-method-for-weight-los
 Design, Affiliate-Hinweis, Anmeldebox und Gesundheitshinweis kommen automatisch aus `mu-plugins/lmp-blog/template.php`;
 im Artikeltext steht nur der Inhalt. Ans Ende jedes Artikels hängt `build.py` einen Hinweis auf den kostenlosen Plan an.
 
+## Fotos in den Artikeln
+
+Jeder Artikel zeigt oben ein echtes Foto (Pexels, keine Personen) im Querformat 3:2, dasselbe Foto steht auf seiner
+Karte in der Blog-Übersicht. `hero-photos.json` legt pro Artikel fest: Pexels-Foto-ID, Alt-Text und Bildausschnitt
+(`pos`). Beim Einspielen lädt der Server das Foto, legt es in der Mediathek an und speichert die ID im Beitrag
+(`_lmp_hero`, Ausschnitt in `_lmp_hero_pos`). Das gezeichnete Beitragsbild (`featured.webp`) bleibt das Bild für
+Pinterest und Vorschauen beim Teilen. Ohne Foto zeigt die Vorlage wie bisher das Beitragsbild.
+
 ## Pinterest
 
 | Ordner / Datei | Inhalt |
