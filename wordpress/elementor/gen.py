@@ -667,7 +667,7 @@ def welcome_page():
             button(f"{p}-download-btn", "Download the plan", EBOOK_PDF, full_mobile=True, selected_icon=icon("arrow-down"),
                    link={"url": EBOOK_PDF, "is_external": "", "nofollow": "on",
                          "custom_attributes": f"download|{EBOOK_PDF_NAME}"}),
-            text(f"{p}-download-meta", "<p>PDF · 53 pages · 0.7 MB</p>", color="lmpmuted", typo="lmpsmall"),
+            text(f"{p}-download-meta", "<p>PDF · 53 pages · 0.6 MB</p>", color="lmpmuted", typo="lmpsmall"),
         ], gap=20, stack="mobile", flex_gap_mobile=gaps(12), flex_align_items_mobile="stretch",
             _margin=dims(6, 0, 0, 0)),
         heading(f"{p}-steps-title", "How to get started", typo="lmph3", _margin=dims(14, 0, 0, 0)),

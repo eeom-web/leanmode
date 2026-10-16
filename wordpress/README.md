@@ -11,7 +11,7 @@
 | `brand/site-icon-512.png` | Website-Icon (Tab-Symbol), aus `public/favicon.svg` erzeugt |
 | `brand/apple-touch-icon-180.png` | Icon für den iPhone-Homescreen (vollflächig) |
 | `brand/favicon.ico` | Klassisches `/favicon.ico` im Web-Stammverzeichnis (16, 32, 48 px) |
-| `brand/ebook-cover-en-{360,540,720}.webp` | E-Book-Cover für die Website: Fotos aus der Canva-Vorlage des Betreibers, englisches Titelband, 2:3; Mediathek „Lean Mode Pro – E-Book Cover“ |
+| `brand/ebook-cover-en-{360,540,720}.webp` | E-Book-Cover für die Website: eigene Illustration aus `ebook/cover/cover.html`, 2:3; auf dem Server als `lean-mode-pro-ebook-cover-v2-{360,540,720}.webp` |
 | `blog/` | Blogartikel (Text, Bilder, Pins) – siehe `blog/README.md` |
 | `brevo/doi-en.html` | Entwurf der Bestätigungs-Mail (Double-Opt-in, Englisch) zum Einfügen in Brevo |
 

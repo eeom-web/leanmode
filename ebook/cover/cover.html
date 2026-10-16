@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<!-- E-book cover (own illustration, no photos). render.mjs opens it as cover.html?w=<px>&h=<px>:
+     720 x 1080 (2:3) for the website mockup, 1120 x 1584 (A4) for the PDF. -->
+<style>
+@font-face{font-family:IS;font-weight:500;src:url(../../wordpress/blog/graphics/fonts/instrument-sans-latin-500-normal.woff2)}
+@font-face{font-family:IS;font-weight:600;src:url(../../wordpress/blog/graphics/fonts/instrument-sans-latin-600-normal.woff2)}
+@font-face{font-family:IS;font-weight:700;src:url(../../wordpress/blog/graphics/fonts/instrument-sans-latin-700-normal.woff2)}
+*{box-sizing:border-box}
+html,body{margin:0;background:#1D5A48}
+.cover{position:relative;width:var(--w);height:var(--h);overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;color:#fff;font-family:IS,sans-serif;
+  background:radial-gradient(120% 70% at 50% 62%, #2A7560 0%, #1D5A48 55%, #164A3B 100%);padding:calc(var(--w) * .085) calc(var(--w) * .075) calc(var(--w) * .07)}
+.brand{margin:0;font-weight:700;font-size:calc(var(--w) * .03);letter-spacing:.3em;color:#BFE0CF}
+h1{margin:calc(var(--w) * .045) 0 0;display:flex;flex-direction:column;align-items:center;line-height:.9;text-transform:uppercase}
+.num{font-weight:700;font-size:calc(var(--w) * .215);letter-spacing:-.02em;color:#F6D776}
+.t2{font-weight:700;font-size:calc(var(--w) * .118);letter-spacing:-.01em;margin-top:calc(var(--w) * .012)}
+.sub{margin:calc(var(--w) * .04) 0 0;font-weight:600;font-size:calc(var(--w) * .036);letter-spacing:.04em;color:#E3EDE7}
+.sub i{font-style:normal;color:#F6D776;margin:0 .35em}
+.art{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.art>svg{width:100%;height:100%}
+.progress{width:100%;display:flex;align-items:center;gap:calc(var(--w) * .025);font-weight:700;font-size:calc(var(--w) * .028);letter-spacing:.12em;color:#BFE0CF}
+.bar{flex:1;display:grid;grid-template-columns:repeat(30,1fr);gap:calc(var(--w) * .004)}
+.bar i{height:calc(var(--w) * .014);border-radius:99px;background:rgba(255,255,255,.22)}
+.bar i.on{background:#F6D776}
+.tag{margin:calc(var(--w) * .028) 0 0;font-weight:500;font-size:calc(var(--w) * .032);color:#fff;opacity:.92}
+</style>
+<script src="../../wordpress/blog/graphics/icons.js"></script>
+<script src="plate.js"></script>
+</head><body>
+<div class="cover" id="cover">
+  <p class="brand">LEAN MODE PRO</p>
+  <h1><span class="num">30-Day</span><span class="t2">Weight Loss</span><span class="t2">Plan</span></h1>
+  <p class="sub">Meals<i>·</i>Movement<i>·</i>Workouts<i>·</i>Habits</p>
+  <div class="art" id="art"></div>
+  <div class="progress"><span>DAY 1</span><div class="bar" id="bar"></div><span>DAY 30</span></div>
+  <p class="tag">One clear step every day</p>
+</div>
+<script>
+const q = new URLSearchParams(location.search);
+const W = +q.get('w') || 720, H = +q.get('h') || 1080;
+const cover = document.getElementById('cover');
+cover.style.setProperty('--w', W + 'px'); cover.style.setProperty('--h', H + 'px');
+document.getElementById('bar').innerHTML = Array.from({ length: 30 }, (_, i) => `<i class="${i < 1 ? 'on' : ''}"></i>`).join('');
+
+// Calendar card: the 30-day plan, first days ticked off.
+function calendar() {
+  let g = `<g transform="translate(70,90) rotate(-8 200 230)">` +
+    `<rect x="8" y="16" width="400" height="460" rx="34" fill="#0F3A2E" opacity=".35"/>` +
+    `<rect width="400" height="460" rx="34" fill="#FFFFFF"/>` +
+    `<path d="M0,34 a34,34 0 0 1 34,-34 h332 a34,34 0 0 1 34,34 v62 h-400z" fill="#F6D776"/>` +
+    `<text x="200" y="66" text-anchor="middle" font-family="IS" font-weight="700" font-size="34" letter-spacing="4" fill="#1D5A48">30 DAYS</text>`;
+  for (let i = 0; i < 30; i++) {
+    const c = i % 6, r = Math.floor(i / 6), x = 30 + c * 58, y = 122 + r * 64;
+    const done = i < 9;
+    g += `<rect x="${x}" y="${y}" width="48" height="48" rx="12" fill="${done ? '#1D5A48' : '#EEF4F0'}"/>`;
+    if (done) g += `<path d="M${x + 13},${y + 25} l8,8 l15,-17" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+  }
+  return g + '</g>';
+}
+// Sneaker in light colors (stands out on the green cover).
+function sneaker(x, y, s) {
+  return `<g transform="translate(${x},${y}) scale(${s})">` +
+    `<ellipse cx="200" cy="300" rx="150" ry="18" fill="#0F3A2E" opacity=".35"/>` +
+    `<path d="M70,250 C70,215 100,190 140,180 L200,165 C215,140 240,120 270,128 L300,140 C318,148 322,170 318,190 L314,250 Z" fill="#F6F5F1"/>` +
+    `<path d="M200,165 C215,140 240,120 270,128 L300,140 C318,148 322,170 318,190 L250,190 C230,190 212,182 200,165Z" fill="#E3EDE7"/>` +
+    `<path d="M60,250 L330,250 Q338,250 338,262 L336,272 Q334,284 320,284 L78,284 Q60,284 58,268Z" fill="#FFFFFF"/>` +
+    `<path d="M58,268 L338,268" stroke="#C9D6DA" stroke-width="4"/>` +
+    [0, 1, 2, 3].map(i => `<path d="M${215 + i * 18},${150 + i * 3} l14,8" stroke="#1D5A48" stroke-width="6" stroke-linecap="round"/>`).join('') +
+    `<path d="M95,218 L160,204" stroke="#F6B732" stroke-width="12" stroke-linecap="round"/><path d="M110,236 L170,224" stroke="#F6B732" stroke-width="8" stroke-linecap="round" opacity=".7"/>` +
+    `</g>`;
+}
+// Dumbbell.
+function dumbbell(x, y, rot, s) {
+  return `<g transform="translate(${x},${y}) rotate(${rot}) scale(${s})">` +
+    `<rect x="-95" y="-12" width="190" height="24" rx="12" fill="#C9CFCC"/>` +
+    `<rect x="-130" y="-62" width="44" height="124" rx="16" fill="#101614"/><rect x="-92" y="-44" width="26" height="88" rx="10" fill="#414B46"/>` +
+    `<rect x="86" y="-62" width="44" height="124" rx="16" fill="#101614"/><rect x="66" y="-44" width="26" height="88" rx="10" fill="#414B46"/>` +
+    `<path d="M-118,-50 L-118,50 M98,-50 L98,50" stroke="#5D6762" stroke-width="5" stroke-linecap="round" opacity=".7"/></g>`;
+}
+const plateSvg = plate(610, { labels: true }).replace('<svg ', '<svg x="365" y="150" ');
+document.getElementById('art').innerHTML =
+  `<svg viewBox="0 0 1000 820" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">` +
+  `<circle cx="520" cy="440" r="380" fill="#FFFFFF" opacity=".05"/>` +
+  calendar() + dumbbell(820, 120, -24, 1) + plateSvg + sneaker(-30, 440, 1.15) +
+  `</svg>`;
+</script>
+</body></html>

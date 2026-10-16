@@ -74,8 +74,8 @@ def page(inner, cls="", footer=True):
 
 
 def cover():
-    """The operator's cover design (Canva) as a full A4 page: assets/cover.jpg, 1120 x 1584 px (about 135 dpi),
-    black frame evened out to the A4 format."""
+    """The cover as a full A4 page: assets/cover.jpg, 1120 x 1584 px (about 135 dpi), rendered from cover/cover.html
+    (own illustration, see cover/render.mjs)."""
     with open(os.path.join(ROOT, "assets", "cover.jpg"), "rb") as fh:
         src = "data:image/jpeg;base64," + base64.b64encode(fh.read()).decode()
     add("cover", page(f'<img class="cover-img" src="{src}" alt="{esc(B.TITLE)}">', "cover-page", footer=False))

@@ -401,8 +401,8 @@ def contact_html():
 <script>{CONTACT_JS.strip()}</script>"""
 
 
-# E-book cover (operator's Canva photos with an English title band, see ../brand/ebook-cover-en-*.webp), in the media library.
-COVER = "/wp-content/uploads/2026/10/lean-mode-pro-ebook-cover-{}.webp"
+# E-book cover (own illustration from ebook/cover/cover.html, see ../brand/ebook-cover-en-*.webp), in the media library.
+COVER = "/wp-content/uploads/2026/10/lean-mode-pro-ebook-cover-v2-{}.webp"
 COVER_WIDTHS = (360, 540, 720)
 COVER_ALT = "The 30-Day Weight Loss Plan e-book cover"
 

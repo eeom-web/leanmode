@@ -19,10 +19,12 @@ Git-Historie.
 Jeder Tag hat genau eine Seite mit derselben Struktur: Today's focus, Nutrition, Movement, Workout,
 Tip of the day, Task of the day, My notes, End-of-day check-in.
 
-Das Cover ist ein ganzseitiges Bild: `assets/cover.jpg` (1120 × 1584 px, rund 135 dpi, JPEG 76 %). Es basiert auf
-dem Canva-Design des Betreibers (seine Fotos, schwarzer Rand auf A4 gleichmäßig gemacht); der türkische Titel ist
-durch ein schwarzes Titelband mit englischem Titel in Instrument Sans ersetzt. Für ein neues Cover die Datei
-ersetzen (gleiches Format) und neu erzeugen. Chromium übernimmt das JPEG unverändert ins PDF.
+Das Cover ist ein ganzseitiges Bild: `assets/cover.jpg` (1120 × 1584 px, rund 135 dpi). Es ist eine eigene
+Illustration (keine Fotos, keine fremden Bildrechte) passend zum Inhalt: 30-Tage-Kalender, Teller-Methode,
+Turnschuh und Hantel für Ernährung, Bewegung, Workouts und Gewohnheiten. Quelle ist `cover/cover.html`;
+`node cover/render.mjs <ordner>` erzeugt daraus das A4-Bild fürs PDF (1120 × 1584) und die 2:3-Version für die
+Website (720 × 1080, daraus `wordpress/brand/ebook-cover-en-*.webp`). Chromium übernimmt das JPEG unverändert
+ins PDF.
 
 ## Texte ändern und neu erzeugen
 
