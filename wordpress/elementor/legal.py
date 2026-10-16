@@ -17,8 +17,11 @@ Facts the texts rely on (state 14.10.2026, English site):
   Domain registrar: HOSTINGER operations, UAB (Vilnius).
 - Font Instrument Sans is served from the site itself. WordPress emoji script switched off (mu-plugin).
 - Comments are closed on all posts (no comment data).
+- Contact form on /contact/ (mu-plugin lmp-contact): message saved in the WordPress database and sent with wp_mail,
+  which runs through WP Mail SMTP with the Brevo API; IP only as a hash for one hour (rate limit); deleted after
+  12 months.
 - The signup form asks only for the email address. It posts to a Brevo signup form (Sendinblue SAS, Paris)
-  with double opt-in. Brevo measures opens and clicks of the emails (tracking pixel, redirected links).
+  with double opt-in. Open and click tracking is switched off in Brevo (since 16.10.2026).
 - Blog posts may contain affiliate links; a disclosure line is added to every post automatically and each
   affiliate link gets rel="sponsored" and a visible "(affiliate link)" label (mu-plugin lmp-blog).
 - The blog is an editorial offer, so the Legal Notice names the person responsible under Section 18(2) MStV.
@@ -26,12 +29,13 @@ Facts the texts rely on (state 14.10.2026, English site):
   adapted, source note at the end).
 """
 
-UPDATED = "October 14, 2026"
+UPDATED = "October 16, 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Germany</p>"
     '<p>Email: <a href="mailto:{{lmp:email}}">{{lmp:email}}</a>'
-    "<!--lmp:phone--><br>Phone: {{lmp:phone}}<!--/lmp:phone--></p>"
+    "<!--lmp:phone--><br>Phone: {{lmp:phone}}<!--/lmp:phone-->"
+    '<br>Contact form: <a href="/contact/">leanmodepro.com/contact</a></p>'
 )
 
 HOSTER = "Hostinger International Ltd.<br>61 Lordou Vironos str.<br>6023 Larnaca, Cyprus"
@@ -110,7 +114,7 @@ def privacy_html():
         "<li>When you visit the site, the server briefly stores technical access data so it can show you the page.</li>",
         "<li>We don't use cookies, analytics, tracking pixels or advertising tools on this website.</li>",
         "<li>If you sign up, we process your email address with our email service Brevo after you confirm it "
-        "(double opt-in), to send you the plan and our newsletter and to measure whether our emails are opened and "
+        "(double opt-in), to send you the plan and our newsletter. We don't measure whether our emails are opened or "
         "clicked. You can withdraw your consent at any time.</li>",
         "<li>The signup form only asks for your email address; we don't ask for any health information.</li>",
         "<li>We don't sell your data.</li></ul>",
@@ -320,10 +324,17 @@ def privacy_html():
         "not combined with other data sources. The legal basis is our legitimate interest in a technically error-free "
         "and secure website (Art. 6(1)(f) GDPR). The log files are deleted automatically after a short time.</p>",
 
-        "<h3>Contact by email</h3>",
-        "<p>If you email us, your request, including all personal data it contains (e.g. your name, email address and "
-        "message), will be stored and processed by us for the purpose of handling your request. We don't pass this data "
-        "on without your consent.</p>",
+        "<h3>Contact by email or contact form</h3>",
+        "<p>If you email us or use our contact form, your request, including all personal data it contains (e.g. your "
+        "name, email address and message), will be stored and processed by us for the purpose of handling your request. "
+        "We don't pass this data on without your consent.</p>",
+        "<p><strong>Contact form:</strong> The form asks for your email address and your message; your name is optional. "
+        "When you send it, the message is saved in our website's database (on the server of our hosting provider "
+        "Hostinger, see above) and forwarded to our mailbox by email. Our website sends emails via the email service "
+        "Brevo (see section 6), which processes the message as our processor only for delivering it. To prevent abuse, "
+        "the server keeps a pseudonymized form of your IP address (a hash value) for one hour, so that no more than a "
+        "few messages per hour can be sent from the same connection. Messages in the website's database are deleted "
+        "automatically after 12 months at the latest.</p>",
         "<p>This data is processed on the basis of Art. 6(1)(b) GDPR if your request relates to the fulfillment of a "
         "contract or is necessary for pre-contractual measures; in all other cases, it is based on our legitimate "
         "interest in effectively handling the requests sent to us (Art. 6(1)(f) GDPR).</p>",
@@ -415,8 +426,7 @@ def privacy_html():
 
         "<h3>Email service: Brevo</h3>",
         f"<p>We send the confirmation email and the newsletter with Brevo. Provider: {BREVO}. Brevo stores the signup "
-        "form, the email addresses and the consent log, sends the emails and measures how they are used (see "
-        "below).</p>",
+        "form, the email addresses and the consent log and sends the emails.</p>",
         "<p>Brevo processes this data as a processor only on our behalf and according to our instructions; we have "
         "concluded a data processing agreement with Brevo (Art. 28 GDPR). Brevo stores the data on servers in the EU. If "
         "Brevo's sub-processors exceptionally transfer data outside the EU, this is based on an adequacy decision "
@@ -425,14 +435,9 @@ def privacy_html():
         "(Art. 6(1)(f) GDPR). Brevo's privacy policy: "
         f"{_link('https://www.brevo.com/legal/privacypolicy/', 'brevo.com/legal/privacypolicy')}</p>",
 
-        "<h3>Measuring opens and clicks</h3>",
-        "<p>To understand how much interest our emails receive and to improve our content, we use Brevo to measure "
-        "whether an email is opened and which links in it are clicked. For this, the emails contain a small, invisible "
-        "image (tracking pixel) and links redirected via Brevo. The time of opening and clicking, the IP address and "
-        "technical information about the email program and device are recorded and linked to your email address.</p>",
-        "<p>The legal basis is the consent you gave to receive our emails (Art. 6(1)(a) GDPR). It isn't technically "
-        "possible to object to the measurement separately; if you don't want it, you need to unsubscribe. When you "
-        "unsubscribe, the measurement ends too.</p>",
+        "<h3>No tracking in our emails</h3>",
+        "<p>We have switched off the measurement of opens and clicks in Brevo. We don't evaluate whether you open our "
+        "emails or which links in them you click.</p>",
 
         "<h3>Unsubscribing and storage period</h3>",
         "<p>You can withdraw your consent at any time: with the unsubscribe link at the end of every email or by writing "
@@ -491,7 +496,7 @@ def disclaimer_html():
 
         "<h2>Contact</h2>",
         CONTACT,
-        _updated("October 15, 2026"),
+        _updated(),
     ])
 
 

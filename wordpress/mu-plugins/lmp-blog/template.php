@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $lmp       = get_option( 'lmp_blog', array() );
 $lmp_links = array(
 	'Blog'           => '/blog/',
+	'Contact'        => '/contact/',
 	'Privacy Policy' => '/privacy-policy/',
 	'Legal Notice'   => '/legal-notice/',
 	'Disclaimer'     => '/disclaimer/',

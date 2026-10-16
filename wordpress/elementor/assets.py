@@ -321,6 +321,86 @@ def form_html(uid, source, button_label):
 </div>"""
 
 
+# Contact form on /contact/ (second contact channel for the Legal Notice). Posts to the REST route of the mu-plugin
+# lmp-contact; works without JavaScript too (the route then answers with a short HTML page).
+CONTACT_CSS = """
+.lmp-contact__form{display:grid;gap:18px}
+.lmp-contact__row{display:grid;gap:8px}
+.lmp-contact__row label{color:#101614;font-size:15px;font-weight:600}
+.lmp-contact__row label span{color:#5D6762;font-weight:400}
+.lmp-contact__input{width:100%;min-height:54px;padding:12px 18px;border:1px solid #D2D1C9;border-radius:16px;background:#fff;color:#101614;font:inherit;font-size:16px;outline:none;box-shadow:0 1px 2px rgba(16,22,20,.05);transition:border-color .2s ease,box-shadow .2s ease;box-sizing:border-box}
+textarea.lmp-contact__input{min-height:170px;resize:vertical;line-height:1.55}
+.lmp-contact__input:focus{border-color:#1D5A48;box-shadow:0 0 0 4px rgba(29,90,72,.14)}
+.lmp-contact__input[aria-invalid=true]{border-color:#B3261E}
+.lmp-contact__button{display:inline-flex;align-items:center;justify-content:center;gap:10px;justify-self:start;min-height:54px;padding:14px 28px;border:0;border-radius:999px;background:#1D5A48;color:#fff;font:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .2s ease}
+.lmp-contact__button:hover{background:#164A3B}
+.lmp-contact__button[disabled]{opacity:.7;cursor:wait}
+.lmp-contact__error{margin:0;color:#B3261E;font-size:15px}
+.lmp-contact__error:empty{display:none}
+.lmp-contact__note{margin:0;color:#5D6762;font-size:14px}
+.lmp-contact__note a{color:#1D5A48;text-decoration:underline;text-underline-offset:2px}
+.lmp-contact__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.lmp-contact__success{display:flex;gap:14px;align-items:flex-start;padding:20px 22px;border-radius:20px;background:#E3EDE7;color:#414B46}
+.lmp-contact__success[hidden]{display:none}
+.lmp-contact__success svg{flex:0 0 auto;margin-top:3px;color:#1D5A48}
+.lmp-contact__success p{margin:0}
+.lmp-contact__success .lmp-contact__success-title{color:#101614;font-weight:600}
+@media (max-width:767px){.lmp-contact__button{justify-self:stretch}}
+"""
+
+CONTACT_JS = r"""
+(function(){
+  var root = document.querySelector('[data-lmp-contact]');
+  if (!root) return;
+  var form = root.querySelector('form'), error = root.querySelector('[data-error]'), ok = root.querySelector('[data-success]');
+  var button = form.querySelector('button'), label = button.querySelector('[data-label]');
+  var email = form.elements.email, message = form.elements.message;
+  function fail(text, field) {
+    error.textContent = text;
+    [email, message].forEach(function (f) { f.setAttribute('aria-invalid', f === field ? 'true' : 'false'); });
+    if (field) field.focus();
+  }
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())) return fail('Please enter a valid email address.', email);
+    if (message.value.trim().length < 2) return fail('Please write a message.', message);
+    fail('', null);
+    button.disabled = true; label.textContent = 'Sending…';
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'X-LMP-Ajax': '1', 'Accept': 'application/json' } })
+      .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+      .then(function (r) {
+        if (r.data && r.data.ok) { form.hidden = true; ok.hidden = false; ok.focus(); return; }
+        fail((r.data && r.data.message) || 'Your message could not be sent. Please email us directly.', null);
+      })
+      .catch(function () { fail('Your message could not be sent. Please email us directly.', null); })
+      .then(function () { button.disabled = false; label.textContent = 'Send message'; });
+  });
+})();
+"""
+
+
+def contact_html():
+    return f"""<style>{CONTACT_CSS.strip()}</style>
+<div class="lmp-contact" data-lmp-contact>
+<form class="lmp-contact__form" method="post" action="/wp-json/lmp/v1/contact" novalidate>
+<div class="lmp-contact__row"><label for="contact-name">Name <span>(optional)</span></label>
+<input class="lmp-contact__input" id="contact-name" name="name" type="text" autocomplete="name" maxlength="100"></div>
+<div class="lmp-contact__row"><label for="contact-email">Your email address</label>
+<input class="lmp-contact__input" id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" maxlength="254" required></div>
+<div class="lmp-contact__row"><label for="contact-message">Your message</label>
+<textarea class="lmp-contact__input" id="contact-message" name="message" maxlength="5000" required></textarea></div>
+<div class="lmp-contact__hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+<p class="lmp-contact__error" aria-live="polite" data-error></p>
+<button class="lmp-contact__button" type="submit"><span data-label>Send message</span>{ARROW}</button>
+<p class="lmp-contact__note">We only use your details to answer your message. <a href="/privacy-policy/">Privacy Policy</a></p>
+</form>
+<div class="lmp-contact__success" role="status" tabindex="-1" hidden data-success>{CHECK}
+<div><p class="lmp-contact__success-title">Thanks, your message has been sent.</p>
+<p>We'll get back to you as soon as possible.</p></div></div>
+</div>
+<script>{CONTACT_JS.strip()}</script>"""
+
+
 # E-book cover (operator's Canva photos with an English title band, see ../brand/ebook-cover-en-*.webp), in the media library.
 COVER = "/wp-content/uploads/2026/10/lean-mode-pro-ebook-cover-{}.webp"
 COVER_WIDTHS = (360, 540, 720)

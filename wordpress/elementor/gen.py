@@ -336,8 +336,8 @@ def footer(prefix, legal, compact=False):
         border_color="#E3E2DB")
 
 
-LEGAL = [("Blog", "/blog/"), ("Privacy Policy", "/privacy-policy/"), ("Legal Notice", "/legal-notice/"),
-         ("Disclaimer", "/disclaimer/")]
+LEGAL = [("Blog", "/blog/"), ("Contact", "/contact/"), ("Privacy Policy", "/privacy-policy/"),
+         ("Legal Notice", "/legal-notice/"), ("Disclaimer", "/disclaimer/")]
 
 
 # ---------------------------------------------------------------- landing page
@@ -695,6 +695,21 @@ def legal_page(slug, title, home_url):
     return [header(p, f"{home_url}#signup"), main, footer(p, LEGAL)]
 
 
+def contact_page(home_url):
+    p = "contact"
+    main = section(f"{p}-main", [
+        heading(f"{p}-back", f'<a href="{home_url}">← Back to home</a>', tag="p", color="lmpmuted",
+                typo="lmpsmall"),
+        heading(f"{p}-title", "Contact", tag="h1", **local_typo("", size=52, weight=600, lh=1.08, ls=-0.026,
+                                                               size_t=42, size_m=34)),
+        text(f"{p}-intro", "<p>Questions about the plan, feedback or anything else? Send us a message with the form "
+                           "below or email us at <a href=\"mailto:{{lmp:email}}\">{{lmp:email}}</a>.</p>",
+             cls="lmp-prose"),
+        html(f"{p}-form", assets.contact_html()),
+    ], gap=24, pad=(96, 72, 56), boxed_width=px(760), min_height=px(60, "vh"))
+    return [header(p, f"{home_url}#signup"), main, footer(p, LEGAL)]
+
+
 # Slugs of the WordPress pages this build targets. The landing page is the site's front page.
 LANDING_SLUG = "free-30-day-plan"
 LEGAL_PAGES = [("privacy-policy", "Privacy Policy"), ("legal-notice", "Legal Notice"), ("disclaimer", "Disclaimer")]
@@ -714,6 +729,7 @@ if __name__ == "__main__":
     write("welcome.json", welcome_page())
     for slug, title in LEGAL_PAGES:
         write(f"{slug}.json", legal_page(slug, title, "/"))
+    write("contact.json", contact_page("/"))
 
     # Snippets for the blog template (mu-plugin lmp-blog): brand CSS/JS, signup form and cover, stored in the
     # WordPress option `lmp_blog` on deploy.

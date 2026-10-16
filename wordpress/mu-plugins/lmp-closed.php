@@ -18,7 +18,7 @@ add_action(
 		if ( current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		$open = array( 'legal-notice', 'privacy-policy', 'disclaimer', 'welcome' );
+		$open = array( 'legal-notice', 'privacy-policy', 'disclaimer', 'contact', 'welcome' );
 		if ( is_page( $open ) ) {
 			return;
 		}
@@ -52,6 +52,7 @@ nav a{color:#5D6762;margin:0 8px;text-decoration:underline;text-underline-offset
 <p>We&rsquo;re not taking new signups right now.</p>
 <p>Already signed up? You can still get your plan through the link in your confirmation email.</p>
 <nav>
+<a href="/contact/">Contact</a>
 <a href="/legal-notice/">Legal Notice</a>
 <a href="/privacy-policy/">Privacy Policy</a>
 <a href="/disclaimer/">Disclaimer</a>
