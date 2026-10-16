@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<!-- Tip pin without a link, 1000 x 1500 px: the whole tip is on the image. render.mjs opens it as pin.html#<job as JSON>:
+     { layout: "T1" | "T2" | "L1" | "L2", photo: "<image url>", pos: "50% 50%", kicker, headline, hl, body | items: [...] }
+     T = one tip (photo on top, text below), L = a short list (photo banner, checklist). 1 = light, 2 = green.
+     List items written as "Before|After" are shown as a swap with an arrow. -->
+<style>
+@font-face{font-family:IS;font-weight:500;src:url(../graphics/fonts/instrument-sans-latin-500-normal.woff2)}
+@font-face{font-family:IS;font-weight:600;src:url(../graphics/fonts/instrument-sans-latin-600-normal.woff2)}
+@font-face{font-family:IS;font-weight:700;src:url(../graphics/fonts/instrument-sans-latin-700-normal.woff2)}
+:root{--green:#1D5A48;--cream:#F6F5F1;--yellow:#F6D776;--grey:#5D6762;--text:#3B4541;--soft:#E3EDE7;--mint:#BFE0CF;--ink:#101614;--line:#E3E2DB}
+*{box-sizing:border-box}
+html,body{margin:0;width:1000px;height:1500px;overflow:hidden;background:var(--cream)}
+.pin{position:relative;width:1000px;height:1500px;overflow:hidden;display:flex;flex-direction:column;font-family:IS,sans-serif;-webkit-font-smoothing:antialiased}
+.ph{position:relative;flex:1 1 auto;min-height:0;overflow:hidden}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.label{display:inline-block;margin:0;padding:11px 20px 10px;border-radius:999px;background:var(--yellow);color:var(--green);font-weight:700;font-size:24px;letter-spacing:.14em;line-height:1}
+h1{margin:22px 0 0;font-weight:700;line-height:1.04;letter-spacing:-.02em;text-wrap:balance}
+.nw{white-space:nowrap}
+.body{margin:24px 0 0;font-weight:500;line-height:1.36;text-wrap:pretty}
+.foot{flex:none;height:104px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:28px;letter-spacing:.05em}
+
+/* T1: photo on top, cream panel with a rounded top edge */
+.T1{background:var(--cream);color:var(--green)}
+.T1 .panel{position:relative;flex:none;margin-top:-44px;padding:58px 72px 6px;border-radius:44px 44px 0 0;background:var(--cream)}
+.T1 .body{color:var(--text)}
+.T1 .foot{color:var(--green)}
+.T1 h1 .hl,.L1 h1 .hl{background:linear-gradient(transparent 64%,var(--yellow) 64%,var(--yellow) 92%,transparent 92%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* T2: green page, rounded photo, white text */
+.T2{background:var(--green);color:#fff;padding:56px 56px 0}
+.T2 .ph{border-radius:40px}
+.T2 .panel{flex:none;padding:50px 16px 0}
+.T2 h1 .hl,.L2 h1 .hl{color:var(--yellow)}
+.T2 .body{color:var(--soft)}
+.T2 .foot{color:var(--mint)}
+
+/* L1 / L2: photo banner, headline, checklist */
+.L1,.L2{padding:56px 64px 0}
+.L1{background:var(--cream);color:var(--green)}
+.L2{background:var(--green);color:#fff}
+.L1 .ph,.L2 .ph{border-radius:36px}
+.L1 .panel,.L2 .panel{flex:none;padding-top:44px}
+ul{list-style:none;margin:26px 0 0;padding:0}
+li{display:flex;align-items:center;gap:22px;padding:15px 0;font-weight:500;line-height:1.2}
+li+li{border-top:2px solid var(--line)}
+.L2 li+li{border-top-color:rgba(255,255,255,.16)}
+.L1 li{color:var(--ink)}
+.L2 li{color:#fff}
+.ck{flex:none;width:46px;height:46px;border-radius:50%;display:grid;place-items:center}
+.L1 .ck{background:var(--green);color:#fff}
+.L2 .ck{background:var(--yellow);color:var(--green)}
+.ck svg{width:26px;height:26px}
+.sw{display:flex;flex-wrap:wrap;align-items:center;column-gap:14px}
+.sw s{text-decoration:none}
+.L1 .sw s{color:var(--grey)}
+.L2 .sw s{color:var(--mint)}
+.sw b{font-weight:600}
+.L1 .sw b{color:var(--green)}
+.arr{flex:none;width:.95em;height:.95em}
+.L1 .foot{color:var(--green)}
+.L2 .foot{color:var(--mint)}
+</style>
+</head><body>
+<div class="pin" id="pin"></div>
+<script>
+const job = JSON.parse(decodeURIComponent(location.hash.slice(1) || '{}'));
+const esc = (s) => String(s || '').replace(/'/g, '’').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+function headline(text, hl) {
+  let h = esc(text);
+  if (hl) h = h.replace(esc(hl), '\u0000' + esc(hl) + '\u0001');
+  h = h.replace(/(\S+[-–]\S+)/g, '<span class="nw">$1</span>');
+  return h.replace('\u0000', '<span class="hl">').replace('\u0001', '</span>');
+}
+const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const ARROW = '<svg class="arr" viewBox="0 0 24 24"><path d="M3 12h16M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const item = (t) => {
+  const [a, b] = String(t).split('|');
+  return '<li><span class="ck">' + CHECK + '</span>' + (b === undefined ? '<span>' + esc(a) + '</span>'
+    : '<span class="sw"><s>' + esc(a) + '</s>' + ARROW + '<b>' + esc(b) + '</b></span>') + '</li>';
+};
+const L = job.layout || 'T1';
+const isList = L[0] === 'L';
+const pin = document.getElementById('pin');
+pin.className = 'pin ' + L;
+pin.innerHTML = `<div class="ph"><img id="img" src="${esc(job.photo)}" alt="" style="object-position:${esc(job.pos || '50% 50%')}"></div>` +
+  `<div class="panel"><p class="label">${esc(job.kicker)}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+  (isList ? `<ul id="t">${(job.items || []).map(item).join('')}</ul>` : `<p class="body" id="t">${esc(job.body)}</p>`) +
+  `</div><div class="foot">leanmodepro.com</div>`;
+// Largest headline that fits (tips: 3 lines, lists: 2), then shrink the text until the photo keeps its minimum height.
+window.fit = () => {
+  const h = document.getElementById('h'), t = document.getElementById('t'), ph = document.querySelector('.ph');
+  const maxLines = isList ? 2 : 3, minPh = isList ? 300 : 520;
+  let size = isList ? 76 : 82;
+  for (; size > 54; size -= 2) {
+    h.style.fontSize = size + 'px';
+    if (h.getBoundingClientRect().height <= size * 1.04 * maxLines + 2) break;
+  }
+  let ts = isList ? 46 : 42;
+  for (; ts >= 31; ts--) {
+    t.style.fontSize = ts + 'px';
+    if (ph.getBoundingClientRect().height >= minPh) break;
+  }
+  return { size, ts, ph: Math.round(ph.getBoundingClientRect().height) };
+};
+</script>
+</body></html>

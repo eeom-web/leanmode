@@ -1,7 +1,7 @@
 # Pinterest-Pins mit echten Fotos
 
 30 Pins (1000 × 1500 px) in `pins/`, gebaut mit echten Fotos von [Pexels](https://www.pexels.com/): keine KI-Bilder,
-keine Personen. Die Nummer im Dateinamen ist die Reihenfolge zum Posten (2 Pins pro Tag, Tag 1–15).
+keine Personen. Die Nummer im Dateinamen ist die Reihenfolge zum Posten.
 
 | Datei | Inhalt |
 |---|---|
@@ -21,8 +21,9 @@ PW_PATH=/pfad/zu/playwright python3 build.py 4 8  # nur Pin 4 und 8
 Originalfotos unverändert weiterzugeben oder zu verkaufen. Darum liegen nur die fertigen Pins im Repository; der
 Ordner `photos/` wird von git ignoriert. Die Foto-Seite zu jeder ID: `https://www.pexels.com/photo/<id>/`.
 
-**Posten:** Tag 1 hier ist derselbe Tag wie Tag 1 bei den Grafik-Pins aus `posts/<slug>/pin-*.jpg`. Zusammen sind das
-4 Pins pro Tag. Die Reihenfolge ist so gewählt, dass derselbe Artikel nie zweimal am selben Tag dran ist. Pins 2, 10
-und 27 verlinken auf die Startseite (kostenloser Plan), alle anderen auf ihren Artikel.
+**Posten:** Der Tag steht in `pins.json` (Feld `day`) und im gemeinsamen Plan `../pin-plan.csv`: pro Tag 2 Pins
+mit Link (Foto- und Grafik-Pins gemischt) und 1 Tipp-Pin ohne Link aus `../tip-pins/`. Derselbe Artikel kommt
+frühestens nach 4 Tagen wieder dran. Pins 2, 10 und 27 verlinken auf die Startseite (kostenloser Plan), alle
+anderen auf ihren Artikel.
 
 Schrift: Instrument Sans (OFL) aus `../graphics/fonts/`.

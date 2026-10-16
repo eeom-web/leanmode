@@ -28,3 +28,4 @@ __pycache__/
 
 # photo pins: original Pexels photos stay local
 wordpress/blog/photo-pins/photos/
+wordpress/blog/tip-pins/photos/

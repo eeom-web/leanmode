@@ -25,3 +25,12 @@ Instrument Sans unter OFL in `fonts/`). Der Artikel `plate-method-for-weight-los
 
 Design, Affiliate-Hinweis, Anmeldebox und Gesundheitshinweis kommen automatisch aus `mu-plugins/lmp-blog/template.php`;
 im Artikeltext steht nur der Inhalt. Ans Ende jedes Artikels hängt `build.py` einen Hinweis auf den kostenlosen Plan an.
+
+## Pinterest
+
+| Ordner / Datei | Inhalt |
+|---|---|
+| `posts/<slug>/pin-*.jpg` | 42 Grafik-Pins mit Link (2 pro Artikel) |
+| `photo-pins/` | 30 Pins mit echten Fotos und Link |
+| `tip-pins/` | 30 Tipp-Pins ohne Link, der Tipp steht ganz auf dem Bild |
+| `pin-plan.csv` | Gemeinsamer Plan: pro Tag 2 Pins mit Link und 1 Tipp-Pin ohne Link (Tag 1–36) |
