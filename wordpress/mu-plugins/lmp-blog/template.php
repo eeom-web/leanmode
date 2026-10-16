@@ -80,7 +80,7 @@ body.lmp-blog{margin:0;background:#F6F5F1;color:#414B46;font-family:"Instrument 
 .lmp-card:hover{transform:translateY(-2px);box-shadow:0 18px 40px -24px rgba(16,22,20,.35)}
 .lmp-card__img{aspect-ratio:4/5;background:#E3EDE7}
 .lmp-card__img img{display:block;width:100%;height:100%;object-fit:cover}
-.lmp-card__img--photo{aspect-ratio:3/2}
+.lmp-card__img--photo{aspect-ratio:3/2;overflow:hidden}
 .lmp-card__body{padding:20px 22px 24px}
 .lmp-card__title{margin:0 0 8px;color:#101614;font-size:20px;font-weight:600;line-height:1.25}
 .lmp-card__excerpt{margin:0;color:#5D6762;font-size:15px;line-height:1.55}
