@@ -263,7 +263,7 @@ function lmp_site_stats( $input = array() ) {
 
 	return array(
 		'generated_at'   => gmdate( 'c', $now ),
-		'tracking_since' => (string) get_option( 'iawp_beginning_of_time', '' ),
+		'tracking_since' => (string) $wpdb->get_var( "SELECT MIN(viewed_at) FROM {$t}views" ),
 		'days'           => $days,
 		'tz_offset'      => $tz,
 		'period'         => array(
