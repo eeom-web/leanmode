@@ -21,9 +21,9 @@ PW_PATH=/pfad/zu/playwright python3 build.py 4 8  # nur Pin 4 und 8
 Originalfotos unverändert weiterzugeben oder zu verkaufen. Darum liegen nur die fertigen Pins im Repository; der
 Ordner `photos/` wird von git ignoriert. Die Foto-Seite zu jeder ID: `https://www.pexels.com/photo/<id>/`.
 
-**Posten:** Der Tag steht in `pins.json` (Feld `day`) und im gemeinsamen Plan `../pin-plan.csv`: pro Tag 2 Pins
-mit Link (Foto- und Grafik-Pins gemischt) und 1 Tipp-Pin ohne Link aus `../tip-pins/`. Derselbe Artikel kommt
-frühestens nach 4 Tagen wieder dran. Pins 2, 10 und 27 verlinken auf die Startseite (kostenloser Plan), alle
-anderen auf ihren Artikel.
+**Posten:** Der Tag steht in `pins.json` (Feld `day`) und im gemeinsamen Plan `../pin-plan.csv`: 5 Pins am Tag,
+davon 1 mit Link (an jedem zweiten Tag 2, Foto- und Grafik-Pins gemischt) und 3–4 ohne Link aus `../tip-pins/`.
+Derselbe Artikel kommt frühestens nach 6 Tagen wieder dran. Pins mit `"day": null` sind Reserve für die Zeit nach
+Tag 30. Pins 2, 10 und 27 verlinken auf die Startseite (kostenloser Plan), alle anderen auf ihren Artikel.
 
 Schrift: Instrument Sans (OFL) aus `../graphics/fonts/`.

@@ -1,4 +1,4 @@
-"""Builds the 30 tip pins (no link, the whole tip is on the image) from pins.json.
+"""Builds the tip pins (no link, the whole tip is on the image) from pins.json.
 
     python3 build.py --fetch                      # download the Pexels photos into photos/ (not in git)
     PW_PATH=/path/to/playwright python3 build.py  # render all pins into pins/
@@ -25,7 +25,19 @@ def slugify(text):
 
 
 def out_name(pin):
-    return f"tip-{pin['n']:02d}-{slugify(pin['headline'])}.jpg"
+    text = pin.get('headline') or pin.get('quote') or f"{pin.get('num', '')} {pin.get('unit', '')}"
+    slug = slugify(text)[:60].rstrip('-')
+    return f"tip-{pin['n']:02d}-{slug}.jpg"
+
+
+def photo_ids(pin):
+    """Pexels IDs of a pin: its own photo and, for swaps, the two photos a and b."""
+    ids = [pin['pexels']] if pin.get('pexels') else []
+    return ids + [pin[k]['pexels'] for k in ('a', 'b') if k in pin]
+
+
+JOB_KEYS = ('layout', 'pos', 'kicker', 'headline', 'hl', 'body', 'items', 'quote', 'tone', 'myth', 'fact', 'save', 'why',
+            'num', 'unit', 'sub', 'days')
 
 
 def main(argv):
@@ -42,22 +54,30 @@ def main(argv):
     if '--fetch' in argv:
         os.makedirs(photos, exist_ok=True)
         for p in pins:
-            path = os.path.join(photos, f"{p['pexels']}.jpg")
-            if not os.path.exists(path):
-                req = urllib.request.Request(PEXELS.format(p['pexels']), headers={'User-Agent': 'Mozilla/5.0'})
-                with urllib.request.urlopen(req, timeout=60) as r, open(path, 'wb') as f:
-                    f.write(r.read())
-            print('photo', p['n'], path)
+            for pid in photo_ids(p):
+                path = os.path.join(photos, f"{pid}.jpg")
+                if not os.path.exists(path):
+                    req = urllib.request.Request(PEXELS.format(pid), headers={'User-Agent': 'Mozilla/5.0'})
+                    with urllib.request.urlopen(req, timeout=60) as r, open(path, 'wb') as f:
+                        f.write(r.read())
+                print('photo', p['n'], path)
         return
 
     os.makedirs(os.path.join(HERE, 'pins'), exist_ok=True)
     jobs = []
+    def photo_url(pid):
+        path = os.path.join(photos, f"{pid}.jpg")
+        if not os.path.exists(path):
+            sys.exit(f"missing photo {path} (run: python3 build.py --fetch)")
+        return 'file://' + path
+
     for p in pins:
-        photo = os.path.join(photos, f"{p['pexels']}.jpg")
-        if not os.path.exists(photo):
-            sys.exit(f"missing photo {photo} (run: python3 build.py --fetch)")
-        job = {k: p.get(k) for k in ('layout', 'pos', 'kicker', 'headline', 'hl', 'body', 'items')}
-        job['photo'] = 'file://' + photo
+        job = {k: p[k] for k in JOB_KEYS if k in p}
+        if p.get('pexels'):
+            job['photo'] = photo_url(p['pexels'])
+        for k in ('a', 'b'):
+            if k in p:
+                job[k] = {**p[k], 'photo': photo_url(p[k]['pexels'])}
         jobs.append({'out': os.path.join(HERE, 'pins', out_name(p)), 'job': job})
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False) as f:
         json.dump(jobs, f)

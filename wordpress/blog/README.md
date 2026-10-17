@@ -40,5 +40,5 @@ Pinterest und Vorschauen beim Teilen. Ohne Foto zeigt die Vorlage wie bisher das
 |---|---|
 | `posts/<slug>/pin-*.jpg` | 42 Grafik-Pins mit Link (2 pro Artikel) |
 | `photo-pins/` | 30 Pins mit echten Fotos und Link |
-| `tip-pins/` | 30 Tipp-Pins ohne Link, der Tipp steht ganz auf dem Bild |
-| `pin-plan.csv` | Gemeinsamer Plan: pro Tag 2 Pins mit Link und 1 Tipp-Pin ohne Link (Tag 1–36) |
+| `tip-pins/` | 105 Pins ohne Link: Tipps, Listen, Zitate, Mythos oder Fakt, Tausch-Ideen, Zahlen, 7-Tage-Challenges |
+| `pin-plan.csv` | Gemeinsamer Plan für 30 Tage: 5 Pins am Tag, davon 1 mit Link (an jedem zweiten Tag 2) und 3–4 ohne Link; 27 Pins mit Link als Reserve (`Tag` = `Reserve`) |

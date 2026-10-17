@@ -14,11 +14,9 @@ for (const { out, job } of jobs) {
   await page.goto(`${pinUrl}#${encodeURIComponent(JSON.stringify(job))}`);
   await page.reload();
   await page.evaluate(() => document.fonts.ready);
-  await page.evaluate(() => document.getElementById('img').decode());
+  await page.evaluate(() => Promise.all([...document.images].map((i) => i.decode())));
   const r = await page.evaluate(() => window.fit());
-  const min = job.layout[0] === 'L' ? 300 : 520;
-  if (r.ph < min) { problems++; console.log('TOO MUCH TEXT', JSON.stringify(r), out); }
-  if (r.size <= 56) { problems++; console.log('LONG HEADLINE', JSON.stringify(r), out); }
+  if (!r.ok) { problems++; console.log('TOO MUCH TEXT', JSON.stringify(r), out); }
   await page.screenshot({ path: out, type: 'jpeg', quality: 88 });
 }
 await browser.close();

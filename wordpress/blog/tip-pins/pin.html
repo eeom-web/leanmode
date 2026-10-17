@@ -1,9 +1,14 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<!-- Tip pin without a link, 1000 x 1500 px: the whole tip is on the image. render.mjs opens it as pin.html#<job as JSON>:
-     { layout: "T1" | "T2" | "L1" | "L2", photo: "<image url>", pos: "50% 50%", kicker, headline, hl, body | items: [...] }
-     T = one tip (photo on top, text below), L = a short list (photo banner, checklist). 1 = light, 2 = green.
-     List items written as "Before|After" are shown as a swap with an arrow. -->
+<!-- Tip pin without a link, 1000 x 1500 px: the whole tip is on the image. render.mjs opens it as pin.html#<job as JSON>.
+     T1 / T2 / T3  one tip with a photo (light / green / photo with a card): photo, pos, kicker, headline, hl, body
+     L1 / L2       a short list with a photo banner: photo, pos, kicker, headline, hl, items (an item "Before|After" is a swap)
+     Q1            quote on a full photo: photo, pos, quote, hl
+     Q2            quote without a photo: quote, hl, tone ("green" | "yellow" | "cream")
+     M             myth vs. fact without a photo: kicker, headline, hl, myth, fact, tone ("light" | "green")
+     S             swap with two photos: kicker, headline, hl, a / b = { photo, pos, name, kcal }, save, why
+     N             one big number: photo, pos, kicker, num, unit, body
+     C             7-day challenge without a photo: kicker, headline, hl, sub, days (7 short tasks) -->
 <style>
 @font-face{font-family:IS;font-weight:500;src:url(../graphics/fonts/instrument-sans-latin-500-normal.woff2)}
 @font-face{font-family:IS;font-weight:600;src:url(../graphics/fonts/instrument-sans-latin-600-normal.woff2)}
@@ -60,6 +65,123 @@ li+li{border-top:2px solid var(--line)}
 .arr{flex:none;width:.95em;height:.95em}
 .L1 .foot{color:var(--green)}
 .L2 .foot{color:var(--mint)}
+
+/* T3: full photo with a floating card */
+.T3{background:var(--ink)}
+.T3 .ph{position:absolute;inset:0}
+.card{position:absolute;left:48px;right:48px;bottom:48px;padding:54px 60px 0;border-radius:40px;background:var(--cream);color:var(--green);box-shadow:0 24px 70px rgba(0,0,0,.32)}
+.card .body{color:var(--text)}
+.card .foot{height:96px}
+.T3 h1 .hl,.N .hl,.M1 h1 .hl,.S h1 .hl,.Q2c .hl{background:linear-gradient(transparent 64%,var(--yellow) 64%,var(--yellow) 92%,transparent 92%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+/* Q1: quote on a full photo */
+.Q1{background:var(--ink);color:#fff}
+.Q1 .ph{position:absolute;inset:0}
+.Q1 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,20,17,0) 22%,rgba(12,20,17,.5) 50%,rgba(12,20,17,.86) 100%)}
+.Q1 .qb{position:absolute;left:84px;right:84px;bottom:92px}
+.qm{display:block;width:118px;height:94px;color:var(--yellow)}
+.quote{margin:30px 0 0;font-weight:700;line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.Q1 .quote{text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.Q1 .quote .hl,.Q2g .quote .hl{color:var(--yellow)}
+.sig{display:flex;align-items:center;gap:22px;margin-top:44px;font-weight:700;font-size:28px;letter-spacing:.06em}
+.sig i{display:block;width:72px;height:5px;border-radius:3px;background:var(--yellow)}
+.Q1 .sig{color:var(--mint)}
+
+/* Q2: quote without a photo */
+.Q2{padding:76px}
+.Q2g{background:var(--green);color:#fff}
+.Q2y{background:var(--yellow);color:var(--green)}
+.Q2c{background:var(--cream);color:var(--green)}
+.frame{position:absolute;inset:40px;border-radius:44px;border:3px solid rgba(29,90,72,.18);pointer-events:none}
+.Q2g .frame{border-color:rgba(255,255,255,.18)}
+.blob{position:absolute;border-radius:50%;pointer-events:none}
+.Q2g .blob{background:rgba(255,255,255,.06)}
+.Q2y .blob{background:rgba(255,255,255,.32)}
+.Q2c .blob{background:rgba(246,215,118,.45)}
+.b1{width:620px;height:620px;right:-230px;bottom:-200px}
+.b2{width:260px;height:260px;left:-110px;top:180px}
+.Q2 .inner{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;padding:60px 24px 70px}
+.Q2 .label{position:absolute;left:100px;top:104px}
+.Q2 .sig{position:absolute;left:100px;bottom:100px;margin:0}
+.Q2y .qm{color:var(--green)}
+.Q2c .qm{color:var(--green)}
+.Q2y .quote .hl{background:linear-gradient(transparent 62%,#fff 62%,#fff 92%,transparent 92%);padding:0 .06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.Q2g .sig{color:var(--mint)}
+.Q2y .sig i,.Q2c .sig i{background:var(--green)}
+.Q2y .label{background:var(--green);color:var(--yellow)}
+.Q2c .label{background:var(--green);color:var(--yellow)}
+
+/* M: myth vs. fact */
+.M1,.M2{padding:76px 64px 0}
+.M1>.label,.M2>.label,.S>.label{align-self:flex-start}
+.M1{background:var(--cream);color:var(--green)}
+.M2{background:var(--green);color:#fff}
+.M2 h1 .hl{color:var(--yellow)}
+.mf{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:30px;padding:40px 0 10px}
+.box{border-radius:38px;padding:44px 48px 46px}
+.tag{display:flex;align-items:center;gap:18px;font-weight:700;font-size:28px;letter-spacing:.16em}
+.tag b{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center}
+.tag svg{width:30px;height:30px}
+.box p{margin:22px 0 0;font-weight:500;line-height:1.3;text-wrap:pretty}
+.myth{background:#fff;border:3px solid var(--line)}
+.myth .tag{color:var(--grey)}
+.myth .tag b{background:#E9E8E2;color:var(--grey)}
+.myth p{color:var(--grey)}
+.myth p span{text-decoration:line-through;text-decoration-thickness:3px;text-decoration-color:rgba(93,103,98,.55)}
+.fact{background:var(--green);color:#fff;box-shadow:0 18px 40px rgba(29,90,72,.22)}
+.fact .tag{color:var(--yellow)}
+.fact .tag b{background:var(--yellow);color:var(--green)}
+.fact p{color:#fff}
+.M2 .myth{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.16)}
+.M2 .myth .tag,.M2 .myth p{color:var(--mint)}
+.M2 .myth .tag b{background:rgba(255,255,255,.14);color:var(--mint)}
+.M2 .myth p span{text-decoration-color:rgba(191,224,207,.5)}
+.M2 .fact{background:var(--cream);box-shadow:none}
+.M2 .fact .tag{color:var(--green)}
+.M2 .fact .tag b{background:var(--green);color:var(--yellow)}
+.M2 .fact p{color:var(--ink)}
+.M1 .foot{color:var(--green)}
+.M2 .foot{color:var(--mint)}
+
+/* S: swap with two photos */
+.S{background:var(--cream);color:var(--green);padding:64px 56px 0}
+.pair{position:relative;flex:1;min-height:0;display:flex;gap:32px;margin-top:40px}
+.side{flex:1;display:flex;flex-direction:column;min-width:0}
+.side .ph{border-radius:34px}
+.chip{position:absolute;left:20px;top:20px;display:flex;align-items:center;gap:10px;padding:13px 22px 12px 15px;border-radius:999px;font-weight:700;font-size:26px;letter-spacing:.12em;line-height:1}
+.chip svg{width:28px;height:28px}
+.a .chip{background:rgba(16,22,20,.72);color:#fff}
+.b .chip{background:var(--yellow);color:var(--green)}
+.go{position:absolute;left:50%;top:var(--mid,40%);width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:50%;background:var(--green);color:#fff;border:9px solid var(--cream);display:grid;place-items:center;z-index:2}
+.go svg{width:44px;height:44px}
+.nm{margin:24px 4px 0;font-weight:700;font-size:38px;line-height:1.12;color:var(--ink);text-wrap:balance}
+.kc{margin:10px 4px 0;font-weight:600;font-size:30px;color:var(--grey)}
+.b .kc{color:var(--green)}
+.win{flex:none;margin-top:34px;padding:34px 44px 36px;border-radius:34px;background:var(--green);color:#fff}
+.win b{display:block;font-size:54px;line-height:1.05;color:var(--yellow);letter-spacing:-.01em}
+.win span{display:block;margin-top:10px;font-weight:500;font-size:34px;line-height:1.3;color:var(--soft)}
+.S .foot{color:var(--green);height:100px}
+
+/* N: one big number */
+.N{background:var(--cream);color:var(--green)}
+.N .panel{position:relative;flex:none;margin-top:-44px;padding:58px 72px 6px;border-radius:44px 44px 0 0;background:var(--cream)}
+.num{margin:16px 0 0;font-weight:700;font-size:232px;line-height:.92;letter-spacing:-.05em;white-space:nowrap}
+.num span{background:linear-gradient(transparent 62%,var(--yellow) 62%,var(--yellow) 90%,transparent 90%);padding:0 .04em}
+.unit{margin:18px 0 0;font-weight:700;font-size:54px;line-height:1.08;letter-spacing:-.015em}
+.N .body{color:var(--text)}
+.N .foot{color:var(--green)}
+
+/* C: 7-day challenge */
+.C{background:var(--cream);color:var(--green)}
+.top{flex:none;padding:72px 72px 60px;border-radius:0 0 48px 48px;background:var(--green);color:#fff}
+.top h1 .hl{color:var(--yellow)}
+.top .sub{margin:20px 0 0;font-weight:500;font-size:34px;color:var(--mint)}
+.days{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:36px 56px 0;margin:0;list-style:none}
+.day{display:flex;align-items:center;gap:26px;padding:0 30px 0 22px;border-radius:26px;background:#fff;border:2px solid var(--line);flex:1;max-height:126px}
+.dn{flex:none;width:144px;padding:13px 0 12px;border-radius:999px;background:var(--yellow);color:var(--green);font-weight:700;font-size:26px;letter-spacing:.12em;text-align:center}
+.dt{flex:1;font-weight:500;line-height:1.18;color:var(--ink)}
+.box0{flex:none;width:54px;height:54px;border-radius:50%;border:4px solid var(--green)}
+.C .foot{color:var(--green)}
 </style>
 </head><body>
 <div class="pin" id="pin"></div>
@@ -73,35 +195,148 @@ function headline(text, hl) {
   return h.replace('\u0000', '<span class="hl">').replace('\u0001', '</span>');
 }
 const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const CROSS = '<svg viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
 const ARROW = '<svg class="arr" viewBox="0 0 24 24"><path d="M3 12h16M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const QUOTE = '<svg class="qm" viewBox="0 0 120 96"><path fill="currentColor" d="M0 96V58C0 25 17 5 50 0l6 14C37 20 28 32 27 48h25v48zm66 0V58c0-33 17-53 50-58l4 14c-19 6-28 18-29 34h25v48z"/></svg>';
+const FOOT = '<div class="foot">leanmodepro.com</div>';
+const photo = (src, pos, id) => `<div class="ph"><img${id ? ` id="${id}"` : ''} src="${esc(src)}" alt="" style="object-position:${esc(pos || '50% 50%')}"></div>`;
 const item = (t) => {
   const [a, b] = String(t).split('|');
   return '<li><span class="ck">' + CHECK + '</span>' + (b === undefined ? '<span>' + esc(a) + '</span>'
     : '<span class="sw"><s>' + esc(a) + '</s>' + ARROW + '<b>' + esc(b) + '</b></span>') + '</li>';
 };
 const L = job.layout || 'T1';
-const isList = L[0] === 'L';
 const pin = document.getElementById('pin');
-pin.className = 'pin ' + L;
-pin.innerHTML = `<div class="ph"><img id="img" src="${esc(job.photo)}" alt="" style="object-position:${esc(job.pos || '50% 50%')}"></div>` +
-  `<div class="panel"><p class="label">${esc(job.kicker)}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
-  (isList ? `<ul id="t">${(job.items || []).map(item).join('')}</ul>` : `<p class="body" id="t">${esc(job.body)}</p>`) +
-  `</div><div class="foot">leanmodepro.com</div>`;
-// Largest headline that fits (tips: 3 lines, lists: 2), then shrink the text until the photo keeps its minimum height.
-window.fit = () => {
-  const h = document.getElementById('h'), t = document.getElementById('t'), ph = document.querySelector('.ph');
-  const maxLines = isList ? 2 : 3, minPh = isList ? 300 : 520;
-  let size = isList ? 76 : 82;
-  for (; size > 54; size -= 2) {
-    h.style.fontSize = size + 'px';
-    if (h.getBoundingClientRect().height <= size * 1.04 * maxLines + 2) break;
+const px = (el) => el.getBoundingClientRect().height;
+// Steps a font size down until ok() is true; returns the size used.
+function shrink(els, from, to, ok) {
+  let s = from;
+  for (; s > to; s -= 2) {
+    [].concat(els).forEach((el) => { el.style.fontSize = s + 'px'; });
+    if (ok()) break;
   }
-  let ts = isList ? 46 : 42;
-  for (; ts >= 31; ts--) {
-    t.style.fontSize = ts + 'px';
-    if (ph.getBoundingClientRect().height >= minPh) break;
-  }
-  return { size, ts, ph: Math.round(ph.getBoundingClientRect().height) };
+  return s;
+}
+const lines = (el, size, lh) => Math.round(px(el) / (size * lh));
+const fits = () => pin.scrollHeight <= 1500;
+
+const build = {
+  T: () => {
+    const isList = L[0] === 'L';
+    pin.className = 'pin ' + L;
+    pin.innerHTML = photo(job.photo, job.pos, 'img') +
+      `<div class="panel"><p class="label">${esc(job.kicker)}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+      (isList ? `<ul id="t">${(job.items || []).map(item).join('')}</ul>` : `<p class="body" id="t">${esc(job.body)}</p>`) +
+      `</div>` + FOOT;
+    // Largest headline that fits (tips: 3 lines, lists: 2), then shrink the text until the photo keeps its minimum height.
+    return () => {
+      const h = document.getElementById('h'), t = document.getElementById('t'), ph = document.querySelector('.ph');
+      const maxLines = isList ? 2 : 3, minPh = isList ? 300 : 520;
+      let size = isList ? 76 : 82;
+      for (; size > 54; size -= 2) {
+        h.style.fontSize = size + 'px';
+        if (h.getBoundingClientRect().height <= size * 1.04 * maxLines + 2) break;
+      }
+      let ts = isList ? 46 : 42;
+      for (; ts >= 31; ts--) {
+        t.style.fontSize = ts + 'px';
+        if (ph.getBoundingClientRect().height >= minPh) break;
+      }
+      const r = { size, ts, ph: Math.round(ph.getBoundingClientRect().height) };
+      r.ok = r.ph >= minPh && size > 56;
+      return r;
+    };
+  },
+  T3: () => {
+    pin.className = 'pin T3';
+    pin.innerHTML = photo(job.photo, job.pos, 'img') +
+      `<div class="card" id="card"><p class="label">${esc(job.kicker)}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+      `<p class="body" id="t">${esc(job.body)}</p>${FOOT}</div>`;
+    return () => {
+      const h = document.getElementById('h'), t = document.getElementById('t'), card = document.getElementById('card');
+      const size = shrink(h, 80, 54, () => lines(h, parseFloat(h.style.fontSize), 1.04) <= 3);
+      const ts = shrink(t, 40, 30, () => px(card) <= 780);
+      return { size, ts, card: Math.round(px(card)), ok: px(card) <= 780 && size > 56 };
+    };
+  },
+  Q1: () => {
+    pin.className = 'pin Q1';
+    pin.innerHTML = photo(job.photo, job.pos, 'img') + '<div class="shade"></div>' +
+      `<div class="qb" id="qb">${QUOTE}<p class="quote" id="q">${headline(job.quote, job.hl)}</p><div class="sig"><i></i>leanmodepro.com</div></div>`;
+    return () => {
+      const q = document.getElementById('q'), qb = document.getElementById('qb');
+      const size = shrink(q, 92, 60, () => px(qb) <= 860 && lines(q, parseFloat(q.style.fontSize), 1.08) <= 6);
+      return { size, block: Math.round(px(qb)), ok: px(qb) <= 860 && size > 62 };
+    };
+  },
+  Q2: () => {
+    const tone = { green: 'Q2g', yellow: 'Q2y', cream: 'Q2c' }[job.tone] || 'Q2g';
+    pin.className = 'pin Q2 ' + tone;
+    pin.innerHTML = '<div class="blob b1"></div><div class="blob b2"></div><div class="frame"></div>' +
+      (job.kicker ? `<p class="label">${esc(job.kicker)}</p>` : '') +
+      `<div class="inner" id="in">${QUOTE}<p class="quote" id="q">${headline(job.quote, job.hl)}</p></div><div class="sig"><i></i>leanmodepro.com</div>`;
+    return () => {
+      const q = document.getElementById('q'), inner = document.getElementById('in');
+      const ok = () => inner.scrollHeight <= px(inner) + 1 && lines(q, parseFloat(q.style.fontSize), 1.08) <= 7;
+      const size = shrink(q, 112, 64, ok);
+      return { size, ok: ok() && size > 66 };
+    };
+  },
+  M: () => {
+    pin.className = 'pin ' + (job.tone === 'green' ? 'M2' : 'M1');
+    pin.innerHTML = `<p class="label">${esc(job.kicker || 'MYTH VS. FACT')}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+      `<div class="mf" id="mf"><div class="box myth"><div class="tag"><b>${CROSS}</b>MYTH</div><p class="tx"><span>${esc(job.myth)}</span></p></div>` +
+      `<div class="box fact"><div class="tag"><b>${CHECK}</b>FACT</div><p class="tx">${esc(job.fact)}</p></div></div>` + FOOT;
+    return () => {
+      const h = document.getElementById('h'), mf = document.getElementById('mf'), tx = [...document.querySelectorAll('.tx')];
+      const size = shrink(h, 96, 56, () => lines(h, parseFloat(h.style.fontSize), 1.04) <= 3);
+      const ok = () => mf.scrollHeight <= px(mf) + 1 && fits();
+      const ts = shrink(tx, 60, 32, ok);
+      return { size, ts, ok: ok() && size > 58 };
+    };
+  },
+  S: () => {
+    pin.className = 'pin S';
+    const side = (cls, d, chip) => `<div class="side ${cls}"><div style="position:relative;flex:1;min-height:0;display:flex">` +
+      `${photo(d.photo, d.pos)}<span class="chip">${chip}</span></div><p class="nm">${esc(d.name)}</p><p class="kc">${esc(d.kcal)}</p></div>`;
+    pin.innerHTML = `<p class="label">${esc(job.kicker || 'SMART SWAP')}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+      `<div class="pair" id="pair">${side('a', job.a || {}, CROSS + 'INSTEAD OF')}${side('b', job.b || {}, CHECK + 'TRY')}` +
+      `<span class="go">${ARROW}</span></div>` +
+      `<div class="win"><b>${esc(job.save)}</b><span id="why">${esc(job.why)}</span></div>` + FOOT;
+    return () => {
+      const h = document.getElementById('h'), ph = document.querySelector('.side .ph');
+      const size = shrink(h, 78, 54, () => lines(h, parseFloat(h.style.fontSize), 1.04) <= 2);
+      document.getElementById('pair').style.setProperty('--mid', Math.round(px(ph) / 2) + 'px');
+      return { size, ph: Math.round(px(ph)), ok: px(ph) >= 440 && size > 56 && fits() };
+    };
+  },
+  N: () => {
+    pin.className = 'pin N';
+    pin.innerHTML = photo(job.photo, job.pos, 'img') +
+      `<div class="panel"><p class="label">${esc(job.kicker)}</p><p class="num" id="n"><span>${esc(job.num)}</span></p>` +
+      `<p class="unit" id="u">${esc(job.unit)}</p><p class="body" id="t">${esc(job.body)}</p></div>` + FOOT;
+    return () => {
+      const n = document.getElementById('n'), t = document.getElementById('t'), ph = document.querySelector('.ph');
+      const size = shrink(n, 232, 150, () => n.scrollWidth <= 856);
+      const ts = shrink(t, 40, 30, () => px(ph) >= 520);
+      return { size, ts, ph: Math.round(px(ph)), ok: px(ph) >= 520 };
+    };
+  },
+  C: () => {
+    pin.className = 'pin C';
+    pin.innerHTML = `<div class="top"><p class="label">${esc(job.kicker || '7-DAY CHALLENGE')}</p><h1 id="h">${headline(job.headline, job.hl)}</h1>` +
+      `<p class="sub">${esc(job.sub)}</p></div><ol class="days" id="d">` +
+      (job.days || []).map((t, i) => `<li class="day"><span class="dn">DAY ${i + 1}</span><span class="dt">${esc(t)}</span><span class="box0"></span></li>`).join('') +
+      `</ol>` + FOOT;
+    return () => {
+      const h = document.getElementById('h'), d = document.getElementById('d'), dt = [...document.querySelectorAll('.dt')];
+      const size = shrink(h, 84, 56, () => lines(h, parseFloat(h.style.fontSize), 1.04) <= 2);
+      const ts = shrink(dt, 46, 28, () => dt.every((e) => px(e) <= parseFloat(e.style.fontSize) * 1.18 * 2 + 2) && fits() && d.scrollHeight <= px(d) + 1);
+      return { size, ts, ok: fits() && size > 58 && d.scrollHeight <= px(d) + 1 };
+    };
+  },
 };
+const fitter = ({ T1: build.T, T2: build.T, L1: build.T, L2: build.T }[L] || build[L] || build.T)();
+window.fit = fitter;
 </script>
 </body></html>
