@@ -11,8 +11,12 @@ are imported. Optional blocks (they may be nested; the filler repeats until none
 statement "As an Amazon Associate I earn from qualifying purchases" and the Amazon section appear.
 
 Facts the texts rely on (state 14.10.2026, English site):
-- No cookies, no browser storage, no tracking pixel, no analytics and no external requests for visitors.
+- No cookies, no browser storage, no tracking pixel and no external requests for visitors.
   (Until 13.10.2026 the Turkish site had a Meta Pixel behind a cookie banner; see Git history.)
+- Since 17.10.2026 visits are counted with the plugin Independent Analytics on the site's own server: no cookies
+  for visitors, IP not stored (visitor ID = MD5 of a secret salt + IP + user agent, salt renewed daily), country
+  and city from a local DB-IP database, logged-in users not counted, data deleted automatically after 2 years
+  (plugin settings "visitor salt refresh: daily" and "data pruning: two years").
 - Hosting: Hostinger International Ltd. (Cyprus, party of Hostinger's DPA), server in Frankfurt.
   Domain registrar: HOSTINGER operations, UAB (Vilnius).
 - Font Instrument Sans is served from the site itself. WordPress emoji script switched off (mu-plugin).
@@ -29,7 +33,7 @@ Facts the texts rely on (state 14.10.2026, English site):
   adapted, source note at the end).
 """
 
-UPDATED = "October 16, 2026"
+UPDATED = "October 17, 2026"
 
 CONTACT = (
     "<p>{{lmp:name}}<br>{{lmp:street}}<br>{{lmp:city}}<br>Germany</p>"
@@ -112,7 +116,9 @@ def privacy_html():
         "<h2>1. Privacy at a glance</h2>",
         "<h3>In short</h3><ul>",
         "<li>When you visit the site, the server briefly stores technical access data so it can show you the page.</li>",
-        "<li>We don't use cookies, analytics, tracking pixels or advertising tools on this website.</li>",
+        "<li>We don't use cookies, tracking pixels or advertising tools on this website. To see how often our pages "
+        "are read, we count visits with a privacy-friendly statistics tool on our own server, without cookies and "
+        "without storing your IP address.</li>",
         "<li>If you sign up, we process your email address with our email service Brevo after you confirm it "
         "(double opt-in), to send you the plan and our newsletter. We don't measure whether our emails are opened or "
         "clicked. You can withdraw your consent at any time.</li>",
@@ -310,9 +316,10 @@ def privacy_html():
         "<h2>4. Data collection on this website</h2>",
         "<h3>Cookies and browser storage</h3>",
         "<p>This website doesn't use cookies for visitors and doesn't store information in your browser "
-        "(e.g. localStorage). There are no analytics, tracking pixels or advertising tools, and no content (such as "
-        "videos or fonts) is loaded from third-party servers. Technically necessary cookies are only set when the site "
-        "administrator logs in to WordPress; they don't affect visitors.</p>",
+        "(e.g. localStorage). There are no tracking pixels or advertising tools, and no content (such as videos or "
+        "fonts) is loaded from third-party servers. Our visitor statistics (see below) also work without cookies. "
+        "Technically necessary cookies are only set when the site administrator logs in to WordPress; they don't "
+        "affect visitors.</p>",
 
         "<h3>Server log files</h3>",
         "<p>When you open the website, your browser automatically sends certain information to the server. Our hosting "
@@ -323,6 +330,25 @@ def privacy_html():
         "<p>We process this data to deliver the website, to keep it secure and to detect errors or attacks. This data is "
         "not combined with other data sources. The legal basis is our legitimate interest in a technically error-free "
         "and secure website (Art. 6(1)(f) GDPR). The log files are deleted automatically after a short time.</p>",
+
+        "<h3>Visitor statistics (Independent Analytics)</h3>",
+        "<p>To find out which pages and articles are read and how visitors find us, we count visits with the WordPress "
+        "plugin Independent Analytics. It runs entirely on our own web server (hosted by Hostinger, see section 2). The "
+        "data is not passed on to the plugin's developer or any other third party.</p>",
+        "<p>For each page view, the following is recorded: the page visited, the date and time, the website you came "
+        "from (referrer) and any campaign information in the link, the type of device, the browser and the operating "
+        "system, and your approximate location (country and city). The location is determined on our server from your "
+        "IP address using a local database. <strong>Your IP address itself is not stored.</strong> To count visits "
+        "without cookies, the plugin forms a pseudonymous visitor ID from your IP address, your browser's user agent "
+        "and a secret value, using a one-way function. The secret value is replaced every day, so you can't be "
+        "recognized from one day to the next, and the visitor ID can't be traced back to your IP address. We don't "
+        "create profiles and don't combine this data with other data. Visits by logged-in users (such as the site "
+        "administrator) are not counted.</p>",
+        "<p>The statistics don't use cookies and don't store any information on your device. We only evaluate the data "
+        "in summarized form (e.g. number of views per page). The legal basis is our legitimate interest in knowing how "
+        "our website is used so that we can improve our content (Art. 6(1)(f) GDPR). The data is deleted automatically "
+        "after two years at the latest. You can object to this processing at any time for reasons arising from your "
+        "particular situation (Art. 21 GDPR); a short message to us is enough.</p>",
 
         "<h3>Contact by email or contact form</h3>",
         "<p>If you email us or use our contact form, your request, including all personal data it contains (e.g. your "
